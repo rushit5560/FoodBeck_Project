@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_back/constants/colors.dart';
+import 'package:food_back/constance/color.dart';
 
 class TextStyleConfig {
   static TextStyle textStyle({
