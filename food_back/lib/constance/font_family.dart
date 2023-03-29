@@ -9,5 +9,4 @@ class FontFamilyText {
   static String sFProDisplayThin = "SFProDisplayThin";
   static String sFProDisplayUltralight = "SFProDisplayUltralight";
   static String sFProDisplayRegular = "SFProDisplayRegular";
-
 }
