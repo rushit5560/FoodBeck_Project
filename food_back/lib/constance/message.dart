@@ -1,3 +1,6 @@
- class AppMessage{
-  static String delites = 'Delites';
- }
+class AppMessage {
+  static String foodBack = 'Food back';
+  static String appIcon = 'appIcon';
+  static String welcomBack = "Welcome back";
+  static String signinWithContinue = "Sign in to continue";
+}

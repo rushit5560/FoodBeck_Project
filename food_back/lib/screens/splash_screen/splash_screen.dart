@@ -5,10 +5,9 @@ import '../../constance/app_images.dart';
 import '../../constance/message.dart';
 import '../../controller/splash_screen_controller.dart';
 
-
 class SplashScreen extends StatelessWidget {
-   SplashScreen({Key? key}) : super(key: key);
-final splashScreenController = Get.put(SplashScreenController());
+  SplashScreen({Key? key}) : super(key: key);
+  final splashScreenController = Get.put(SplashScreenController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,13 +37,13 @@ final splashScreenController = Get.put(SplashScreenController());
               ),
               SizedBox(height: 1.h),
               Text(
-                AppMessage.delites,
+                AppMessage.foodBack,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).backgroundColor,
-                ),
+                      fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).backgroundColor,
+                    ),
               )
             ],
           ),

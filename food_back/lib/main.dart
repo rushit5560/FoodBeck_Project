@@ -19,7 +19,7 @@ void main() {
 class MyApp extends StatefulWidget {
   static setCustomTheme(BuildContext context, int index) {
     final _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
-    state!.setCustomeTheme(index);
+    state!.setCustomTheme(index);
   }
 
   const MyApp({super.key});
@@ -29,7 +29,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  setCustomeTheme(int index) {
+  setCustomTheme(int index) {
     if (index == 6) {
       setState(() {
         AppTheme.isLightTheme = true;

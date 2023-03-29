@@ -8,7 +8,7 @@ const primacolor = Color(0XFF65b804);
 const secondary = Color(0XFFf5f8fd);
 
 class AppImages {
-  static const BaseImageUrl = 'assets/';
+  static const BaseImageUrl = 'assets/images/';
   static const AppLogo = BaseImageUrl + "appIcon.png";
   static const intro1 = BaseImageUrl + "intro1.png";
   static const intro2 = BaseImageUrl + "intro2.png";
