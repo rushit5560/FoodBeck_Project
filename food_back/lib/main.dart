@@ -1,14 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:food_back/constance/theme.dart';
 import 'package:food_back/screens/splash_screen/splash_screen.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+import 'package:food_back/constance/app_images.dart' as constance;
+
+import 'constance/app_images.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((_) => runApp(const MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  static setCustomeTheme(BuildContext context, int index) {
+    final _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
+    state!.setCustomeTheme(index);
+  }
+
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  setCustomeTheme(int index) {
+    if (index == 6) {
+      setState(() {
+        AppTheme.isLightTheme = true;
+      });
+    } else if (index == 7) {
+      setState(() {
+        AppTheme.isLightTheme = false;
+      });
+    } else {
+      setState(() {
+        constance.colorsIndex = index;
+        constance.primaryColorString =
+            AppImages().colors[constance.colorsIndex];
+        constance.secondaryColorString = constance.primaryColorString;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,12 +58,10 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home:  SplashScreen(),
+          home: SplashScreen(),
           debugShowMaterialGrid: false,
-
         );
       },
     );
   }
 }
-
