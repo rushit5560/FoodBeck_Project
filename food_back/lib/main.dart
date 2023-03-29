@@ -17,7 +17,7 @@ void main() {
 }
 
 class MyApp extends StatefulWidget {
-  static setCustomeTheme(BuildContext context, int index) {
+  static setCustomTheme(BuildContext context, int index) {
     final _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
     state!.setCustomeTheme(index);
   }
