@@ -1,8 +1,5 @@
 import 'dart:async';
-
 import 'package:get/get.dart';
-
-import '../screens/Home_screen/home_screen.dart';
 import '../screens/sign_up_screen/sign_up_screen.dart';
 
 class SplashScreenController extends GetxController{
