@@ -1,3 +1,7 @@
 import 'package:get/get.dart';
 
-class SplashScreenController extends GetxController{}
+class SplashScreenController extends GetxController{
+
+
+  
+}

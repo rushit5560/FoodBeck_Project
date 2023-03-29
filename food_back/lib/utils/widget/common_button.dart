@@ -1,7 +1,7 @@
 // ignore_for_file: unrelated_type_equality_checks, prefer_const_constructors, must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:food_back/constance/constance.dart';
+import 'package:food_back/constance/app_images.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;

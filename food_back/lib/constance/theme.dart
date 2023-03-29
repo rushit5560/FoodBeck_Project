@@ -1,6 +1,6 @@
 // ignore_for_file: deprecated_member_use, prefer_const_constructors, depend_on_referenced_packages, prefer_interpolation_to_compose_strings
 import 'package:flutter/material.dart';
-import 'package:food_back/constance/constance.dart' as constance;
+import 'package:food_back/constance/app_images.dart' as constance;
 
 import 'package:google_fonts/google_fonts.dart';
 

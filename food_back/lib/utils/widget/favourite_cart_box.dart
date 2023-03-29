@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors_in_immutables, prefer_const_constructors, unrelated_type_equality_checks, unnecessary_null_comparison, must_be_immutable, depend_on_referenced_packages
 
 import 'package:flutter/material.dart';
-import 'package:food_back/constance/constance.dart';
+import 'package:food_back/constance/app_images.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:like_button/like_button.dart';
 
