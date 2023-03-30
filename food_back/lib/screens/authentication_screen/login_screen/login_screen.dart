@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_back/constance/color.dart';
+import 'package:food_back/constance/font_family.dart';
 import 'package:food_back/constance/message.dart';
 import 'package:food_back/controller/auth_controller/login_screen_controller.dart';
 import 'package:food_back/utils/extensions.dart';
@@ -28,7 +29,7 @@ class LoginScreen extends StatelessWidget {
             AppMessage.foodBack,
             textAlign: TextAlign.center,
             style: TextStyleConfig.textStyle(
-              fontWeight: FontWeight.bold,
+              fontFamily: FontFamilyText.sFProDisplayBold,
               fontSize: 18.sp,
             ),
           ),
@@ -37,7 +38,9 @@ class LoginScreen extends StatelessWidget {
             AppMessage.welcomBack,
             textAlign: TextAlign.center,
             style: TextStyleConfig.textStyle(
-              fontWeight: FontWeight.bold,
+              // fontWeight: FontWeight.bold,
+              fontFamily: FontFamilyText.sFProDisplayBold,
+
               fontSize: 30.sp,
             ),
           ),
@@ -46,60 +49,62 @@ class LoginScreen extends StatelessWidget {
             AppMessage.signinWithContinue,
             textAlign: TextAlign.center,
             style: TextStyleConfig.textStyle(
-              fontWeight: FontWeight.bold,
+              // fontWeight: FontWeight.bold,
+              fontFamily: FontFamilyText.sFProDisplaySemibold,
+
               textColor: AppColors.greyColor,
               fontSize: 15.sp,
             ),
           ),
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(13),
-              color: Theme.of(context).dividerColor,
-            ),
-            child: TextFormField(
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.only(left: 10),
-                hintText: "Email or Phone Number",
-                border: InputBorder.none,
-                hintStyle: Theme.of(context).textTheme.headline1!.copyWith(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w100,
-                      color: Colors.grey,
-                    ),
-              ),
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              color: Theme.of(context).dividerColor,
-              borderRadius: BorderRadius.circular(13),
-            ),
-            child: Obx(
-              () => TextFormField(
-                obscureText: loginScreenController.hidePass.value,
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(left: 10, top: 16),
-                  border: InputBorder.none,
-                  hintText: 'Password',
-                  hintStyle: Theme.of(context).textTheme.headline1!.copyWith(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w100,
-                      color: Colors.grey),
-                  suffixIcon: GestureDetector(
-                    child: Icon(
-                      loginScreenController.hidePass.value
-                          ? Icons.visibility_off
-                          : Icons.visibility,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    onTap: () => {
-                      // setState(() => loginScreenController.hidePass.value = !loginScreenController.hidePass.value,),
-                    },
-                  ),
-                ),
-              ),
-            ),
-          ),
+          // Container(
+          //   decoration: BoxDecoration(
+          //     borderRadius: BorderRadius.circular(13),
+          //     color: Theme.of(context).dividerColor,
+          //   ),
+          //   child: TextFormField(
+          //     decoration: InputDecoration(
+          //       contentPadding: EdgeInsets.only(left: 10),
+          //       hintText: "Email or Phone Number",
+          //       border: InputBorder.none,
+          //       hintStyle: Theme.of(context).textTheme.headline1!.copyWith(
+          //             fontSize: 16,
+          //             fontWeight: FontWeight.w100,
+          //             color: Colors.grey,
+          //           ),
+          //     ),
+          //   ),
+          // ),
+          // Container(
+          //   decoration: BoxDecoration(
+          //     color: Theme.of(context).dividerColor,
+          //     borderRadius: BorderRadius.circular(13),
+          //   ),
+          //   child: Obx(
+          //     () => TextFormField(
+          //       obscureText: loginScreenController.hidePass.value,
+          //       decoration: InputDecoration(
+          //         contentPadding: EdgeInsets.only(left: 10, top: 16),
+          //         border: InputBorder.none,
+          //         hintText: 'Password',
+          //         hintStyle: Theme.of(context).textTheme.headline1!.copyWith(
+          //             fontSize: 16,
+          //             fontWeight: FontWeight.w100,
+          //             color: Colors.grey),
+          //         suffixIcon: GestureDetector(
+          //           child: Icon(
+          //             loginScreenController.hidePass.value
+          //                 ? Icons.visibility_off
+          //                 : Icons.visibility,
+          //             color: Theme.of(context).primaryColor,
+          //           ),
+          //           onTap: () => {
+          //             // setState(() => loginScreenController.hidePass.value = !loginScreenController.hidePass.value,),
+          //           },
+          //         ),
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ).commonOnlyPadding(left: 4.w, right: 4.w, top: 2.h, bottom: 2.h),
     );
