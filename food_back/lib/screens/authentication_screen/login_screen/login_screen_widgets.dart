@@ -78,7 +78,7 @@ class SignInAllModule extends StatelessWidget {
           Obx(()=>
             CommonTextFormFieldModule(
               fieldController: loginScreenController.loginPasswordController,
-              validate: (value) => FieldValidation().validateUserMobileNumber(value!),
+              validate: (value) => FieldValidation().validUserPassword(value!),
               hintText: AppMessage.password,
               keyboardType: TextInputType.text,
               obscureText: loginScreenController.hidePass.value,

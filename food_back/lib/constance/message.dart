@@ -61,7 +61,7 @@ class AppMessage {
   static String or = "or";
   static String send = "Send";
   static String signIn = "Sign In";
-  static String password = "Password";
+  static String password = "Enet password";
   static String newPassword = "New Password";
   static String resetPassword = "Reset Password";
   static String confirmNewPassword = " Confirm New Password";
@@ -69,7 +69,7 @@ class AppMessage {
   static String resetPasswordText = "And now,you can your new password and confirm it below";
   static String forgotPasswordText = "Please type your email or phone number below and we can help you reset password";
   static String forgotPassword = "Forgot password";
-  static String emailOrPhoneNumber = "Email or Phone Number";
+  static String emailOrPhoneNumber = "Enter email address";
   static String youDonTHaveAnAccount = "You don't have an account?";
   static String invalidEmailAddress = 'Invalid email address.';
   static String invalidPassword = 'Invalid Password.';
