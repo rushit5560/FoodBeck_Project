@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:food_back/constance/font_family.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import '../../constance/app_images.dart';
+import '../../constance/color.dart';
 import '../../constance/message.dart';
+import '../../constance/style.dart';
 import '../../controller/splash_screen_controller.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -11,7 +14,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor:AppColors.greenColor,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -26,7 +29,7 @@ class SplashScreen extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Hero(
-                      tag: 'appIcon',
+                      tag: AppMessage.appIcon,
                       child: Image.asset(
                         AppImages.AppLogo,
                         height: 100,
@@ -39,11 +42,12 @@ class SplashScreen extends StatelessWidget {
               Text(
                 AppMessage.foodBack,
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).backgroundColor,
-                    ),
+                style: TextStyleConfig.textStyle(
+                  fontFamily: FontFamilyText.sFProDisplayBold,
+                  textColor: AppColors.whiteColor,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 30,
+                ),
               )
             ],
           ),

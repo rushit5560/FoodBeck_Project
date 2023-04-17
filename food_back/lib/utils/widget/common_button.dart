@@ -2,6 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:food_back/constance/app_images.dart';
+import 'package:sizer/sizer.dart';
+
+import '../../constance/color.dart';
+import '../../constance/font_family.dart';
+import '../../constance/style.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
@@ -65,10 +70,12 @@ class CustomButton extends StatelessWidget {
               text,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText2!
-                  .copyWith(fontSize: 15, color: Colors.white),
+              style: TextStyleConfig.textStyle(
+                fontFamily: FontFamilyText.sFProDisplaySemibold,
+                textColor: AppColors.whiteColor,
+                fontWeight: FontWeight.w500,
+                fontSize: 14.sp,
+              ),
             ),
           ],
         ),

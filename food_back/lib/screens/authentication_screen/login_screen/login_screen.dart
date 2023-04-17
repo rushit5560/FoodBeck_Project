@@ -1,13 +1,18 @@
+
 import 'package:flutter/material.dart';
+import 'package:food_back/constance/app_images.dart';
 import 'package:food_back/constance/color.dart';
+import 'package:food_back/constance/extension.dart';
 import 'package:food_back/constance/font_family.dart';
+
+import 'package:food_back/constance/message.dart';
 import 'package:food_back/constance/message.dart';
 import 'package:food_back/controller/auth_controller/login_screen_controller.dart';
-import 'package:food_back/utils/extensions.dart';
-import 'package:food_back/utils/style.dart';
 import 'package:get/get.dart';
-import 'package:food_back/constance/app_images.dart' as constance;
 import 'package:sizer/sizer.dart';
+
+import '../../../utils/style.dart';
+
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -16,13 +21,14 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       backgroundColor: Theme.of(context).colorScheme.background,
       body: ListView(
         physics: const BouncingScrollPhysics(),
         children: [
           Hero(
             tag: AppMessage.appIcon,
-            child: Image.asset(constance.AppImages.AppLogo, height: 100),
+            child: Image.asset(AppImages.AppLogo, height: 100),
           ),
           SizedBox(height: 2.h),
           Text(
@@ -107,6 +113,8 @@ class LoginScreen extends StatelessWidget {
           // ),
         ],
       ).commonOnlyPadding(left: 4.w, right: 4.w, top: 2.h, bottom: 2.h),
+
+
     );
   }
 }
