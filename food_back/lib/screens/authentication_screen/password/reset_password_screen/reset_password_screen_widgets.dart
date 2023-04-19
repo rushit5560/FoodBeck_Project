@@ -5,10 +5,10 @@ import 'package:sizer/sizer.dart';
 import '../../../../constance/color.dart';
 import '../../../../constance/font_family.dart';
 import '../../../../constance/message.dart';
-import '../../../../constance/style.dart';
 import '../../../../controller/auth_controller/reset_password_screen_controller.dart';
+import '../../../../utils/style.dart';
 import '../../../../utils/widget/common_text_form_field.dart';
-import '../../../../utils/widget/validator.dart';
+import '../../../../utils/validator.dart';
 
 class ResetPasswordAllModule extends StatelessWidget {
    ResetPasswordAllModule({Key? key}) : super(key: key);

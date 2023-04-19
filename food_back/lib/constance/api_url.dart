@@ -4,8 +4,12 @@ class ApiUrl {
   static String baseUrl = "${databaseUrl}api";
 
 
-  static String bannerApi = "$baseUrl/banner/";
+  // Authentication
   static String registerApi = "$baseUrl/register";
+  static String loginApi = "$baseUrl/login";
+
+  static String bannerApi = "$baseUrl/banner/";
+
   static String cmsApi = "$baseUrl/cms/";
   static String allProductsApi = "$baseUrl/allproducts/";
   static String filterByCategoryApi = "$baseUrl/filterbycategory/";

@@ -5,8 +5,8 @@ import 'package:sizer/sizer.dart';
 import '../../constance/app_images.dart';
 import '../../constance/color.dart';
 import '../../constance/message.dart';
-import '../../constance/style.dart';
 import '../../controller/splash_screen_controller.dart';
+import '../../utils/style.dart';
 
 class SplashScreen extends StatelessWidget {
   SplashScreen({Key? key}) : super(key: key);

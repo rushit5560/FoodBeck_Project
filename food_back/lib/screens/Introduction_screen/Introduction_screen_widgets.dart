@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:food_back/constance/app_images.dart';
-import 'package:food_back/constance/extension.dart';
+import 'package:food_back/utils/extensions.dart';
 import 'package:food_back/constance/font_family.dart';
 import 'package:food_back/constance/message.dart';
 import 'package:get/get.dart';
 import 'package:food_back/constance/app_images.dart' as constance;
 import 'package:sizer/sizer.dart';
 import '../../constance/color.dart';
-import '../../constance/style.dart';
 import '../../controller/introduction_screen_controller.dart';
+import '../../utils/style.dart';
 import '../../utils/widget/common_button.dart';
 import '../choice _topic_screen/choice _topic_screen.dart';
 import 'Introduction_screen.dart';

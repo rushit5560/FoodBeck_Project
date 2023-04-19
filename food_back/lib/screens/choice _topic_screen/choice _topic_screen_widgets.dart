@@ -1,15 +1,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:food_back/constance/app_images.dart';
-import 'package:food_back/constance/extension.dart';
+import 'package:food_back/utils/extensions.dart';
 import 'package:food_back/constance/message.dart';
 import 'package:food_back/screens/Home_screen/home_screen.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import '../../constance/color.dart';
 import '../../constance/font_family.dart';
-import '../../constance/style.dart';
-import '../../constance/theme.dart';
+import '../../utils/theme.dart';
+import '../../utils/style.dart';
 import '../../utils/widget/common_button.dart';
 
 class ChoiceTopicModule extends StatelessWidget {
@@ -20,7 +20,7 @@ class ChoiceTopicModule extends StatelessWidget {
       physics: const BouncingScrollPhysics(),
       padding: const EdgeInsets.only(left: 14, right: 14),
       children: [
-        SizedBox(height: 12.h),
+        // SizedBox(height: 12.h),
         Text(
           AppMessage.chooseTopicsText1,
           textAlign: TextAlign.center,
@@ -30,7 +30,7 @@ class ChoiceTopicModule extends StatelessWidget {
               fontWeight: FontWeight.bold,
               fontSize: 18.sp,
             )
-        ),
+        ).commonOnlyPadding(top: 3.h),
          SizedBox(height: 2.h),
         Text(
             AppMessage.chooseTopicsText2,

@@ -31,6 +31,7 @@ class CommonTextFormFieldModule extends StatelessWidget {
     return TextFormField(
       controller: fieldController,
       validator: validate,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       obscureText: obscureText ?? false,
       textInputAction: TextInputAction.next,
       keyboardType: keyboardType,

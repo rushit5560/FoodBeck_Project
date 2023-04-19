@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_back/constance/color.dart';
-import 'package:food_back/constance/extension.dart';
+import 'package:food_back/utils/extensions.dart';
 import 'package:food_back/controller/auth_controller/forgot_screen_controller.dart';
 import 'package:get/get.dart';
 
