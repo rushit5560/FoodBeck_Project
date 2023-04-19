@@ -7,13 +7,14 @@ import '../../controller/introduction_screen_controller.dart';
 import 'Introduction_screen_widgets.dart';
 
 class IntroductionScreen extends StatelessWidget {
-   IntroductionScreen({Key? key}) : super(key: key);
-final introductionScreenController = Get.put(IntroductionScreenController());
+  IntroductionScreen({Key? key}) : super(key: key);
+  final introductionScreenController = Get.put(IntroductionScreenController());
+
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       backgroundColor: AppColors.whiteColor2,
-      body: IntroductionModule().commonSymmetricPadding(vertical: 15),
+      body:  IntroductionModule().commonSymmetricPadding(vertical: 15),
     );
   }
 }

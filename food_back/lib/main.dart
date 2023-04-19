@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:food_back/constance/theme.dart';
 import 'package:food_back/screens/Introduction_screen/Introduction_screen.dart';
+import 'package:food_back/screens/Introduction_screen/Introduction_screen_widgets.dart';
+import 'package:food_back/screens/index_screen/index_screen.dart';
 import 'package:food_back/screens/splash_screen/splash_screen.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import 'package:food_back/constance/app_images.dart' as constance;
-
 import 'constance/app_images.dart';
 
 void main() {
@@ -57,7 +58,7 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
           theme: AppTheme.getTheme(),
-          home: SplashScreen(),
+          home: IndexScreen(),
           debugShowMaterialGrid: false,
         );
       },

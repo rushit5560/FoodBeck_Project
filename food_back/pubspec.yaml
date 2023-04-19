@@ -41,6 +41,13 @@ dependencies:
   like_button: ^2.0.5
   google_fonts: ^4.0.3
   font_awesome_flutter: ^10.2.1
+  persistent_bottom_nav_bar: ^5.0.2
+  carousel_slider: ^4.1.1
+  flutter_html: ^2.2.1
+  http: ^0.13.5
+  loading_animation_widget: ^1.2.0+4
+  shared_preferences: ^2.1.0
+  fluttertoast: ^8.2.1
 
 dev_dependencies:
   flutter_test:

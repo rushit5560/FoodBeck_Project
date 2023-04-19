@@ -11,7 +11,11 @@ class ChoiceTopicScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Scaffold(
         backgroundColor: AppColors.whiteColor2,
-      body:ChoiceTopicModule().commonSymmetricPadding(horizontal: 10),
+      body:Column(
+        children: [
+          ChoiceTopicModule(),
+        ],
+      ).commonSymmetricPadding(vertical: 10,horizontal: 15),
     );
   }
 }

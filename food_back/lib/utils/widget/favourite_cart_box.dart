@@ -32,26 +32,7 @@ class FavouriteCartBox extends StatefulWidget {
 class _FavouriteCartBoxState extends State<FavouriteCartBox> {
   @override
   Widget build(BuildContext context) {
-    return 
-    // InkWell(
-    //   onTap: () async {
-    //     widget.onPressed!(true);
-    //     await Navigator.push(
-    //       context,
-    //       MaterialPageRoute(
-    //         builder: (context) => ItemView(
-    //           widget.price,
-    //           image: widget.img,
-    //           itemName: widget.itemName,
-    //           bgColor: widget.color,
-    //         ),
-    //       ),
-    //     ).then((value) {
-    //       widget.onPressed!(false);
-    //     });
-    //   },
-      // child:
-       Card(
+    return Card(
         elevation: 5,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(defaultRadius),

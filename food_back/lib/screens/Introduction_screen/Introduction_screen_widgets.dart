@@ -18,11 +18,8 @@ class IntroductionModule extends StatefulWidget {
   @override
   State<IntroductionModule> createState() => _IntroductionModuleState();
 }
-
 class _IntroductionModuleState extends State<IntroductionModule> {
-  int selectedPage = 0;
   final introductionScreenController = Get.find<IntroductionScreenController>();
-  final PageController _pageController = PageController();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -34,7 +31,7 @@ class _IntroductionModuleState extends State<IntroductionModule> {
               child: Container(
                 height: 3,
                 decoration: BoxDecoration(
-                  color: selectedPage == 0
+                  color: introductionScreenController.selectedPage == 0
                       ? Theme
                       .of(context)
                       .primaryColor
@@ -46,7 +43,7 @@ class _IntroductionModuleState extends State<IntroductionModule> {
               child: Container(
                 height: 3,
                 decoration: BoxDecoration(
-                  color: selectedPage == 1
+                  color: introductionScreenController.selectedPage == 1
                       ? Theme
                       .of(context)
                       .primaryColor
@@ -58,7 +55,7 @@ class _IntroductionModuleState extends State<IntroductionModule> {
               child: Container(
                 height: 3,
                 decoration: BoxDecoration(
-                  color: selectedPage == 2
+                  color: introductionScreenController.selectedPage == 2
                       ? Theme
                       .of(context)
                       .primaryColor
@@ -72,10 +69,10 @@ class _IntroductionModuleState extends State<IntroductionModule> {
         Expanded(
           flex: 6,
           child: PageView(
-            controller: _pageController,
+            controller: introductionScreenController.pageController,
             onPageChanged: (number) {
               setState(() {
-                selectedPage = number;
+                introductionScreenController.selectedPage = number;
               });
             },
             children: [
@@ -93,18 +90,18 @@ class _IntroductionModuleState extends State<IntroductionModule> {
     return Column(
       children: [
         Image.asset(
-          selectedPage == 0
+          introductionScreenController. selectedPage == 0
               ? AppImages.intro1
-              : selectedPage == 1
+              : introductionScreenController.selectedPage == 1
               ? AppImages.intro2
               : AppImages.intro3,
           height: 200,
         ),
          SizedBox(height: 1.h),
         Text(
-          selectedPage == 0
+          introductionScreenController.selectedPage == 0
               ? AppMessage.onlineShopping
-              : selectedPage == 1
+              : introductionScreenController.selectedPage == 1
               ? AppMessage.detailedRecipes
               : AppMessage.shipAtYourHome,
             textAlign: TextAlign.center,
@@ -117,9 +114,9 @@ class _IntroductionModuleState extends State<IntroductionModule> {
         ),
          SizedBox(height: 1.h),
         Text(
-          selectedPage == 0
+          introductionScreenController.selectedPage == 0
               ? AppMessage.introductionText1
-              : selectedPage == 1
+              : introductionScreenController.selectedPage == 1
               ? AppMessage.introductionText2
               : AppMessage.introductionText3,
             textAlign: TextAlign.center,
@@ -138,10 +135,10 @@ class _IntroductionModuleState extends State<IntroductionModule> {
           child: CustomButton(
               height: 50,
               onPressed: () {
-                if (selectedPage == 0) {
-                  _pageController.jumpToPage(1);
-                } else if (selectedPage == 1) {
-                  _pageController.jumpToPage(2);
+                if (introductionScreenController.selectedPage == 0) {
+                  introductionScreenController.pageController.jumpToPage(1);
+                } else if (introductionScreenController.selectedPage == 1) {
+                  introductionScreenController.pageController.jumpToPage(2);
                 } else {
                   Get.to(()=> ChoiceTopicScreen());
                 }
