@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_back/constance/extension.dart';
+import 'package:food_back/utils/extensions.dart';
 
 import '../../constance/color.dart';
 import 'choice _topic_screen_widgets.dart';
@@ -11,11 +11,7 @@ class ChoiceTopicScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Scaffold(
         backgroundColor: AppColors.whiteColor2,
-      body:Column(
-        children: [
-          ChoiceTopicModule(),
-        ],
-      ).commonSymmetricPadding(vertical: 10,horizontal: 15),
+      body: SafeArea(child: const ChoiceTopicModule().commonSymmetricPadding(horizontal: 10)),
     );
   }
 }

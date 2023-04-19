@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_back/constance/extension.dart';
+import 'package:food_back/utils/extensions.dart';
 import 'package:food_back/screens/authentication_screen/password/reset_password_screen/reset_password_screen_widgets.dart';
 import 'package:get/get.dart';
 

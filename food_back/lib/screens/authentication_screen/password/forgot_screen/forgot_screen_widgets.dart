@@ -5,11 +5,11 @@ import 'package:sizer/sizer.dart';
 import '../../../../constance/color.dart';
 import '../../../../constance/font_family.dart';
 import '../../../../constance/message.dart';
-import '../../../../constance/style.dart';
 import '../../../../controller/auth_controller/forgot_screen_controller.dart';
+import '../../../../utils/style.dart';
 import '../../../../utils/widget/common_button.dart';
 import '../../../../utils/widget/common_text_form_field.dart';
-import '../../../../utils/widget/validator.dart';
+import '../../../../utils/validator.dart';
 import '../reset_password_screen/reset_password_screen.dart';
 
 class ForgotPasswordAllModule extends StatelessWidget {

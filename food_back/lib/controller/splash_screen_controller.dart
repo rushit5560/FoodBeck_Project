@@ -1,13 +1,14 @@
 import 'dart:async';
-import 'package:food_back/screens/authentication_screen/login_screen/login_screen.dart';
 import 'package:get/get.dart';
+
+import '../screens/Introduction_screen/Introduction_screen.dart';
 
 class SplashScreenController extends GetxController {
   startTimer() async {
     Timer(
       const Duration(milliseconds: 3000),
       () {
-        Get.to(LoginScreen());
+        Get.to(IntroductionScreen());
       },
     );
   }

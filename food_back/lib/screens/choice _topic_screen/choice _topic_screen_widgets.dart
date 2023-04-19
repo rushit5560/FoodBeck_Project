@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:food_back/constance/app_images.dart';
-import 'package:food_back/constance/extension.dart';
+import 'package:food_back/utils/extensions.dart';
 import 'package:food_back/constance/message.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import '../../constance/color.dart';
 import '../../constance/font_family.dart';
-import '../../constance/style.dart';
-import '../../constance/theme.dart';
+import '../../utils/theme.dart';
+import '../../utils/style.dart';
 import '../../utils/widget/common_button.dart';
 import '../index_screen/index_screen.dart';
 

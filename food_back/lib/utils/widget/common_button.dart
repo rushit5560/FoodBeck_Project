@@ -6,7 +6,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../constance/color.dart';
 import '../../constance/font_family.dart';
-import '../../constance/style.dart';
+import '../style.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;

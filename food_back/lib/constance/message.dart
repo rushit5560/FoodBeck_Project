@@ -1,5 +1,5 @@
 class AppMessage {
-  static String foodBack = 'Food back';
+  static String foodBack = 'Food beck';
   static String signinWithContinue ="signinWithContinue";
   static String welcomBack ="WelcomBack";
   static String appIcon = 'appIcon';
@@ -23,19 +23,31 @@ class AppMessage {
   static String resetPassword = "Reset Password";
   static String confirmNewPassword = " Confirm New Password";
   static String signUp = "Sign Up";
+  static String signUpText = "Please type your information below";
   static String resetPasswordText = "And now,you can your new password and confirm it below";
   static String forgotPasswordText = "Please type your email or phone number below and we can help you reset password";
   static String forgotPassword = "Forgot password";
-  static String emailOrPhoneNumber = "Enter email address";
+  static String emailOrPhoneNumber = "Enter Email Address";
+  static String enterNumber = "Enter Mobile Number";
+  static String enterPassword = "Enter Password";
+  static String enterConfirmPassword = "Enter Confirm Password";
+  static String userName = "Enter Username";
+  static String alreadyHaveAccount = "You have an account?";
   static String youDonTHaveAnAccount = "You don't have an account?";
   static String invalidEmailAddress = 'Invalid email address.';
   static String invalidPassword = 'Invalid Password.';
   static String emailAddressIsRequired = 'Please enter email address.';
-  static String pleaseEnterPhoneNumber = 'Please enter valid mobile number.';
+  static String pleaseEnterPhoneNumber = 'Please enter mobile number.';
   static String mobileNumberMustTenDigits = 'Mobile number must 10 digits.';
   static String mobileNumberMustBeDigits = 'Mobile Number must be digits.';
-  static String pleaseEnterValidPassword = 'Please Enter Valid Password.';
+  static String pleaseEnterValidPassword = 'Please enter valid password.';
+  static String pleaseEnterValidPasswordLength = 'Password at least 8 character.';
   static String emailRegExp =
       r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
   static String patternRegX = r'(^[0-9]*$)';
+
+
+  /// Validate Text
+  static String nameIsRequired = "Please enter username.";
+
 }

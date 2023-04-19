@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:food_back/constance/extension.dart';
 import 'package:food_back/constance/font_family.dart';
+import 'package:food_back/utils/extensions.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import 'package:food_back/constance/app_images.dart' as constance;
 import '../../../constance/color.dart';
 import '../../../constance/message.dart';
-import '../../../constance/style.dart';
-import '../../../controller/auth_controller/login_screen_controller.dart';
+import '../../../utils/style.dart';
+import '../../../controller/auth_controller/sign_in_screen_controller.dart';
 import '../../../utils/widget/common_button.dart';
 import '../../../utils/widget/common_text_form_field.dart';
-import '../../../utils/widget/validator.dart';
+import '../../../utils/validator.dart';
+import '../../Home_screen/home_screen.dart';
 import '../password/forgot_screen/forgot_screen.dart';
 import '../sign_up_screen/sign_up_screen.dart';
 
 class SignInAllModule extends StatelessWidget {
   SignInAllModule({Key? key}) : super(key: key);
-  final loginScreenController = Get.find<LoginScreenController>();
+  final loginScreenController = Get.find<SignInScreenController>();
   @override
   Widget build(BuildContext context) {
     return  Form(
@@ -70,14 +71,14 @@ class SignInAllModule extends StatelessWidget {
             fieldController: loginScreenController.loginEmailController,
             validate: (value) => FieldValidation().validateUserEmail(value!),
             hintText: AppMessage.emailOrPhoneNumber,
-            keyboardType: TextInputType.text,
+            keyboardType: TextInputType.emailAddress,
             color: AppColors.grey50Color,
           ),
           SizedBox(height: 2.h),
           Obx(()=>
             CommonTextFormFieldModule(
               fieldController: loginScreenController.loginPasswordController,
-              validate: (value) => FieldValidation().validUserPassword(value!),
+              validate: (value) => FieldValidation().validateUserPassword(value!),
               hintText: AppMessage.password,
               keyboardType: TextInputType.text,
               obscureText: loginScreenController.hidePass.value,
@@ -102,7 +103,8 @@ class SignInAllModule extends StatelessWidget {
             children: [
               InkWell(
                   onTap: () {
-                    Get.to(ForgotPasswordScreen());},
+                    Get.to(()=> ForgotPasswordScreen());
+                    },
                   child: Text(AppMessage.forgotPassword,
                       textAlign: TextAlign.center,
                     style: TextStyleConfig.textStyle(
@@ -118,9 +120,9 @@ class SignInAllModule extends StatelessWidget {
           SizedBox(height: 3.h),
           CustomButton(
               height: 50,
-              onPressed: () {
+              onPressed: () async {
                 if (loginScreenController.formKey.currentState!.validate()) {
-                  Get.to(()=> SignUpScreen());
+                  await loginScreenController.userLoginFunction();
                 }
               },
               text: AppMessage.signIn,
@@ -156,7 +158,7 @@ class SignInAllModule extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              CircleAvatar(
+              /*CircleAvatar(
                 radius: 18,
                 backgroundColor: AppColors.blueColor,
                 child: IconButton(
@@ -179,7 +181,7 @@ class SignInAllModule extends StatelessWidget {
                     ),
                     onPressed: () {},
                   ),
-              ),
+              ),*/
               CircleAvatar(
                   radius: 18,
                   backgroundColor: AppColors.redColor,
@@ -209,7 +211,7 @@ class SignInAllModule extends StatelessWidget {
               SizedBox(width: 1.w),
               InkWell(
                 onTap: () {
-                  //Navigator.pushReplacementNamed(context, Routes.SINGIN);
+                  Get.to(()=> SignUpScreen());
                 },
                 child: Text(AppMessage.signUp,
                     textAlign: TextAlign.center,
