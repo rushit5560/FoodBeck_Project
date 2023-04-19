@@ -12,7 +12,6 @@ import '../../../controller/auth_controller/sign_in_screen_controller.dart';
 import '../../../utils/widget/common_button.dart';
 import '../../../utils/widget/common_text_form_field.dart';
 import '../../../utils/validator.dart';
-import '../../Home_screen/home_screen.dart';
 import '../password/forgot_screen/forgot_screen.dart';
 import '../sign_up_screen/sign_up_screen.dart';
 

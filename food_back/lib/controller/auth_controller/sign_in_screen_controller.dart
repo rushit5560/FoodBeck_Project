@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:food_back/screens/Home_screen/home_screen.dart';
 import 'package:http/http.dart'as http;
 import 'package:flutter/material.dart';
 import 'package:food_back/constance/api_url.dart';
@@ -49,7 +48,7 @@ class SignInScreenController extends GetxController {
           userPreference.setStringValueInPrefs(key: UserPreference.userNameKey, value: signInModel.data.data.name);
           userPreference.setStringValueInPrefs(key: UserPreference.userZoneIdKey, value: signInModel.data.data.zoneId.toString());
 
-          Get.offAll(()=> HomeScreen());
+          // Get.offAll(()=> HomeScreen());
         } else {
           log('userLoginFunction Else');
           Fluttertoast.showToast(msg: signInModel.error);

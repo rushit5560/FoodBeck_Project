@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:food_back/constance/extension.dart';
+import 'package:food_back/utils/extensions.dart';
+import 'package:food_back/utils/style.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../constance/color.dart';
-import '../../constance/style.dart';
 import '../../controller/profile_screen_controller.dart';
 
 class ProfileScreen extends StatelessWidget {
