@@ -106,8 +106,8 @@ class IndexScreen extends StatelessWidget {
   List<PersistentBottomNavBarItem> _navBarsItems(context) {
     return [
       PersistentBottomNavBarItem(
-        icon: const Icon(CupertinoIcons.book),
-        title: "Recipes",
+        icon: const Icon(Icons.home_outlined),
+        title: "Home",
         activeColorPrimary: Theme.of(context).primaryColor,
         inactiveColorPrimary: Theme.of(context).disabledColor,
         inactiveColorSecondary: Colors.purple,

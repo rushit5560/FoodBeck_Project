@@ -8,14 +8,15 @@ import 'package:food_back/utils/extensions.dart';
 import 'package:get/get.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:sizer/sizer.dart';
-import '../../controller/recipes_screen_controller.dart';
+import '../../controller/home_screen_controller.dart';
+import '../../model/home_screen_model/category_model.dart';
 import '../../utils/style.dart';
 
 class SearchbarModule extends StatelessWidget {
   final void Function(bool)? onPressed;
 
   SearchbarModule({Key? key, this.onPressed}) : super(key: key);
-  final recipesScreenController = Get.find<RecipesScreenController>();
+  final screenController = Get.find<HomeScreenController>();
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class SearchbarModule extends StatelessWidget {
                     color: Theme.of(context).dividerColor,
                   ),
                   child: TextFormField(
-                    controller: recipesScreenController.searchbarController,
+                    controller: screenController.searchbarController,
                     decoration: const InputDecoration(
                       contentPadding: EdgeInsets.only(left: 10),
                       border: InputBorder.none,
@@ -73,18 +74,17 @@ class SearchbarModule extends StatelessWidget {
 
 class BannerModule extends StatelessWidget {
   BannerModule({Key? key}) : super(key: key);
-  final recipesScreenController = Get.find<RecipesScreenController>();
+  final screenController = Get.find<HomeScreenController>();
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         CarouselSlider.builder(
-          itemCount: recipesScreenController.bannerList.length,
+          itemCount: screenController.bannerList.length,
           itemBuilder: (context, i, realIndex) {
             String imgUrl =
-                "${ApiUrl.bannerImagePathUrl}/${recipesScreenController.bannerList[i].image}";
-            log("imgUrl11 $imgUrl");
+                "${ApiUrl.bannerImagePathUrl}/${screenController.bannerList[i].image}";
             return Card(
               margin: const EdgeInsets.all(0),
               shape: RoundedRectangleBorder(
@@ -127,33 +127,30 @@ class BannerModule extends StatelessWidget {
             aspectRatio: 2.5,
             enlargeCenterPage: true,
             onPageChanged: (index, reason) {
-              recipesScreenController.isLoading(true);
-              recipesScreenController.currentIndex.value = index;
-              recipesScreenController.isLoading(false);
+              screenController.isLoading(true);
+              screenController.currentIndex.value = index;
+              screenController.isLoading(false);
             },
           ),
         ).commonSymmetricPadding(vertical: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: recipesScreenController.bannerList.map((url) {
-            int index = recipesScreenController.bannerList.indexOf(url);
+          children: screenController.bannerList.map((url) {
+            int index = screenController.bannerList.indexOf(url);
             return Container(
-              width:
-                  recipesScreenController.currentIndex.value == index ? 16 : 11,
-              height:
-                  recipesScreenController.currentIndex.value == index ? 16 : 11,
-              margin:
-                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+              width: screenController.currentIndex.value == index ? 16 : 10,
+              height: screenController.currentIndex.value == index ? 16 : 10,
+              margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                    width: recipesScreenController.currentIndex.value == index
+                    width: screenController.currentIndex.value == index
                         ? 2
                         : 0,
-                    color: recipesScreenController.currentIndex.value == index
+                    color: screenController.currentIndex.value == index
                         ? AppColors.whiteColor
                         : Colors.transparent),
-                color: recipesScreenController.currentIndex.value == index
+                color: screenController.currentIndex.value == index
                     ? AppColors.amberColor
                     : AppColors.greyColor,
               ),
@@ -167,9 +164,60 @@ class BannerModule extends StatelessWidget {
   }
 }
 
+class CategoriesModule extends StatelessWidget {
+  CategoriesModule({Key? key}) : super(key: key);
+  final screenController = Get.find<HomeScreenController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return
+      SizedBox(
+        height: 80,
+        child: Center(
+          child: ListView.builder(
+            itemCount: screenController.categoryList.length,
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (BuildContext context, int index) {
+              CategoryData singleCategory = screenController.categoryList[index];
+              String imgUrl = ApiUrl.categoryImagePathUrl + singleCategory.image;
+
+              return Column(
+                children: [
+                  Container(
+                    width: 45,
+                    height: 45,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      // color: AppColors.grey200Color,
+                    ),
+                    child: Image.network(
+                      imgUrl,
+                      fit: BoxFit.fill,
+                      errorBuilder: (context, obj, st) {
+                        return Image.asset(
+                          AppImages.AppLogo,
+                          fit: BoxFit.fill,
+                        );
+                      },
+                    ).commonAllSidePadding(5),
+                  ),
+                  const SizedBox(height: 3),
+                  Text(
+                    singleCategory.name,
+                  ),
+                ],
+              ).commonAllSidePadding(8);
+            },
+          ),
+        ),
+      );
+  }
+}
+
 class TakeYourPickModule extends StatelessWidget {
   TakeYourPickModule({Key? key}) : super(key: key);
-  final recipesScreenController = Get.find<RecipesScreenController>();
+  final screenController = Get.find<HomeScreenController>();
 
   @override
   Widget build(BuildContext context) {
@@ -178,17 +226,19 @@ class TakeYourPickModule extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              "Take Your Pick",
-              style: TextStyle(
-                fontSize: 14.sp,
-                color: AppColors.blackColor,
+            Expanded(
+              child: Text(
+                "Take Your Pick",
+                style: TextStyle(
+                  fontSize: 13.sp,
+                  color: AppColors.blackColor,
+                ),
               ),
             ),
             Text(
               "View All",
               style: TextStyle(
-                fontSize: 14.sp,
+                fontSize: 13.sp,
                 color: AppColors.blackColor,
               ),
             ),
@@ -197,50 +247,49 @@ class TakeYourPickModule extends StatelessWidget {
         Text(
           "Breakfast is widely acknowledged to be the most important meal of the day.",
           style: TextStyle(
-            fontSize: 12.sp,
+            fontSize: 11.sp,
             color: AppColors.grey300Color,
           ),
         ).commonSymmetricPadding(horizontal: 10),
         SizedBox(
-          height: 200,
+          height: 25.h,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: recipesScreenController.takeYourPickProductList.length,
+            itemCount: screenController.allProductsList.length,
             shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
-              var value =
-                  recipesScreenController.takeYourPickProductList[index];
-              String imgUrl =
-                  "${ApiUrl.allProductImagePathUrl}/${recipesScreenController.takeYourPickProductList[index].image}";
-              log("imgUrl $imgUrl");
+              var value = screenController.allProductsList[index];
+              String imgUrl = "${ApiUrl.allProductImagePathUrl}/${value.image}";
+
               return Container(
                 margin: const EdgeInsets.only(left: 10, right: 10),
-                //height: 100.h,
-                width: 250,
+                width: Get.size.width * 0.75,
                 decoration: const BoxDecoration(
                   color: AppColors.whiteColor2,
                   borderRadius: BorderRadius.all(Radius.circular(20)),
-                  // boxShadow: [BoxShadow(
-                  //   blurRadius: 2,
-                  //   offset: Offset(0, -1),
-                  // )]
                 ),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Stack(
                       alignment: Alignment.topRight,
                       children: [
                         Container(
                           height: 15.h,
-                          decoration: BoxDecoration(
-                            //color: AppColors.whiteColor2,
-                            // boxShadow: [
-                            //   BoxShadow(
-                            //       blurRadius: 3,
-                            //     offset: Offset(0, 1),
-                            //   ),
-                            // ],
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20)
+                            ),
+                          ),
+                          child: Image.network(imgUrl,
+                              fit: BoxFit.fill,
+                            errorBuilder: (context, obj, st) {
+                            return Image.asset(AppImages.AppLogo,
+                            fit: BoxFit.fill,);
+                            },
+                          ),
+                          /*decoration: BoxDecoration(
                             image: DecorationImage(
                               image: NetworkImage(imgUrl),
                               fit: BoxFit.cover,
@@ -248,7 +297,7 @@ class TakeYourPickModule extends StatelessWidget {
                             borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(20),
                                 topRight: Radius.circular(20)),
-                          ),
+                          ),*/
                         ),
                         ClipRRect(
                           borderRadius: BorderRadius.circular(10),
@@ -259,8 +308,7 @@ class TakeYourPickModule extends StatelessWidget {
                             color: AppColors.whiteColor2,
                             shadowStrength: 10,
                             opacity: 0.2,
-                            border:
-                                const Border.fromBorderSide(BorderSide.none),
+                            border: const Border.fromBorderSide(BorderSide.none),
                             borderRadius: BorderRadius.circular(10),
                             child: const Icon(
                               Icons.favorite_border_outlined,
@@ -353,61 +401,11 @@ class TakeYourPickModule extends StatelessWidget {
 
 
 
-class CategoriesModule extends StatelessWidget {
-  const CategoriesModule({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return
-      Container(
-        height: 100,
-       // color: Theme.of(context).backgroundColor,
-        child: ListView.builder(
-          itemCount: 10,
-          shrinkWrap: true,
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (BuildContext context, int index) {
-            return Container(
-              width: 100,
-             // padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8, right: 12),
-              //margin: const EdgeInsets.only(left: 10, right: 10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                ),
-              child: Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color:AppColors.lightPinkColor,
-                    ),
-                    child: Image.asset(
-                      AppImages.fev5,
-                      fit: BoxFit.fill,
-                      height: 60,
-                    ),
-                  ),
-                  const Expanded(child: SizedBox()),
-                  Text(
-                    'Food',
-                    style: TextStyle(
-                      fontSize: 14.sp,
-                      color: AppColors.blackColor,
-                    ),
-                  ),
-                  const Expanded(child: SizedBox()),
-                ],
-              ),
-            );
-          },
-        ),
-      );
-  }
-}
 
 class BreakfastModule extends StatelessWidget {
   BreakfastModule({Key? key}) : super(key: key);
-  final recipesScreenController = Get.find<RecipesScreenController>();
+  final screenController = Get.find<HomeScreenController>();
 
   @override
   Widget build(BuildContext context) {
@@ -501,7 +499,7 @@ class BreakfastModule extends StatelessWidget {
 
 class SnackModule extends StatelessWidget {
   SnackModule({Key? key}) : super(key: key);
-  final recipesScreenController = Get.find<RecipesScreenController>();
+  final screenController = Get.find<HomeScreenController>();
 
   @override
   Widget build(BuildContext context) {
@@ -595,7 +593,7 @@ class SnackModule extends StatelessWidget {
 
 class LunchModule extends StatelessWidget {
   LunchModule({Key? key}) : super(key: key);
-  final recipesScreenController = Get.find<RecipesScreenController>();
+  final screenController = Get.find<HomeScreenController>();
 
   @override
   Widget build(BuildContext context) {
@@ -689,7 +687,7 @@ class LunchModule extends StatelessWidget {
 
 class DinnerModule extends StatelessWidget {
   DinnerModule({Key? key}) : super(key: key);
-  final recipesScreenController = Get.find<RecipesScreenController>();
+  final screenController = Get.find<HomeScreenController>();
 
   @override
   Widget build(BuildContext context) {

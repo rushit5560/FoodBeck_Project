@@ -4,12 +4,12 @@
 
 import 'dart:convert';
 
-TakeYourPickProductModel takeYourPickProductModelFromJson(String str) => TakeYourPickProductModel.fromJson(json.decode(str));
+AllProductsModel takeYourPickProductModelFromJson(String str) => AllProductsModel.fromJson(json.decode(str));
 
-String takeYourPickProductModelToJson(TakeYourPickProductModel data) => json.encode(data.toJson());
+String takeYourPickProductModelToJson(AllProductsModel data) => json.encode(data.toJson());
 
-class TakeYourPickProductModel {
-  TakeYourPickProductModel({
+class AllProductsModel {
+  AllProductsModel({
     required this.success,
     required this.data,
     required this.message,
@@ -19,7 +19,7 @@ class TakeYourPickProductModel {
   final List<TakeYourPickProduct> data;
   final String message;
 
-  factory TakeYourPickProductModel.fromJson(Map<String, dynamic> json) => TakeYourPickProductModel(
+  factory AllProductsModel.fromJson(Map<String, dynamic> json) => AllProductsModel(
     success: json["success"]??"",
     data: List<TakeYourPickProduct>.from(json["data"].map((x) => TakeYourPickProduct.fromJson(x))??{}),
     message: json["message"]??"",
