@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:food_back/common_modules/custom_loader.dart';
+import 'package:food_back/constance/message.dart';
 import 'package:food_back/utils/extensions.dart';
 import 'package:food_back/utils/style.dart';
 import 'package:get/get.dart';
@@ -6,16 +8,45 @@ import 'package:sizer/sizer.dart';
 
 import '../../constance/color.dart';
 import '../../controller/profile_screen_controller.dart';
+import 'profile_screen_widgets.dart';
 
 class ProfileScreen extends StatelessWidget {
   final Function(bool)? onPressed;
-   ProfileScreen({Key? key, this.onPressed}) : super(key: key);
+
+  ProfileScreen({Key? key, this.onPressed}) : super(key: key);
   final profileScreenController = Get.put(ProfileScreenController());
+
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-
-      body: SafeArea(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          AppMessage.profileHeader,
+          style: const TextStyle(color: AppColors.blackColor),
+        ),
+        elevation: 0,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomRight: Radius.circular(25),
+            bottomLeft: Radius.circular(25),
+          ),
+        ),
+      ),
+      body: Obx(
+        () =>
+            profileScreenController.isLoading.value ? const CustomLoader() : Column(
+              children: [
+                ProfileDetailsModule(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    EditProfileButtonModule(),
+                  ],
+                ),
+              ],
+            ),
+      ),
+      /*body: SafeArea(
         child: GridView.builder(
           physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
@@ -66,7 +97,7 @@ class ProfileScreen extends StatelessWidget {
             );
           },
         ).commonAllSidePadding(15),
-      ),
+      ),*/
     );
   }
 }

@@ -66,6 +66,7 @@ class DataData {
     required this.email,
     required this.phoneno,
     required this.zoneId,
+    required this.image,
     // this.emailVerifiedAt,
     // required this.createdAt,
     // required this.updatedAt,
@@ -76,6 +77,7 @@ class DataData {
   String email;
   String phoneno;
   int zoneId;
+  String image;
   // dynamic emailVerifiedAt;
   // DateTime createdAt;
   // DateTime updatedAt;
@@ -86,6 +88,7 @@ class DataData {
     email: json["email"] ?? "",
     phoneno: json["phoneno"] ?? "",
     zoneId: json["zone_id"] ?? 0,
+    image: json["image"] ?? "",
     // emailVerifiedAt: json["email_verified_at"],
     // createdAt: DateTime.parse(json["created_at"]),
     // updatedAt: DateTime.parse(json["updated_at"]),

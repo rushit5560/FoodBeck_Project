@@ -75,11 +75,11 @@ class DataData {
   int id;
 
   factory DataData.fromJson(Map<String, dynamic> json) => DataData(
-    name: json["name"],
-    email: json["email"],
+    name: json["name"]??"",
+    email: json["email"]??"",
     // updatedAt: DateTime.parse(json["updated_at"]),
     // createdAt: DateTime.parse(json["created_at"]),
-    id: json["id"],
+    id: json["id"]??0,
   );
 
   Map<String, dynamic> toJson() => {

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:food_back/screens/index_screen/index_screen.dart';
 import 'package:http/http.dart'as http;
 import 'package:flutter/material.dart';
 import 'package:food_back/constance/api_url.dart';
@@ -46,9 +47,10 @@ class SignInScreenController extends GetxController {
           userPreference.setStringValueInPrefs(key: UserPreference.userTokenKey, value: signInModel.data.token);
           userPreference.setStringValueInPrefs(key: UserPreference.userEmailKey, value: signInModel.data.data.email);
           userPreference.setStringValueInPrefs(key: UserPreference.userNameKey, value: signInModel.data.data.name);
+          userPreference.setStringValueInPrefs(key: UserPreference.userPhoneKey, value: signInModel.data.data.phoneno);
+          userPreference.setStringValueInPrefs(key: UserPreference.userImageKey, value: signInModel.data.data.image);
           userPreference.setStringValueInPrefs(key: UserPreference.userZoneIdKey, value: signInModel.data.data.zoneId.toString());
-
-          // Get.offAll(()=> HomeScreen());
+          Get.offAll(()=> IndexScreen());
         } else {
           log('userLoginFunction Else');
           Fluttertoast.showToast(msg: signInModel.error);

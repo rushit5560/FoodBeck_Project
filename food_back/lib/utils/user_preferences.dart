@@ -9,6 +9,8 @@ class UserPreference {
   static String userTokenKey = "userTokenKey"; // String
   static String userEmailKey = "userEmailKey"; // String
   static String userNameKey = "userNameKey"; // String
+  static String userPhoneKey = "userPhoneKey"; // String
+  static String userImageKey = "userImageKey"; // String
 
 
   // Set String Value in Prefs
@@ -22,7 +24,7 @@ class UserPreference {
   Future<String?> getStringValueFromPrefs({required String key}) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     String? value = prefs.getString(key);
-    return value!;
+    return value;
   }
 
   // Set Bool Value in Prefs
