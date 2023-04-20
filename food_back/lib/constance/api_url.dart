@@ -4,6 +4,8 @@ class ApiUrl {
   static String baseUrl = "${databaseUrl}api";
   static String bannerImagePathUrl = "${databaseUrl}public/assests/banner/compress_img";
   static String allProductImagePathUrl = "${databaseUrl}public/assests/food";
+  static String categoryImagePathUrl = "${databaseUrl}public/assests/category/";  
+  static String getCategoryApi = "$baseUrl/get-categorys";
 
 
   // Authentication
@@ -19,4 +21,6 @@ class ApiUrl {
   static String cartApi = "$baseUrl/cart/";
   static String updateCartApi = "$baseUrl/updatecart";
   static String zoneApi = "$baseUrl/zone";
+  static String getProfileApi = "$baseUrl/profile";
+
 }
