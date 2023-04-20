@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:food_back/screens/edit_profile_screen/edit_profile_screen.dart';
 import 'package:get/get.dart';
@@ -5,7 +7,6 @@ import 'package:sizer/sizer.dart';
 import '../../constance/app_images.dart';
 import '../../constance/color.dart';
 import '../../controller/profile_screen_controller.dart';
-
 
 /// User Profile Details Show Module
 class ProfileDetailsModule extends StatelessWidget {
@@ -102,7 +103,11 @@ class EditProfileButtonModule extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: GestureDetector(
         onTap: () {
-          Get.to(() => EditProfileScreen());
+          Get.to(
+            () => EditProfileScreen(),
+            // arguments: profileScreenController.userId,
+          );
+          // log("profileScreenController.userId ${profileScreenController.userId}");
         },
         // onTap: () => Get.to(()=> EditProfileScreen())!.then((value) async {
         //   await accountScreenController.getUserAccount();

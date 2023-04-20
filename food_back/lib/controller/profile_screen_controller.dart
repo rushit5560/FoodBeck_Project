@@ -6,9 +6,9 @@ import '../constance/app_images.dart';
 import '../model/profile_screen_model/main_category_model.dart';
 // import '../screens/terms_conditins_screen/terms_conditins_screen.dart';
 
-
 class ProfileScreenController extends GetxController {
   RxBool isLoading = false.obs;
+  RxString userId = "".obs;
 
   RxString userName = "".obs;
   RxString userEmail = "".obs;
@@ -29,8 +29,6 @@ class ProfileScreenController extends GetxController {
     // }
   }
 
-
-
   @override
   void onInit() {
     initMethod();
@@ -43,13 +41,22 @@ class ProfileScreenController extends GetxController {
 
   Future<void> getUserDetailsFromPrefsFunction() async {
     isLoading(true);
-    userName.value = await userPreference.getStringValueFromPrefs(key: UserPreference.userNameKey) ?? "";
-    userEmail.value = await userPreference.getStringValueFromPrefs(key: UserPreference.userEmailKey) ?? "";
-    userPhone.value = await userPreference.getStringValueFromPrefs(key: UserPreference.userPhoneKey) ?? "";
-    userImage.value = await userPreference.getStringValueFromPrefs(key: UserPreference.userImageKey) ?? "";
+    userId.value = await userPreference.getStringValueFromPrefs(
+            key: UserPreference.userIdKey) ??
+        "";
+    log(" userId.value ${userId.value}");
+    userName.value = await userPreference.getStringValueFromPrefs(
+            key: UserPreference.userNameKey) ??
+        "";
+    userEmail.value = await userPreference.getStringValueFromPrefs(
+            key: UserPreference.userEmailKey) ??
+        "";
+    userPhone.value = await userPreference.getStringValueFromPrefs(
+            key: UserPreference.userPhoneKey) ??
+        "";
+    userImage.value = await userPreference.getStringValueFromPrefs(
+            key: UserPreference.userImageKey) ??
+        "";
     isLoading(false);
   }
-
-
-
 }
