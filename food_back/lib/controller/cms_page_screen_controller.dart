@@ -5,16 +5,17 @@ import 'package:http/http.dart' as http;
 import '../constance/api_url.dart';
 import '../model/cms_screen_model/cms_screen_model.dart';
 
-class TermsAndConditionsScreenController extends GetxController{
-  //String pageId = Get.arguments;
+class CMSPageScreenScreenController extends GetxController{
+  String pageId = Get.arguments;
   RxBool isLoading = false.obs;
   RxBool successStatus = false.obs;
   String text="";
-  String title="";
+  RxString title="".obs;
   List<CmsPage> cmsPage = [];
   Future<void> cmsPageFunction() async {
+    log("pageId $pageId");
     isLoading(true);
-    String url = "${ApiUrl.cmsApi}4";
+    String url = "${ApiUrl.cmsApi}$pageId";
     log("cmsPageFunction url : $url");
     try {
       http.Response response = await http.get(Uri.parse(url));
@@ -23,7 +24,7 @@ class TermsAndConditionsScreenController extends GetxController{
       successStatus.value = cmsPageModel.success;
       if (successStatus.value) {
         cmsPage.addAll(cmsPageModel.data);
-        title=cmsPageModel.data[0].title;
+       title.value =cmsPageModel.data[0].title;
         text=cmsPageModel.data[0].content;
         log("title$title");
         log("text $text");

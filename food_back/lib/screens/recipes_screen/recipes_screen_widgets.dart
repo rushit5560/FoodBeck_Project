@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:food_back/constance/api_url.dart';
 import 'package:food_back/constance/app_images.dart';
 import 'package:food_back/constance/color.dart';
 import 'package:food_back/utils/extensions.dart';
@@ -8,12 +9,13 @@ import 'package:get/get.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:sizer/sizer.dart';
 import '../../controller/recipes_screen_controller.dart';
+import '../../utils/style.dart';
 import '../food_screen/food_screen.dart';
 
-class SearchbarAndFooTypeModule extends StatelessWidget {
+class SearchbarModule extends StatelessWidget {
   final void Function(bool)? onPressed;
 
-  SearchbarAndFooTypeModule({Key? key, this.onPressed}) : super(key: key);
+  SearchbarModule({Key? key, this.onPressed}) : super(key: key);
   final recipesScreenController = Get.find<RecipesScreenController>();
 
   @override
@@ -48,7 +50,7 @@ class SearchbarAndFooTypeModule extends StatelessWidget {
                 ),
                 child: IconButton(
                   onPressed: () {
-                    log('message');
+                    //log('message');
                   },
                   icon: const Icon(
                     Icons.search,
@@ -58,53 +60,13 @@ class SearchbarAndFooTypeModule extends StatelessWidget {
               ),
             ],
           ),
-        ).commonOnlyPadding(left: 10, right: 10, bottom: 10),
-        InkWell(
-          onTap: () {
-            Get.to(() =>  FoodScreen());
-          },
-          child: Container(
-            height: 50,
-            color: Theme.of(context).backgroundColor,
-            child: ListView.builder(
-              itemCount: 10,
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (BuildContext context, int index) {
-                return Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.only(
-                          top: 8, bottom: 8, left: 8, right: 12),
-                      margin: const EdgeInsets.only(left: 10, right: 10),
-                      width: 140,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        color: AppColors.lightPinkColor,
-                      ),
-                      child: Row(
-                        children: [
-                          Image.asset(
-                            AppImages.imag1,
-                          ),
-                          const Expanded(child: SizedBox()),
-                          Text(
-                            'Food',
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              color: AppColors.blackColor,
-                            ),
-                          ),
-                          const Expanded(child: SizedBox()),
-                        ],
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
-          ),
-        ),
+        ).commonOnlyPadding(left: 10, right: 10),
+        // InkWell(
+        //   onTap: () {
+        //     Get.to(() => FoodScreen());
+        //   },
+        //
+        // ),
       ],
     );
   }
@@ -118,44 +80,89 @@ class BannerModule extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CarouselSlider(
-          items: recipesScreenController.list
-              .map(
-                (item) => Card(
-                  margin: const EdgeInsets.all(0),
-                  shape: RoundedRectangleBorder(
+        CarouselSlider.builder(
+          itemCount: recipesScreenController.bannerList.length,
+          itemBuilder: (context, i, realIndex) {
+            String imgUrl =
+                "${ApiUrl.bannerImagePathUrl}/${recipesScreenController.bannerList[i].image}";
+            log("imgUrl11 $imgUrl");
+            return Card(
+              margin: const EdgeInsets.all(0),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+                side:
+                    BorderSide(color: Theme.of(context).primaryColor, width: 2),
+              ),
+              elevation: 0,
+              child: InkWell(
+                onTap: () {
+                  //Get.to(()=> DinnerView());
+                },
+                child: Container(
+                  // height: 30,
+                  decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
-                    side: BorderSide(
-                        color: Theme.of(context).primaryColor, width: 2),
-                  ),
-                  elevation: 0,
-                  child: InkWell(
-                    onTap: () {
-                      //Get.to(()=> DinnerView());
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16),
-                        image: DecorationImage(
-                          image: AssetImage(
-                            item,
-                          ),
-                          fit: BoxFit.cover,
-                        ),
+                    image: DecorationImage(
+                      image: NetworkImage(
+                        imgUrl,
                       ),
+                      onError: (exception, stackTrace) =>
+                          Image.asset(AppImages.dinner1),
+                      fit: BoxFit.fill,
                     ),
                   ),
+                  // child: CachedNetworkImage(
+                  //   height: 100,
+                  //   imageUrl: imgUrl,
+                  //   fit: BoxFit.fill,
+                  //   errorWidget: (context, url, error) {
+                  //     return const CustomLoader();
+                  //   },
+                  // ),
                 ),
-              )
-              .toList(),
+              ),
+            );
+          },
           options: CarouselOptions(
             autoPlay: true,
             aspectRatio: 2.5,
             enlargeCenterPage: true,
+            onPageChanged: (index, reason) {
+              recipesScreenController.isLoading(true);
+              recipesScreenController.currentIndex.value = index;
+              recipesScreenController.isLoading(false);
+            },
           ),
+        ).commonSymmetricPadding(vertical: 8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: recipesScreenController.bannerList.map((url) {
+            int index = recipesScreenController.bannerList.indexOf(url);
+            return Container(
+              width:
+                  recipesScreenController.currentIndex.value == index ? 16 : 11,
+              height:
+                  recipesScreenController.currentIndex.value == index ? 16 : 11,
+              margin:
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(
+                    width: recipesScreenController.currentIndex.value == index
+                        ? 2
+                        : 0,
+                    color: recipesScreenController.currentIndex.value == index
+                        ? AppColors.whiteColor
+                        : Colors.transparent),
+                color: recipesScreenController.currentIndex.value == index
+                    ? AppColors.amberColor
+                    : AppColors.greyColor,
+              ),
+            );
+          }).toList(),
         ),
-        SizedBox(height: 1.h),
-        MySeparator(color: Theme.of(context).primaryColor),
+        //SizedBox(height: 1.h),
+        // MySeparator(color: Theme.of(context).primaryColor),
       ],
     ).commonOnlyPadding(top: 10);
   }
@@ -194,95 +201,208 @@ class TakeYourPickModule extends StatelessWidget {
             fontSize: 12.sp,
             color: AppColors.grey300Color,
           ),
-        ).commonSymmetricPadding(horizontal: 10, vertical: 10),
+        ).commonSymmetricPadding(horizontal: 10),
         SizedBox(
-          height: 160,
+          height: 200,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: 3,
+            itemCount: recipesScreenController.takeYourPickProductList.length,
             shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
-              return Row(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(left: 10, right: 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      //color: Theme.of(context).cardColor,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.0),
-                          spreadRadius: 2,
-                          blurRadius: 7,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              var value =
+                  recipesScreenController.takeYourPickProductList[index];
+              String imgUrl =
+                  "${ApiUrl.allProductImagePathUrl}/${recipesScreenController.takeYourPickProductList[index].image}";
+              log("imgUrl $imgUrl");
+              return Container(
+                margin: const EdgeInsets.only(left: 10, right: 10),
+                //height: 100.h,
+                width: 250,
+                decoration: const BoxDecoration(
+                  color: AppColors.whiteColor2,
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  // boxShadow: [BoxShadow(
+                  //   blurRadius: 2,
+                  //   offset: Offset(0, -1),
+                  // )]
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Stack(
+                      alignment: Alignment.topRight,
                       children: [
+                        Container(
+                          height: 15.h,
+                          decoration: BoxDecoration(
+                            //color: AppColors.whiteColor2,
+                            // boxShadow: [
+                            //   BoxShadow(
+                            //       blurRadius: 3,
+                            //     offset: Offset(0, 1),
+                            //   ),
+                            // ],
+                            image: DecorationImage(
+                              image: NetworkImage(imgUrl),
+                              fit: BoxFit.cover,
+                            ),
+                            borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20)),
+                          ),
+                        ),
                         ClipRRect(
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(8),
-                            topRight: Radius.circular(8),
-                          ),
-                          child: Image.asset(
-                            AppImages.home2img1,
-                            height: 110,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        // const Expanded(child: SizedBox()),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Fresh Salad Thaid',
-                                  style: TextStyle(
-                                    fontSize: 12.sp,
-                                    color: AppColors.blackColor,
-                                  ),
-                                ),
-                              ],
+                          borderRadius: BorderRadius.circular(10),
+                          child: GlassContainer(
+                            height: 30,
+                            width: 30,
+                            blur: 4,
+                            color: AppColors.whiteColor2,
+                            shadowStrength: 10,
+                            opacity: 0.2,
+                            border:
+                                const Border.fromBorderSide(BorderSide.none),
+                            borderRadius: BorderRadius.circular(10),
+                            child: const Icon(
+                              Icons.favorite_border_outlined,
+                              color: AppColors.grey300Color,
+                              size: 18,
                             ),
-                            const SizedBox(height: 2),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '10 mins',
-                                  style: TextStyle(
-                                    fontSize: 10.sp,
-                                    color: AppColors.grey300Color,
-                                  ),
-                                ),
-                                SizedBox(width: 3.w),
-                                Text(
-                                  '268 kcal',
-                                  style: TextStyle(
-                                    fontSize: 10.sp,
-                                    color: AppColors.grey300Color,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        const Expanded(child: SizedBox()),
+                          ),
+                        ).commonSymmetricPadding(vertical: 5, horizontal: 10)
                       ],
                     ),
-                  ),
-                ],
+                    SizedBox(
+                      height: 1.h,
+                    ),
+                    Text(
+                      value.name,
+                      //textAlign: TextAlign.right,
+                      style: TextStyleConfig.textStyle(
+                        textColor: AppColors.blackColor,
+                        fontSize: 12.sp,
+                        // fontFamily: FontFamilyText.sFProDisplaySemibold,
+                        // fontWeight: FontWeight.normal,
+                      ),
+                    ).commonOnlyPadding(left: 10),
+                    Text(
+                      value.description,
+                      //textAlign: TextAlign.right,
+                      style: TextStyleConfig.textStyle(
+                        textColor: AppColors.blackColor,
+                        fontSize: 12.sp,
+                        // fontFamily: FontFamilyText.sFProDisplaySemibold,
+                        // fontWeight: FontWeight.normal,
+                      ),
+                    ).commonOnlyPadding(left: 10),
+                    Row(
+                      //mainAxisAlignment:MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          value.price,
+                          //textAlign: TextAlign.right,
+                          style: TextStyleConfig.textStyle(
+                            textColor: AppColors.blackColor,
+                            fontSize: 12.sp,
+                            // fontFamily: FontFamilyText.sFProDisplaySemibold,
+                            // fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                        const Icon(
+                          Icons.star,
+                          color: AppColors.amberColor,
+                        ),
+                        const Icon(
+                          Icons.star,
+                          color: AppColors.amberColor,
+                        ),
+                        const Icon(
+                          Icons.star,
+                          color: AppColors.amberColor,
+                        ),
+                        const Icon(
+                          Icons.star,
+                          color: AppColors.amberColor,
+                        ),
+                        const Icon(
+                          Icons.star,
+                          color: AppColors.amberColor,
+                        ),
+                        Text(
+                          value.rating,
+                          //textAlign: TextAlign.right,
+                          style: TextStyleConfig.textStyle(
+                            textColor: AppColors.blackColor,
+                            fontSize: 12.sp,
+                            // fontFamily: FontFamilyText.sFProDisplaySemibold,
+                            // fontWeight: FontWeight.normal,
+                          ),
+                        ),
+                      ],
+                    ).commonOnlyPadding(left: 10),
+                  ],
+                ),
               );
             },
           ),
-        ),
+        ).commonSymmetricPadding(vertical: 10),
         MySeparator(color: Theme.of(context).primaryColor),
       ],
     );
+  }
+}
+
+
+
+class CategoriesModule extends StatelessWidget {
+  const CategoriesModule({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return
+      Container(
+        height: 100,
+       // color: Theme.of(context).backgroundColor,
+        child: ListView.builder(
+          itemCount: 10,
+          shrinkWrap: true,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (BuildContext context, int index) {
+            return Container(
+              width: 100,
+             // padding: const EdgeInsets.only(top: 8, bottom: 8, left: 8, right: 12),
+              //margin: const EdgeInsets.only(left: 10, right: 10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                ),
+              child: Column(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color:AppColors.lightPinkColor,
+                    ),
+                    child: Image.asset(
+                      AppImages.fev5,
+                      fit: BoxFit.fill,
+                      height: 60,
+                    ),
+                  ),
+                  const Expanded(child: SizedBox()),
+                  Text(
+                    'Food',
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      color: AppColors.blackColor,
+                    ),
+                  ),
+                  const Expanded(child: SizedBox()),
+                ],
+              ),
+            );
+          },
+        ),
+      );
   }
 }
 

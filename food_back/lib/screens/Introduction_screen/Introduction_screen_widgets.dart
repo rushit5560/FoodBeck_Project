@@ -121,7 +121,7 @@ class _IntroductionModuleState extends State<IntroductionModule> {
               : AppMessage.introductionText3,
             textAlign: TextAlign.center,
             style: TextStyleConfig.textStyle(
-            fontFamily: FontFamilyText.sFProDisplayRegular,
+            //fontFamily: FontFamilyText.sFProDisplayRegular,
             textColor: AppColors.greyColor,
             fontWeight: FontWeight.w500,
             fontSize: 14.sp,
