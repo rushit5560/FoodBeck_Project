@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:food_back/utils/style.dart';
 import 'package:get/get.dart';
-import '../../common_modules/common_loader.dart';
+// import '../../common_modules/common_loader.dart';
+import '../../common_modules/custom_loader.dart';
 import '../../constance/color.dart';
 import '../../controller/cms_page_screen_controller.dart';
 

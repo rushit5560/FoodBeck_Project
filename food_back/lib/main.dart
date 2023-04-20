@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:food_back/screens/authentication_screen/sign_in_screen/sign_in_screen.dart';
+import 'package:food_back/screens/splash_screen/splash_screen.dart';
 import 'package:food_back/utils/theme.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
@@ -56,7 +57,7 @@ class _MyAppState extends State<MyApp> {
           debugShowCheckedModeBanner: false,
           title: 'Flutter Demo',
           theme: AppTheme.getTheme(),
-          home: SignInScreen(),
+          home: SplashScreen(),
           debugShowMaterialGrid: false,
         );
       },

@@ -2,14 +2,13 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:food_back/utils/user_preferences.dart';
-import 'package:http/http.dart'as http;
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:food_back/constance/api_url.dart';
 import 'package:get/get.dart';
 
 import '../../model/sign_up_model/sign_up_model.dart';
 import '../../model/sign_up_model/zone_model.dart';
-
 
 class SignUpScreenController extends GetxController {
   RxBool isLoading = false.obs;
@@ -32,6 +31,7 @@ class SignUpScreenController extends GetxController {
   changePasswordVisibility() {
     isPasswordVisible.value = !isPasswordVisible.value;
   }
+
   changeConfirmPasswordVisibility() {
     isCPasswordVisible.value = !isCPasswordVisible.value;
   }
@@ -54,21 +54,17 @@ class SignUpScreenController extends GetxController {
       ZoneModel zoneModel = ZoneModel.fromJson(json.decode(response.body));
       isSuccessStatus.value = zoneModel.success;
 
-      if(isSuccessStatus.value) {
+      if (isSuccessStatus.value) {
         zoneList.clear();
-        if(zoneModel.data.isNotEmpty) {
+        if (zoneModel.data.isNotEmpty) {
           zoneList.addAll(zoneModel.data);
           selectedZoneValue = zoneList[0];
         }
         log('selectedZoneValue : ${selectedZoneValue!.name}');
-
       } else {
         log('getZoneListFunction Else');
       }
-
-
-
-    } catch(e) {
+    } catch (e) {
       log('getZoneListFunction Error :$e');
       rethrow;
     }
@@ -97,7 +93,7 @@ class SignUpScreenController extends GetxController {
         SignUpModel signUpModel = SignUpModel.fromJson(json.decode(value));
         isSuccessStatus.value = signUpModel.success;
 
-        if(isSuccessStatus.value) {
+        if (isSuccessStatus.value) {
           Fluttertoast.showToast(msg: signUpModel.data.message);
           Get.back();
           // Get.to(()=> SignInScreen());
@@ -105,17 +101,13 @@ class SignUpScreenController extends GetxController {
           log('userRegisterFunction Else');
           Fluttertoast.showToast(msg: signUpModel.error);
         }
-
       });
-
-    } catch(e) {
+    } catch (e) {
       log('userRegisterFunction Error :$e');
       rethrow;
     }
-
-
+    isLoading(false);
   }
-
 
   @override
   void onInit() {
@@ -124,6 +116,7 @@ class SignUpScreenController extends GetxController {
   }
 
   Future<void> initMethod() async {
+    
     await getZoneListFunction();
   }
 

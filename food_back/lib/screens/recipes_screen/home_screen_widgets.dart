@@ -10,7 +10,6 @@ import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:sizer/sizer.dart';
 import '../../controller/recipes_screen_controller.dart';
 import '../../utils/style.dart';
-import '../food_screen/food_screen.dart';
 
 class SearchbarModule extends StatelessWidget {
   final void Function(bool)? onPressed;

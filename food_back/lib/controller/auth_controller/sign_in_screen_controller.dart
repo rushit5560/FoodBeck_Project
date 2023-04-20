@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:food_back/screens/index_screen/index_screen.dart';
-import 'package:http/http.dart'as http;
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:food_back/constance/api_url.dart';
 import 'package:get/get.dart';
@@ -20,7 +20,6 @@ class SignInScreenController extends GetxController {
   TextEditingController loginPasswordController = TextEditingController();
 
   UserPreference userPreference = UserPreference();
-
 
   /// Login Function
   Future<void> userLoginFunction() async {
@@ -41,26 +40,46 @@ class SignInScreenController extends GetxController {
         SignInModel signInModel = SignInModel.fromJson(json.decode(value));
         isSuccessStatus.value = signInModel.success;
 
-        if(isSuccessStatus.value) {
-          userPreference.setBoolValueInPrefs(key: UserPreference.isUserLoggedInKey, value: true);
-          userPreference.setStringValueInPrefs(key: UserPreference.userIdKey, value: signInModel.data.data.id.toString());
-          userPreference.setStringValueInPrefs(key: UserPreference.userTokenKey, value: signInModel.data.token);
-          userPreference.setStringValueInPrefs(key: UserPreference.userEmailKey, value: signInModel.data.data.email);
-          userPreference.setStringValueInPrefs(key: UserPreference.userNameKey, value: signInModel.data.data.name);
-          userPreference.setStringValueInPrefs(key: UserPreference.userPhoneKey, value: signInModel.data.data.phoneno);
-          userPreference.setStringValueInPrefs(key: UserPreference.userImageKey, value: signInModel.data.data.image);
-          userPreference.setStringValueInPrefs(key: UserPreference.userZoneIdKey, value: signInModel.data.data.zoneId.toString());
-          Get.offAll(()=> IndexScreen());
+        if (isSuccessStatus.value) {
+          userPreference.setBoolValueInPrefs(
+              key: UserPreference.isUserLoggedInKey, value: true);
+          userPreference.setStringValueInPrefs(
+              key: UserPreference.userIdKey,
+              value: signInModel.data.data.id.toString());
+          userPreference.setStringValueInPrefs(
+              key: UserPreference.userTokenKey, value: signInModel.data.token);
+          userPreference.setStringValueInPrefs(
+              key: UserPreference.userEmailKey,
+              value: signInModel.data.data.email);
+          userPreference.setStringValueInPrefs(
+              key: UserPreference.userNameKey,
+              value: signInModel.data.data.name);
+          userPreference.setStringValueInPrefs(
+              key: UserPreference.userPhoneKey,
+              value: signInModel.data.data.phoneno);
+          userPreference.setStringValueInPrefs(
+              key: UserPreference.userImageKey,
+              value: signInModel.data.data.image);
+          userPreference.setStringValueInPrefs(
+              key: UserPreference.userZoneIdKey,
+              value: signInModel.data.data.zoneId.toString());
+          Get.offAll(() => IndexScreen());
         } else {
           log('userLoginFunction Else');
           Fluttertoast.showToast(msg: signInModel.error);
         }
       });
-    } catch(e) {
+    } catch (e) {
       log('userLoginFunction Error :$e');
       rethrow;
     }
     isLoading(false);
   }
 
+  @override
+  void onInit() {
+    loginEmailController.clear();
+    loginPasswordController.clear();
+    super.onInit();
+  }
 }

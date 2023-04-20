@@ -33,18 +33,19 @@ class ProfileScreen extends StatelessWidget {
         ),
       ),
       body: Obx(
-        () =>
-            profileScreenController.isLoading.value ? const CustomLoader() : Column(
-              children: [
-                ProfileDetailsModule(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    EditProfileButtonModule(),
-                  ],
-                ),
-              ],
-            ),
+        () => profileScreenController.isLoading.value
+            ? const CustomLoader()
+            : Column(
+                children: [
+                  ProfileDetailsModule(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      EditProfileButtonModule(),
+                    ],
+                  ),
+                ],
+              ),
       ),
       /*body: SafeArea(
         child: GridView.builder(

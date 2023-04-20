@@ -26,15 +26,9 @@ class EditProfileScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: Obx(
-        ()=>  Column(
-          children: [
-            CommonTextFormFieldModule(
-              fieldController: ,
-            ),
-          ],
-        ).commonSymmetricPadding(horizontal: 20),
-      ),
+      body: Column(
+        children: [],
+      ).commonSymmetricPadding(horizontal: 20),
     );
   }
 }

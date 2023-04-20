@@ -6,7 +6,7 @@ import '../../controller/index_screen_controller.dart';
 import '../cart_screen/cart_screen.dart';
 import '../favourite_screen/favourite_screen.dart';
 import '../profile_screen/profile_screen.dart';
-import '../recipes_screen/recipes_screen.dart';
+import '../recipes_screen/home_screen.dart';
 import '../search_screen/search_screen.dart';
 
 class IndexScreen extends StatelessWidget {
@@ -61,7 +61,7 @@ class IndexScreen extends StatelessWidget {
     return [
       Container(
         color: Theme.of(context).scaffoldBackgroundColor,
-        child: RecipesScreen(
+        child: HomeScreen(
           onPressed: (val) {
             indexScreenController.hideNavBar.value = val;
           },
