@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:food_back/screens/recipes_screen/home_screen_widgets.dart';
 import 'package:food_back/utils/extensions.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import '../../common_modules/custom_loader.dart';
 import '../../controller/home_screen_controller.dart';
+import 'home_screen_widgets.dart';
 
 class HomeScreen extends StatelessWidget {
   final Function(bool)? onPressed;
@@ -26,6 +26,7 @@ class HomeScreen extends StatelessWidget {
                       CategoriesModule(),
                       SizedBox(height: 2.h),
                       PopularRestaurantsModule(),
+                      TrendingFoodsModule(),
                       // TakeYourPickModule(),
                       // BreakfastModule(),
                       // SnackModule(),

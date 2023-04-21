@@ -1,23 +1,32 @@
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:food_back/model/home_screen_model/popular_restaurants_model.dart';
+import 'package:food_back/utils/user_preferences.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 import '../constance/api_url.dart';
 import '../model/home_screen_model/category_model.dart';
+import '../model/home_screen_model/trending_food_model.dart';
 import '../model/recipes_screen_model/all_products_model.dart';
 import '../model/recipes_screen_model/banner_model.dart';
 
 class HomeScreenController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool successStatus = false.obs;
+  String zoneId = "";
+
+  UserPreference userPreference = UserPreference();
+
   RxBool isLiked = false.obs;
   List<BannerList> bannerList = [];
   List<CategoryData> categoryList = [];
   List<TakeYourPickProduct> allProductsList = [];
-  List<AllPopularRestaurant> allPopularRestaurantList = [];
+  List<RestaurantData> allPopularRestaurantList = [];
+  List<TrendingFood> trendingFoodList = [];
+
+
   RxInt currentIndex = 0.obs;
   TextEditingController searchbarController = TextEditingController();
   final CarouselController carouselController = CarouselController();
@@ -25,7 +34,7 @@ class HomeScreenController extends GetxController {
   /// Get Banners
   Future<void> getBannerFunction() async {
     isLoading(true);
-    String url = "${ApiUrl.bannerApi}1";
+    String url = "${ApiUrl.bannerApi}$zoneId";
     log("getBannerFunction url : $url");
     try {
       http.Response response = await http.get(Uri.parse(url));
@@ -73,10 +82,10 @@ class HomeScreenController extends GetxController {
     await getAllPopularRestaurantFunction();
   }
 
-  /// getAllPopularRestaurantFunction
+  /// Get Popular Restaurants
   Future<void> getAllPopularRestaurantFunction() async {
     isLoading(true);
-    String url = "${ApiUrl.getAllPopularRestaurant}1";
+    String url = "${ApiUrl.getAllPopularRestaurantApi}$zoneId";
     log("getAllPopularRestaurantFunctionurl: $url");
     try {
       http.Response response = await http.get(Uri.parse(url));
@@ -94,14 +103,44 @@ class HomeScreenController extends GetxController {
       log("getAllPopularRestaurantFunction catch: $e");
       rethrow;
     }
-    getAllProductFunction();
+    await getTrendingFoodFunction();
   }
 
+  /// Get Trending Food
+  Future<void> getTrendingFoodFunction() async {
+    isLoading(true);
+    String url = "${ApiUrl.getTrendingFoodApi}$zoneId";
+    log('getTrendingFoodFunction Api Url :$url');
+
+    try {
+      http.Response response = await http.get(Uri.parse(url));
+      log('getTrendingFoodFunction Response : ${response.body}');
+
+      TrendingFoodModel trendingFoodModel = TrendingFoodModel.fromJson(json.decode(response.body));
+      successStatus.value = trendingFoodModel.success;
+
+      if(successStatus.value) {
+        trendingFoodList.clear();
+        trendingFoodList.addAll(trendingFoodModel.data);
+        log('trendingFoodModel Length : ${trendingFoodList.length}');
+      } else {
+        log('getTrendingFoodFunction Else');
+      }
+
+    } catch(e) {
+      log('getTrendingFoodFunction Error :$e');
+      rethrow;
+    }
+    isLoading(false);
+  }
+
+
+
   /// Get All Products
-  Future<void> getAllProductFunction() async {
+  /*Future<void> getAllProductFunction() async {
     isLoading(true);
     String url = "${ApiUrl.allProductsApi}1";
-    log("getTakeYourPickProductFunction url : $url");
+    log("getAllProductFunction url : $url");
     try {
       http.Response response = await http.get(Uri.parse(url));
       // log('getTakeYourPickProductFunction response :${response.body}');
@@ -119,7 +158,7 @@ class HomeScreenController extends GetxController {
       rethrow;
     }
     isLoading(false);
-  }
+  }*/
 
   @override
   void onInit() {
@@ -128,6 +167,7 @@ class HomeScreenController extends GetxController {
   }
 
   Future<void> initMethod() async {
+    zoneId = await userPreference.getStringValueFromPrefs(key: UserPreference.userZoneIdKey) ?? "";
     await getBannerFunction();
     // await getAllPopularRestaurantFunction();
   }

@@ -5,8 +5,8 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../../controller/index_screen_controller.dart';
 import '../cart_screen/cart_screen.dart';
 import '../favourite_screen/favourite_screen.dart';
+import '../home_screen/home_screen.dart';
 import '../profile_screen/profile_screen.dart';
-import '../recipes_screen/home_screen.dart';
 import '../search_screen/search_screen.dart';
 
 class IndexScreen extends StatelessWidget {

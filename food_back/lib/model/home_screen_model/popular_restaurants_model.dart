@@ -18,14 +18,14 @@ class AllPopularRestaurantsModel {
   });
 
   bool success;
-  List<AllPopularRestaurant> data;
+  List<RestaurantData> data;
   String message;
 
   factory AllPopularRestaurantsModel.fromJson(Map<String, dynamic> json) =>
       AllPopularRestaurantsModel(
         success: json["success"] ?? false,
-        data: List<AllPopularRestaurant>.from(
-            json["data"].map((x) => AllPopularRestaurant.fromJson(x)) ?? []),
+        data: List<RestaurantData>.from(
+            json["data"].map((x) => RestaurantData.fromJson(x)) ?? []),
         message: json["message"] ?? "",
       );
 
@@ -36,8 +36,8 @@ class AllPopularRestaurantsModel {
       };
 }
 
-class AllPopularRestaurant {
-  AllPopularRestaurant({
+class RestaurantData {
+  RestaurantData({
     required this.id,
     required this.name,
     required this.phone,
@@ -134,8 +134,8 @@ class AllPopularRestaurant {
   // DateTime createdAt;
   // DateTime updatedAt;
 
-  factory AllPopularRestaurant.fromJson(Map<String, dynamic> json) =>
-      AllPopularRestaurant(
+  factory RestaurantData.fromJson(Map<String, dynamic> json) =>
+      RestaurantData(
         id: json["id"] ?? 0,
         name: json["name"] ?? "",
         phone: json["phone"] ?? "",

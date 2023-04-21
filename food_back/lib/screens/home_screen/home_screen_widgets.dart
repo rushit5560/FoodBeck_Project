@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:food_back/constance/api_url.dart';
 import 'package:food_back/constance/app_images.dart';
 import 'package:food_back/constance/color.dart';
@@ -12,6 +13,8 @@ import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:sizer/sizer.dart';
 import '../../controller/home_screen_controller.dart';
 import '../../model/home_screen_model/category_model.dart';
+import '../../model/home_screen_model/popular_restaurants_model.dart';
+import '../../model/home_screen_model/trending_food_model.dart';
 import '../../utils/style.dart';
 
 class SearchbarModule extends StatelessWidget {
@@ -165,148 +168,6 @@ class BannerModule extends StatelessWidget {
   }
 }
 
-class PopularRestaurantsModule extends StatelessWidget {
-  PopularRestaurantsModule({super.key});
-  final screenController = Get.find<HomeScreenController>();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Text(
-                "Popular restaurants",
-                style: TextStyle(
-                  fontSize: 13.sp,
-                  color: AppColors.blackColor,
-                ),
-              ),
-            ),
-            Text(
-              "View All",
-              style: TextStyle(
-                fontSize: 13.sp,
-                color: AppColors.blackColor,
-              ),
-            ),
-          ],
-        ).commonSymmetricPadding(horizontal: 10, vertical: 10),
-        SizedBox(
-          height: 250,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: screenController.allPopularRestaurantList.length,
-            itemBuilder: (context, i) {
-              String imgUrl =
-                  "${ApiUrl.getrRestaurantImagePathUrl}/${screenController.allPopularRestaurantList[i].logo}";
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Stack(
-                    alignment: Alignment.topRight,
-                    children: [
-                      Container(
-                        height: 150,
-                        width: Get.width * 0.7,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: AppColors.grey200Color,
-                        ),
-                        child: Image.network(
-                          imgUrl,
-                          fit: BoxFit.fill,
-                          errorBuilder: (context, obj, st) {
-                            return Image.asset(
-                              AppImages.AppLogo,
-                              fit: BoxFit.fill,
-                            );
-                          },
-                        ).commonAllSidePadding(5),
-                      ),
-                      Positioned(
-                        top: 10,
-                        right: 10,
-                        child: Container(
-                          height: 35,
-                          width: 35,
-                          decoration: BoxDecoration(
-                            color: AppColors.whiteColor,
-                            // shape: BoxShape.circle,
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: IconButton(
-                            onPressed: () {
-                              screenController
-                                      .allPopularRestaurantList[i].isFav =
-                                  !screenController
-                                      .allPopularRestaurantList[i].isFav;
-                              screenController.isLoading(true);
-                              screenController.isLoading(false);
-                            },
-                            icon: Center(
-                              child: Icon(
-                                screenController.allPopularRestaurantList[i]
-                                            .isFav ==
-                                        true
-                                    ? Icons.favorite_rounded
-                                    : Icons.favorite_outline_rounded,
-                                color: screenController
-                                            .allPopularRestaurantList[i]
-                                            .isFav ==
-                                        true
-                                    ? Colors.red
-                                    : Colors.black,
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: 5),
-                  Text(
-                    screenController.allPopularRestaurantList[i].name,
-                  ),
-                  Text(
-                    screenController.allPopularRestaurantList[i].address,
-                  ),
-                  // SizedBox(height: 1.h)
-                  Row(
-                    children: [
-                      RatingBar.builder(
-                        initialRating: 3.5,
-                        minRating: 2,
-                        direction: Axis.horizontal,
-                        allowHalfRating: true,
-                        itemSize: 16,
-                        itemCount: 5,
-                        itemPadding:
-                            const EdgeInsets.symmetric(horizontal: 4.0),
-                        itemBuilder: (context, _) => const Icon(
-                          Icons.star,
-                          color: Colors.orange,
-                        ),
-                        onRatingUpdate: (rating) {
-                          print(rating);
-                        },
-                      ),
-                      const SizedBox(width: 5),
-                      const Text("(3.5)")
-                    ],
-                  )
-                ],
-              ).commonSymmetricPadding(horizontal: 10);
-            },
-          ),
-        )
-      ],
-    );
-  }
-}
-
 class CategoriesModule extends StatelessWidget {
   CategoriesModule({Key? key}) : super(key: key);
   final screenController = Get.find<HomeScreenController>();
@@ -357,6 +218,316 @@ class CategoriesModule extends StatelessWidget {
   }
 }
 
+class PopularRestaurantsModule extends StatelessWidget {
+  PopularRestaurantsModule({super.key});
+  final screenController = Get.find<HomeScreenController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Text(
+                "Popular restaurants",
+                style: TextStyle(
+                  fontSize: 11.sp,
+                  color: AppColors.blackColor,
+                ),
+              ),
+            ),
+            Text(
+              "View All",
+              style: TextStyle(
+                fontSize: 10.sp,
+                color: AppColors.greenColor,
+              ),
+            ),
+          ],
+        ).commonSymmetricPadding(horizontal: 10, vertical: 5),
+        SizedBox(
+          height: 185,
+          child: ListView.builder(
+            itemCount: screenController.allPopularRestaurantList.length,
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            physics: const BouncingScrollPhysics(),
+            itemBuilder: (context, i) {
+              String imgUrl = "https://thumbs.dreamstime.com/b/wooden-table-food-top-view-cafe-102532611.jpg";
+              // String imgUrl = "${ApiUrl.getrRestaurantImagePathUrl}/${screenController.allPopularRestaurantList[i].logo}";
+              RestaurantData singleRestaurant = screenController.allPopularRestaurantList[i];
+              return Container(
+                width: Get.width * 0.60,
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: const [
+                    BoxShadow(
+                      blurRadius: 4,
+                      color: AppColors.greyColor,
+                      blurStyle: BlurStyle.outer,
+
+                    ),
+                  ],
+                ),
+                child: Stack(
+                  children: [
+                    Column(
+                      children: [
+                        Container(
+                          height: 105,
+                          width: Get.width,
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(10),
+                              topLeft: Radius.circular(10),
+                            ),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(10),
+                              topLeft: Radius.circular(10),
+                            ),
+                            child: Image.network(
+                              imgUrl,
+                              fit: BoxFit.fill,
+                              errorBuilder: (context, obj, st) {
+                                return Image.asset(
+                                  AppImages.AppLogo,
+                                  fit: BoxFit.contain,
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                        Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Text(
+                                singleRestaurant.name,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                singleRestaurant.description,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(fontSize: 10),
+                              ),
+
+                              Row(
+                                children: [
+                                  RatingBar.builder(
+                                    initialRating: 3.5,
+                                    minRating: 1,
+                                    direction: Axis.horizontal,
+                                    allowHalfRating: true,
+                                    ignoreGestures: true,
+                                    itemSize: 12,
+                                    itemCount: 5,
+                                    itemPadding: const EdgeInsets.symmetric(horizontal: 1.0),
+                                    itemBuilder: (context, _) => const Icon(
+                                      Icons.star,
+                                      color: Colors.orange,
+                                    ),
+                                    onRatingUpdate: (rating) {
+                                      log("$rating");
+                                    },
+                                  ),
+                                  const SizedBox(width: 5),
+                                  const Text("(3.5)")
+                                ],
+                              ),
+
+                            ],
+                          ).commonAllSidePadding(8),
+                        ),
+
+                      ],
+                    ),
+                    Positioned(
+                      top: 8,
+                      right: 8,
+                      child: GestureDetector(
+                        onTap: () {
+                          Fluttertoast.cancel();
+                          Fluttertoast.showToast(msg: "Clicked On favourite!");
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: Colors.white,
+                          ),
+                          child: const Icon(Icons.favorite_border_outlined,
+                          size: 18,).commonAllSidePadding(5),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ).commonSymmetricPadding(horizontal: 10);
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class TrendingFoodsModule extends StatelessWidget {
+  TrendingFoodsModule({Key? key}) : super(key: key);
+  final screenController = Get.find<HomeScreenController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Text(
+                "Trending Food Offers",
+                style: TextStyle(
+                  fontSize: 11.sp,
+                  color: AppColors.blackColor,
+                ),
+              ),
+            ),
+            Text(
+              "View All",
+              style: TextStyle(
+                fontSize: 10.sp,
+                color: AppColors.greenColor,
+              ),
+            ),
+          ],
+        ).commonSymmetricPadding(horizontal: 10, vertical: 5),
+        SizedBox(
+          height: 185,
+          child: ListView.builder(
+            itemCount: screenController.trendingFoodList.length,
+            shrinkWrap: true,
+            physics: const BouncingScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, i) {
+              TrendingFood singleFood = screenController.trendingFoodList[i];
+              String imgUrl = ApiUrl.foodImagePathUrl + singleFood.image;
+              return Container(
+                width: Get.width * 0.30,
+                margin: const EdgeInsets.symmetric(vertical: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: const [
+                    BoxShadow(
+                      blurRadius: 4,
+                      color: AppColors.greyColor,
+                      blurStyle: BlurStyle.outer,
+                    ),
+                  ],
+                ),
+
+                child: Stack(
+                  children: [
+                    Column(
+                      children: [
+                        Container(
+                          height: 105,
+                          width: Get.width,
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(10),
+                              topLeft: Radius.circular(10),
+                            ),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(10),
+                              topLeft: Radius.circular(10),
+                            ),
+                            child: Image.network(
+                              imgUrl,
+                              fit: BoxFit.fill,
+                              errorBuilder: (context, obj, st) {
+                                return Image.asset(
+                                  AppImages.AppLogo,
+                                  fit: BoxFit.contain,
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                        Container(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Text(
+                                singleFood.name,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                singleFood.description,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(fontSize: 10),
+                              ),
+
+                              /*Row(
+                                children: [
+                                  RatingBar.builder(
+                                    initialRating: 3.5,
+                                    minRating: 1,
+                                    direction: Axis.horizontal,
+                                    allowHalfRating: true,
+                                    ignoreGestures: true,
+                                    itemSize: 12,
+                                    itemCount: 5,
+                                    itemPadding: const EdgeInsets.symmetric(horizontal: 1.0),
+                                    itemBuilder: (context, _) => const Icon(
+                                      Icons.star,
+                                      color: Colors.orange,
+                                    ),
+                                    onRatingUpdate: (rating) {
+                                      log("$rating");
+                                    },
+                                  ),
+                                  const SizedBox(width: 5),
+                                  const Text("(3.5)")
+                                ],
+                              ),*/
+
+                            ],
+                          ).commonAllSidePadding(8),
+                        ),
+
+                      ],
+                    ),
+                  ],
+                ),
+
+              ).commonSymmetricPadding(horizontal: 10);
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+
+
 class TakeYourPickModule extends StatelessWidget {
   TakeYourPickModule({Key? key}) : super(key: key);
   final screenController = Get.find<HomeScreenController>();
@@ -401,7 +572,7 @@ class TakeYourPickModule extends StatelessWidget {
             shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
               var value = screenController.allProductsList[index];
-              String imgUrl = "${ApiUrl.allProductImagePathUrl}/${value.image}";
+              String imgUrl = "${ApiUrl.foodImagePathUrl}/${value.image}";
 
               return Container(
                 margin: const EdgeInsets.only(left: 10, right: 10),
@@ -464,9 +635,7 @@ class TakeYourPickModule extends StatelessWidget {
                         ).commonSymmetricPadding(vertical: 5, horizontal: 10)
                       ],
                     ),
-                    SizedBox(
-                      height: 1.h,
-                    ),
+                    SizedBox(height: 1.h),
                     Text(
                       value.name,
                       //textAlign: TextAlign.right,

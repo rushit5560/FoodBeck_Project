@@ -48,7 +48,7 @@ class BannerList {
   final int id;
   final String title;
   final String zone;
-  final Type type;
+  final String type;
   final int data;
   final String image;
   final int status;
@@ -59,7 +59,7 @@ class BannerList {
     id: json["id"]??0,
     title: json["title"]??"",
     zone: json["zone"]??"",
-    type: typeValues.map[json["type"]]!,
+    type: json["type"] ?? "",
     data: json["data"]??0,
     image: json["image"]??"",
     status: json["status"]??0,
@@ -80,21 +80,3 @@ class BannerList {
   // };
 }
 
-enum Type { RESTAURANT_WISE, ITEM_WISE }
-
-final typeValues = EnumValues({
-  "item_wise": Type.ITEM_WISE,
-  "restaurant_wise": Type.RESTAURANT_WISE
-});
-
-class EnumValues<T> {
-  Map<String, T> map;
-  late Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    reverseMap = map.map((k, v) => MapEntry(v, k));
-    return reverseMap;
-  }
-}

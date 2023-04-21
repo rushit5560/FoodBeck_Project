@@ -1,21 +1,16 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:food_back/constance/api_url.dart';
 import 'package:food_back/constance/color.dart';
 import 'package:food_back/model/profile_screen_model/get_profile_model.dart';
 import 'package:food_back/model/sign_up_model/zone_model.dart';
-import 'package:food_back/utils/extensions.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../model/profile_screen_model/update_profile_model.dart';
-import '../utils/userDetails.dart';
 import '../utils/user_preferences.dart';
 
 class EditProfileScreenController extends GetxController {
