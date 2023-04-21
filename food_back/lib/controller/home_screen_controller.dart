@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:food_back/model/home_screen_model/popular_restaurants_model.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
 import 'dart:developer';
@@ -9,18 +10,17 @@ import '../model/home_screen_model/category_model.dart';
 import '../model/recipes_screen_model/all_products_model.dart';
 import '../model/recipes_screen_model/banner_model.dart';
 
-class HomeScreenController extends GetxController{
+class HomeScreenController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool successStatus = false.obs;
-
-
+  RxBool isLiked = false.obs;
   List<BannerList> bannerList = [];
   List<CategoryData> categoryList = [];
   List<TakeYourPickProduct> allProductsList = [];
+  List<AllPopularRestaurant> allPopularRestaurantList = [];
   RxInt currentIndex = 0.obs;
   TextEditingController searchbarController = TextEditingController();
   final CarouselController carouselController = CarouselController();
-
 
   /// Get Banners
   Future<void> getBannerFunction() async {
@@ -30,7 +30,8 @@ class HomeScreenController extends GetxController{
     try {
       http.Response response = await http.get(Uri.parse(url));
       // log('getBannerFunction response :${response.body}');
-      BannerModel cmsPageModel = BannerModel.fromJson(json.decode(response.body));
+      BannerModel cmsPageModel =
+          BannerModel.fromJson(json.decode(response.body));
       successStatus.value = cmsPageModel.success;
       if (successStatus.value) {
         bannerList.addAll(cmsPageModel.data);
@@ -54,22 +55,46 @@ class HomeScreenController extends GetxController{
 
     try {
       http.Response response = await http.get(Uri.parse(url));
-      CategoryModel categoryModel = CategoryModel.fromJson(json.decode(response.body));
+      CategoryModel categoryModel =
+          CategoryModel.fromJson(json.decode(response.body));
       successStatus.value = categoryModel.success;
 
-      if(successStatus.value) {
+      if (successStatus.value) {
         categoryList.clear();
         categoryList.addAll(categoryModel.data);
         log('categoryList Length : ${categoryList.length}');
       } else {
         log('getCategoryFunction');
       }
-
-    } catch(e) {
+    } catch (e) {
       log('getCategoryFunction Error :$e');
       rethrow;
     }
-    await getAllProductFunction();
+    await getAllPopularRestaurantFunction();
+  }
+
+  /// getAllPopularRestaurantFunction
+  Future<void> getAllPopularRestaurantFunction() async {
+    isLoading(true);
+    String url = "${ApiUrl.getAllPopularRestaurant}1";
+    log("getAllPopularRestaurantFunctionurl: $url");
+    try {
+      http.Response response = await http.get(Uri.parse(url));
+      log("getAllPopularRestaurantFunction response: ${response.body}");
+      AllPopularRestaurantsModel allPopularRestaurantsModel =
+          AllPopularRestaurantsModel.fromJson(json.decode(response.body));
+      successStatus.value = allPopularRestaurantsModel.success;
+      if (successStatus.value) {
+        allPopularRestaurantList.addAll(allPopularRestaurantsModel.data);
+        log("getAllPopularRestaurantFunction allPopularRestaurantList: $allPopularRestaurantList");
+      } else {
+        log("else else");
+      }
+    } catch (e) {
+      log("getAllPopularRestaurantFunction catch: $e");
+      rethrow;
+    }
+    getAllProductFunction();
   }
 
   /// Get All Products
@@ -80,7 +105,8 @@ class HomeScreenController extends GetxController{
     try {
       http.Response response = await http.get(Uri.parse(url));
       // log('getTakeYourPickProductFunction response :${response.body}');
-      AllProductsModel allProductsModel = AllProductsModel.fromJson(json.decode(response.body));
+      AllProductsModel allProductsModel =
+          AllProductsModel.fromJson(json.decode(response.body));
       successStatus.value = allProductsModel.success;
       if (successStatus.value) {
         allProductsList.addAll(allProductsModel.data);
@@ -95,8 +121,6 @@ class HomeScreenController extends GetxController{
     isLoading(false);
   }
 
-  ///
-
   @override
   void onInit() {
     initMethod();
@@ -105,5 +129,6 @@ class HomeScreenController extends GetxController{
 
   Future<void> initMethod() async {
     await getBannerFunction();
+    // await getAllPopularRestaurantFunction();
   }
 }

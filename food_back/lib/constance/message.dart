@@ -24,6 +24,8 @@ class AppMessage {
   static String editProfile = "Edit profile";
   static String send = "Send";
   static String signIn = "Sign In";
+  static String saveProfile = "Save profile";
+
   static String password = "Enet password";
   static String newPassword = "New Password";
   static String resetPassword = "Reset Password";

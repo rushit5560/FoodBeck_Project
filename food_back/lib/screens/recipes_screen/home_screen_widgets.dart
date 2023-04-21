@@ -1,6 +1,8 @@
 import 'dart:developer';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:food_back/constance/api_url.dart';
 import 'package:food_back/constance/app_images.dart';
 import 'package:food_back/constance/color.dart';
@@ -140,13 +142,12 @@ class BannerModule extends StatelessWidget {
             return Container(
               width: screenController.currentIndex.value == index ? 16 : 10,
               height: screenController.currentIndex.value == index ? 16 : 10,
-              margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+              margin:
+                  const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                    width: screenController.currentIndex.value == index
-                        ? 2
-                        : 0,
+                    width: screenController.currentIndex.value == index ? 2 : 0,
                     color: screenController.currentIndex.value == index
                         ? AppColors.whiteColor
                         : Colors.transparent),
@@ -164,54 +165,195 @@ class BannerModule extends StatelessWidget {
   }
 }
 
+class PopularRestaurantsModule extends StatelessWidget {
+  PopularRestaurantsModule({super.key});
+  final screenController = Get.find<HomeScreenController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Text(
+                "Popular restaurants",
+                style: TextStyle(
+                  fontSize: 13.sp,
+                  color: AppColors.blackColor,
+                ),
+              ),
+            ),
+            Text(
+              "View All",
+              style: TextStyle(
+                fontSize: 13.sp,
+                color: AppColors.blackColor,
+              ),
+            ),
+          ],
+        ).commonSymmetricPadding(horizontal: 10, vertical: 10),
+        SizedBox(
+          height: 250,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: screenController.allPopularRestaurantList.length,
+            itemBuilder: (context, i) {
+              String imgUrl =
+                  "${ApiUrl.getrRestaurantImagePathUrl}/${screenController.allPopularRestaurantList[i].logo}";
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Stack(
+                    alignment: Alignment.topRight,
+                    children: [
+                      Container(
+                        height: 150,
+                        width: Get.width * 0.7,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: AppColors.grey200Color,
+                        ),
+                        child: Image.network(
+                          imgUrl,
+                          fit: BoxFit.fill,
+                          errorBuilder: (context, obj, st) {
+                            return Image.asset(
+                              AppImages.AppLogo,
+                              fit: BoxFit.fill,
+                            );
+                          },
+                        ).commonAllSidePadding(5),
+                      ),
+                      Positioned(
+                        top: 10,
+                        right: 10,
+                        child: Container(
+                          height: 35,
+                          width: 35,
+                          decoration: BoxDecoration(
+                            color: AppColors.whiteColor,
+                            // shape: BoxShape.circle,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: IconButton(
+                            onPressed: () {
+                              screenController
+                                      .allPopularRestaurantList[i].isFav =
+                                  !screenController
+                                      .allPopularRestaurantList[i].isFav;
+                              screenController.isLoading(true);
+                              screenController.isLoading(false);
+                            },
+                            icon: Center(
+                              child: Icon(
+                                screenController.allPopularRestaurantList[i]
+                                            .isFav ==
+                                        true
+                                    ? Icons.favorite_rounded
+                                    : Icons.favorite_outline_rounded,
+                                color: screenController
+                                            .allPopularRestaurantList[i]
+                                            .isFav ==
+                                        true
+                                    ? Colors.red
+                                    : Colors.black,
+                              ),
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    screenController.allPopularRestaurantList[i].name,
+                  ),
+                  Text(
+                    screenController.allPopularRestaurantList[i].address,
+                  ),
+                  // SizedBox(height: 1.h)
+                  Row(
+                    children: [
+                      RatingBar.builder(
+                        initialRating: 3.5,
+                        minRating: 2,
+                        direction: Axis.horizontal,
+                        allowHalfRating: true,
+                        itemSize: 16,
+                        itemCount: 5,
+                        itemPadding:
+                            const EdgeInsets.symmetric(horizontal: 4.0),
+                        itemBuilder: (context, _) => const Icon(
+                          Icons.star,
+                          color: Colors.orange,
+                        ),
+                        onRatingUpdate: (rating) {
+                          print(rating);
+                        },
+                      ),
+                      const SizedBox(width: 5),
+                      const Text("(3.5)")
+                    ],
+                  )
+                ],
+              ).commonSymmetricPadding(horizontal: 10);
+            },
+          ),
+        )
+      ],
+    );
+  }
+}
+
 class CategoriesModule extends StatelessWidget {
   CategoriesModule({Key? key}) : super(key: key);
   final screenController = Get.find<HomeScreenController>();
 
   @override
   Widget build(BuildContext context) {
-    return
-      SizedBox(
-        height: 80,
-        child: Center(
-          child: ListView.builder(
-            itemCount: screenController.categoryList.length,
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (BuildContext context, int index) {
-              CategoryData singleCategory = screenController.categoryList[index];
-              String imgUrl = ApiUrl.categoryImagePathUrl + singleCategory.image;
+    return SizedBox(
+      height: 80,
+      child: Center(
+        child: ListView.builder(
+          itemCount: screenController.categoryList.length,
+          shrinkWrap: true,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (BuildContext context, int index) {
+            CategoryData singleCategory = screenController.categoryList[index];
+            String imgUrl = ApiUrl.categoryImagePathUrl + singleCategory.image;
 
-              return Column(
-                children: [
-                  Container(
-                    width: 45,
-                    height: 45,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      // color: AppColors.grey200Color,
-                    ),
-                    child: Image.network(
-                      imgUrl,
-                      fit: BoxFit.fill,
-                      errorBuilder: (context, obj, st) {
-                        return Image.asset(
-                          AppImages.AppLogo,
-                          fit: BoxFit.fill,
-                        );
-                      },
-                    ).commonAllSidePadding(5),
+            return Column(
+              children: [
+                Container(
+                  width: 45,
+                  height: 45,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    // color: AppColors.grey200Color,
                   ),
-                  const SizedBox(height: 3),
-                  Text(
-                    singleCategory.name,
-                  ),
-                ],
-              ).commonAllSidePadding(8);
-            },
-          ),
+                  child: Image.network(
+                    imgUrl,
+                    fit: BoxFit.fill,
+                    errorBuilder: (context, obj, st) {
+                      return Image.asset(
+                        AppImages.AppLogo,
+                        fit: BoxFit.fill,
+                      );
+                    },
+                  ).commonAllSidePadding(5),
+                ),
+                const SizedBox(height: 3),
+                Text(
+                  singleCategory.name,
+                ),
+              ],
+            ).commonAllSidePadding(8);
+          },
         ),
-      );
+      ),
+    );
   }
 }
 
@@ -279,14 +421,16 @@ class TakeYourPickModule extends StatelessWidget {
                           decoration: const BoxDecoration(
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20)
-                            ),
+                                topRight: Radius.circular(20)),
                           ),
-                          child: Image.network(imgUrl,
-                              fit: BoxFit.fill,
+                          child: Image.network(
+                            imgUrl,
+                            fit: BoxFit.fill,
                             errorBuilder: (context, obj, st) {
-                            return Image.asset(AppImages.AppLogo,
-                            fit: BoxFit.fill,);
+                              return Image.asset(
+                                AppImages.AppLogo,
+                                fit: BoxFit.fill,
+                              );
                             },
                           ),
                           /*decoration: BoxDecoration(
@@ -308,7 +452,8 @@ class TakeYourPickModule extends StatelessWidget {
                             color: AppColors.whiteColor2,
                             shadowStrength: 10,
                             opacity: 0.2,
-                            border: const Border.fromBorderSide(BorderSide.none),
+                            border:
+                                const Border.fromBorderSide(BorderSide.none),
                             borderRadius: BorderRadius.circular(10),
                             child: const Icon(
                               Icons.favorite_border_outlined,
@@ -398,10 +543,6 @@ class TakeYourPickModule extends StatelessWidget {
     );
   }
 }
-
-
-
-
 
 class BreakfastModule extends StatelessWidget {
   BreakfastModule({Key? key}) : super(key: key);

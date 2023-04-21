@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:food_back/common_modules/custom_loader.dart';
+import 'package:food_back/screens/edit_profile_screen/edit_profile_screen_widgets.dart';
 import 'package:food_back/utils/extensions.dart';
 import 'package:food_back/utils/widget/common_text_form_field.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import '../../constance/color.dart';
+import '../../constance/font_family.dart';
 import '../../constance/message.dart';
 import '../../controller/edit_profile_screen_controller.dart';
+import '../../model/sign_up_model/zone_model.dart';
+import '../../utils/style.dart';
 import '../../utils/validator.dart';
 
 class EditProfileScreen extends StatelessWidget {
@@ -38,6 +42,9 @@ class EditProfileScreen extends StatelessWidget {
                   key: editProfileScreenController.updateProfileKey,
                   child: Column(
                     children: [
+                      ProfileImageModule().commonOnlyPadding(top: 20),
+
+                      SizedBox(height: 5.h),
                       CommonTextFormFieldModule(
                         fieldController:
                             editProfileScreenController.nameFieldController,
@@ -72,6 +79,52 @@ class EditProfileScreen extends StatelessWidget {
                         color: AppColors.grey50Color,
                       ),
                       SizedBox(height: 2.h),
+
+                      /// Dropdown Module
+                      Container(
+                        width: Get.width,
+                        height: 40,
+                        decoration: const BoxDecoration(
+                          color: AppColors.grey50Color,
+                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton<ZoneData>(
+                            isExpanded: true,
+                            borderRadius: BorderRadius.circular(15),
+                            value:
+                                editProfileScreenController.selectedZoneValue,
+                            onChanged: (value) => editProfileScreenController
+                                .selectValueFromDropdown(value!),
+                            items: editProfileScreenController.zoneList
+                                .map((ZoneData items) {
+                              return DropdownMenuItem(
+                                value: items,
+                                child: Text(items.name),
+                              );
+                            }).toList(),
+                          ),
+                        ).commonSymmetricPadding(horizontal: 15),
+                      ),
+
+                      SizedBox(height: 3.h),
+                      InkWell(
+                        onTap: () async {
+                          await editProfileScreenController
+                              .updateProfileDataFunction();
+                          //Navigator.pushReplacementNamed(context, Routes.SINGIN);
+                        },
+                        child: Text(
+                          AppMessage.saveProfile,
+                          textAlign: TextAlign.center,
+                          style: TextStyleConfig.textStyle(
+                            fontFamily: FontFamilyText.sFProDisplayRegular,
+                            fontWeight: FontWeight.bold,
+                            textColor: AppColors.greenColor,
+                            fontSize: 14.sp,
+                          ),
+                        ),
+                      ),
                     ],
                   ).commonSymmetricPadding(horizontal: 20),
                 ),
