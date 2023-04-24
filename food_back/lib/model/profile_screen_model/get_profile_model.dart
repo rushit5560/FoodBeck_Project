@@ -18,13 +18,13 @@ class GetProfileModel {
   });
 
   bool success;
-  Data data;
+  ProfileData data;
   String message;
 
   factory GetProfileModel.fromJson(Map<String, dynamic> json) =>
       GetProfileModel(
         success: json["success"] ?? false,
-        data: Data.fromJson(json["data"] ?? {}),
+        data: ProfileData.fromJson(json["data"] ?? {}),
         message: json["message"] ?? "",
       );
 
@@ -35,8 +35,8 @@ class GetProfileModel {
       };
 }
 
-class Data {
-  Data({
+class ProfileData {
+  ProfileData({
     required this.id,
     required this.name,
     required this.email,
@@ -58,7 +58,7 @@ class Data {
   String createdAt;
   String updatedAt;
 
-  factory Data.fromJson(Map<String, dynamic> json) => Data(
+  factory ProfileData.fromJson(Map<String, dynamic> json) => ProfileData(
         id: json["id"] ?? 0,
         name: json["name"] ?? "",
         email: json["email"] ?? "",

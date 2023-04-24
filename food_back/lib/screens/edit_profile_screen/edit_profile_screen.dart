@@ -1,10 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:food_back/common_modules/custom_loader.dart';
+import 'package:food_back/common_modules/custom_submit_button.dart';
+import 'package:food_back/screens/authentication_screen/sign_in_screen/sign_in_screen.dart';
 import 'package:food_back/screens/edit_profile_screen/edit_profile_screen_widgets.dart';
 import 'package:food_back/utils/extensions.dart';
 import 'package:food_back/utils/widget/common_text_form_field.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+import '../../common_modules/custom_alert_dialog.dart';
 import '../../constance/color.dart';
 import '../../constance/font_family.dart';
 import '../../constance/message.dart';
@@ -20,12 +25,21 @@ class EditProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.whiteColor,
+      // backgroundColor: AppColors.whiteColor,
       appBar: AppBar(
-        elevation: 0,
         title: Text(
           AppMessage.editProfile,
           style: const TextStyle(color: AppColors.blackColor),
+        ),
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: AppColors.blackColor,
+          ),
         ),
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -108,28 +122,58 @@ class EditProfileScreen extends StatelessWidget {
                       ),
 
                       SizedBox(height: 3.h),
-                      InkWell(
-                        onTap: () async {
-                          await editProfileScreenController
-                              .updateProfileDataFunction();
-                          //Navigator.pushReplacementNamed(context, Routes.SINGIN);
+
+                      CustomSubmitButtonModule(
+                        labelText: AppMessage.updateProfile,
+                        onPress: () async {
+                          log("11");
+                          await editProfileScreenController.userPreference
+                              .removeuserDetails();
+                          Get.offAll(() => SignInScreen());
                         },
-                        child: Text(
-                          AppMessage.saveProfile,
-                          textAlign: TextAlign.center,
-                          style: TextStyleConfig.textStyle(
-                            fontFamily: FontFamilyText.sFProDisplayRegular,
-                            fontWeight: FontWeight.bold,
-                            textColor: AppColors.greenColor,
-                            fontSize: 14.sp,
-                          ),
-                        ),
                       ),
+
+                      SizedBox(height: 5.h),
+                      BothButtonModule()
                     ],
                   ).commonSymmetricPadding(horizontal: 20),
                 ),
               ),
       ),
+    );
+  }
+}
+
+class BothButtonModule extends StatelessWidget {
+  BothButtonModule({Key? key}) : super(key: key);
+  final editProfileScreenController = Get.put(EditProfileScreenController());
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ButtonCustom(
+          backgroundColor: AppColors.greenColor,
+          shadowColor: AppColors.grey100Color,
+          text: AppMessage.logOut,
+          textColor: AppColors.whiteColor,
+          textFontFamily: FontFamilyText.sFProDisplaySemibold,
+          textsize: 14.sp,
+          onPressed: () => showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return CustomLogoutAlertDialog(
+                  text: "Logout",
+                  content: "Are you sure you want logout ?",
+                  yesButtonText: "Yes",
+                  onYesPressed: () async =>
+                      await editProfileScreenController.logOutButtonFunction(),
+                  noButtonText: "No",
+                  onNoPressed: () => Get.back(),
+                );
+              }),
+        ),
+      ],
     );
   }
 }

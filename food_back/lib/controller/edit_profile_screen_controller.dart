@@ -7,6 +7,7 @@ import 'package:food_back/constance/api_url.dart';
 import 'package:food_back/constance/color.dart';
 import 'package:food_back/model/profile_screen_model/get_profile_model.dart';
 import 'package:food_back/model/sign_up_model/zone_model.dart';
+import 'package:food_back/screens/authentication_screen/sign_in_screen/sign_in_screen.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -19,15 +20,15 @@ class EditProfileScreenController extends GetxController {
   RxBool isLoading = false.obs;
 
   RxBool successStatus = false.obs;
-  // ApiHeader apiHeader = ApiHeader();
+  ApiHeader apiHeader = ApiHeader();
   RxBool isSuccessStatus = false.obs;
   List<ZoneData> zoneList = [];
   ZoneData? selectedZoneValue;
-
+  String profileImage = "";
   String userId = "";
   String authorizationToken = "";
   File? selectedProfileImage;
-
+  ProfileData? profileData;
   RxList<String> selectedZoneIdList = RxList<String>([]);
 
   UserPreference userPreference = UserPreference();
@@ -137,6 +138,12 @@ class EditProfileScreenController extends GetxController {
     );
   }
 
+  logOutButtonFunction() async {
+    await userPreference.removeuserDetails();
+    // await signUpPreference.clearSignUpDataFromPrefs();
+    Get.offAll(() => SignInScreen());
+  }
+
   /// Get Zone List Function
   Future<void> getZoneListFunction() async {
     isLoading(true);
@@ -193,16 +200,17 @@ class EditProfileScreenController extends GetxController {
       GetProfileModel getProfileModel =
           GetProfileModel.fromJson(json.decode(response.body));
 
-      successStatus.value = getProfileModel.success;
+      successStatus.value = getProfileModel.success;  
       log("successStatus.value ${successStatus.value}");
       if (successStatus.value) {
         nameFieldController.text = getProfileModel.data.name;
         emailFieldController.text = getProfileModel.data.email;
 
         phoneNoFieldController.text = getProfileModel.data.phoneno;
-
         selectedProfileImage = File(getProfileModel.data.image);
+        profileImage = selectedProfileImage!.path;
         log("apiGetProfileImage $selectedProfileImage");
+        log("profileImage $profileImage");
 
         for (int i = 0; i < zoneList.length; i++) {
           if (getProfileModel.data.zoneId == zoneList[i].id) {

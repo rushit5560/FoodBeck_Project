@@ -166,7 +166,7 @@ class FoodScreen extends StatelessWidget {
                                   ),
                                   Text(
                                     'kjfdnejkf' != null && 'jfnje' != ""
-                                        ? 'nfjenf'!
+                                        ? 'nfjenf'
                                         : "Price Per Kg",
                                     style: Theme.of(context)
                                         .textTheme

@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserPreference {
@@ -11,6 +10,20 @@ class UserPreference {
   static String userNameKey = "userNameKey"; // String
   static String userPhoneKey = "userPhoneKey"; // String
   static String userImageKey = "userImageKey"; // String
+
+// logout function
+  Future<void> removeuserDetails() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    prefs.setBool(isUserLoggedInKey, false);
+    prefs.setString(userIdKey, '');
+    prefs.setString(userZoneIdKey, '');
+    prefs.setString(userTokenKey, '');
+    prefs.setString(userEmailKey, '');
+    prefs.setString(userNameKey, '');
+    prefs.setString(userPhoneKey, '');
+    prefs.setString(userImageKey, '');
+  }
 
   // Set String Value in Prefs
   Future<void> setStringValueInPrefs(

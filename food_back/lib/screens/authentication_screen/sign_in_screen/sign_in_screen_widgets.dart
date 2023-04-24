@@ -20,144 +20,153 @@ class SignInAllModule extends StatelessWidget {
   final loginScreenController = Get.find<SignInScreenController>();
   @override
   Widget build(BuildContext context) {
-    return  Form(
-      key: loginScreenController.formKey,
+    return Form(
+      key: loginScreenController.signInformKey,
+
       /// icon Widget
-      child: ListView(
-        physics: const BouncingScrollPhysics(),
-        children: [
-          Hero(
-            tag: AppMessage.appIcon,
-            child: Image.asset(constance.AppImages.AppLogo, height: 100),
+      child: ListView(physics: const BouncingScrollPhysics(), children: [
+        Hero(
+          tag: AppMessage.appIcon,
+          child: Image.asset(constance.AppImages.AppLogo, height: 100),
+        ),
+
+        /// food back text
+        SizedBox(height: 1.h),
+        Text(
+          AppMessage.foodBack,
+          textAlign: TextAlign.center,
+          style: TextStyleConfig.textStyle(
+            fontWeight: FontWeight.bold,
+            fontFamily: FontFamilyText.sFProDisplaySemibold,
+            fontSize: 18.sp,
           ),
-          /// food back text
-          SizedBox(height: 1.h),
-          Text(
-            AppMessage.foodBack,
-            textAlign: TextAlign.center,
-            style: TextStyleConfig.textStyle(
-              fontWeight: FontWeight.bold,
-              fontFamily: FontFamilyText.sFProDisplaySemibold,
-              fontSize: 18.sp,
-            ),
+        ),
+        SizedBox(height: 3.h),
+
+        /// welcome back text
+        Text(
+          AppMessage.welcomeBack,
+          textAlign: TextAlign.center,
+          style: TextStyleConfig.textStyle(
+            fontFamily: FontFamilyText.sFProDisplayBold,
+            fontWeight: FontWeight.bold,
+            fontSize: 30.sp,
           ),
-          SizedBox(height: 3.h),
-          /// welcome back text
-          Text(
-            AppMessage.welcomeBack,
-            textAlign: TextAlign.center,
-            style: TextStyleConfig.textStyle(
-              fontFamily: FontFamilyText.sFProDisplayBold,
-              fontWeight: FontWeight.bold,
-              fontSize: 30.sp,
-            ),
+        ),
+        SizedBox(height: 1.h),
+
+        /// sign to continue text
+        Text(
+          AppMessage.signInWithContinue,
+          textAlign: TextAlign.center,
+          style: TextStyleConfig.textStyle(
+            fontWeight: FontWeight.bold,
+            textColor: AppColors.greyColor,
+            fontFamily: FontFamilyText.sFProDisplayRegular,
+            fontSize: 15.sp,
           ),
-          SizedBox(height: 1.h),
-          /// sign to continue text
-          Text(
-            AppMessage.signInWithContinue,
-            textAlign: TextAlign.center,
-            style: TextStyleConfig.textStyle(
-              fontWeight: FontWeight.bold,
-              textColor: AppColors.greyColor,
-              fontFamily: FontFamilyText.sFProDisplayRegular,
-              fontSize: 15.sp,
-            ),
-          ),
-          SizedBox(height: 2.h),
-          /// both textfiled
-          CommonTextFormFieldModule(
-            fieldController: loginScreenController.loginEmailController,
-            validate: (value) => FieldValidation().validateUserEmail(value!),
-            hintText: AppMessage.emailOrPhoneNumber,
-            keyboardType: TextInputType.emailAddress,
+        ),
+        SizedBox(height: 2.h),
+
+        /// both textfiled
+        CommonTextFormFieldModule(
+          fieldController: loginScreenController.loginEmailController,
+          validate: (value) => FieldValidation().validateUserEmail(value!),
+          hintText: AppMessage.emailOrPhoneNumber,
+          keyboardType: TextInputType.emailAddress,
+          color: AppColors.grey50Color,
+        ),
+        SizedBox(height: 2.h),
+        Obx(
+          () => CommonTextFormFieldModule(
+            fieldController: loginScreenController.loginPasswordController,
+            validate: (value) => FieldValidation().validateUserPassword(value!),
+            hintText: AppMessage.password,
+            keyboardType: TextInputType.text,
+            obscureText: loginScreenController.hidePass.value,
             color: AppColors.grey50Color,
-          ),
-          SizedBox(height: 2.h),
-          Obx(()=>
-            CommonTextFormFieldModule(
-              fieldController: loginScreenController.loginPasswordController,
-              validate: (value) => FieldValidation().validateUserPassword(value!),
-              hintText: AppMessage.password,
-              keyboardType: TextInputType.text,
-              obscureText: loginScreenController.hidePass.value,
-              color: AppColors.grey50Color,
-              suffixIcon: GestureDetector(
-                child: Icon(
-                  loginScreenController.hidePass.value
-                      ? Icons.visibility_off
-                      : Icons.visibility,
-                  color: Theme.of(context).primaryColor,
-                ),
-                onTap: () => {
-                  loginScreenController.hidePass.value = !loginScreenController.hidePass.value,
-                },
+            suffixIcon: GestureDetector(
+              child: Icon(
+                loginScreenController.hidePass.value
+                    ? Icons.visibility_off
+                    : Icons.visibility,
+                color: Theme.of(context).primaryColor,
               ),
+              onTap: () => {
+                loginScreenController.hidePass.value =
+                    !loginScreenController.hidePass.value,
+              },
             ),
           ),
-          const SizedBox(height: 12),
-          /// forgot password text
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              InkWell(
-                  onTap: () {
-                    Get.to(()=> ForgotPasswordScreen());
-                    },
-                  child: Text(AppMessage.forgotPassword,
-                      textAlign: TextAlign.center,
-                    style: TextStyleConfig.textStyle(
-                      fontFamily: FontFamilyText.sFProDisplayRegular,
-                      fontWeight: FontWeight.bold,
-                      textColor: AppColors.greenColor,
-                      fontSize: 15.sp,
-                    ),
-                  ),
-              ),
-            ],
-          ),
-          SizedBox(height: 3.h),
-          CustomButton(
-              height: 50,
-              onPressed: () async {
-                if (loginScreenController.formKey.currentState!.validate()) {
-                  await loginScreenController.userLoginFunction();
-                }
+        ),
+        const SizedBox(height: 12),
+
+        /// forgot password text
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            InkWell(
+              onTap: () {
+                Get.to(() => ForgotPasswordScreen());
               },
-              text: AppMessage.signIn,
-          ),
-          SizedBox(height: 3.h),
-          /// or text
-          Row(
-            children:  [
-               const Expanded(
-                  child: Divider(
-                    color: AppColors.greyColor,
-                    thickness: 1,
-                  ),
+              child: Text(
+                AppMessage.forgotPassword,
+                textAlign: TextAlign.center,
+                style: TextStyleConfig.textStyle(
+                  fontFamily: FontFamilyText.sFProDisplayRegular,
+                  fontWeight: FontWeight.bold,
+                  textColor: AppColors.greenColor,
+                  fontSize: 15.sp,
+                ),
               ),
-              SizedBox(width: 2.w),
-                Text(AppMessage.or,
-                 style: TextStyleConfig.textStyle(
-                   textColor: AppColors.greyColor,
-                   fontSize: 15.sp,
-                 ),
-               ),
-              SizedBox(width: 2.w),
-               const Expanded(
-                  child: Divider(
-                    color: AppColors.greyColor,
-                    thickness: 1,
-                  ),
+            ),
+          ],
+        ),
+        SizedBox(height: 3.h),
+        CustomButton(
+          height: 50,
+          onPressed: () async {
+            if (loginScreenController.signInformKey.currentState!.validate()) {
+              await loginScreenController.userLoginFunction();
+            }
+          },
+          text: AppMessage.signIn,
+        ),
+        SizedBox(height: 3.h),
+
+        /// or text
+        Row(
+          children: [
+            const Expanded(
+              child: Divider(
+                color: AppColors.greyColor,
+                thickness: 1,
               ),
-            ],
-          ),
-          SizedBox(height: 2.h),
-          /// three icon
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              /*CircleAvatar(
+            ),
+            SizedBox(width: 2.w),
+            Text(
+              AppMessage.or,
+              style: TextStyleConfig.textStyle(
+                textColor: AppColors.greyColor,
+                fontSize: 15.sp,
+              ),
+            ),
+            SizedBox(width: 2.w),
+            const Expanded(
+              child: Divider(
+                color: AppColors.greyColor,
+                thickness: 1,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 2.h),
+
+        /// three icon
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            /*CircleAvatar(
                 radius: 18,
                 backgroundColor: AppColors.blueColor,
                 child: IconButton(
@@ -181,51 +190,51 @@ class SignInAllModule extends StatelessWidget {
                     onPressed: () {},
                   ),
               ),*/
-              CircleAvatar(
-                  radius: 18,
-                  backgroundColor: AppColors.redColor,
-                  child: IconButton(
-                    icon: const FaIcon(
-                        FontAwesomeIcons.googlePlusG,
-                        color: AppColors.whiteColor,
-                        size: 20),
-                    onPressed: () {},
-                  )),
-            ],
-          ).commonSymmetricPadding(horizontal: 60),
-          SizedBox(height: 2.5.h),
-          /// sign up text
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(AppMessage.youDonTHaveAnAccount,
-                  textAlign: TextAlign.center,
-                  style: TextStyleConfig.textStyle(
-                    fontFamily: FontFamilyText.sFProDisplayRegular,
-                    fontWeight: FontWeight.bold,
-                    textColor: AppColors.greyColor,
-                    fontSize: 12.sp,
-                  ),
-                  ),
-              SizedBox(width: 1.w),
-              InkWell(
-                onTap: () {
-                  Get.to(()=> SignUpScreen());
-                },
-                child: Text(AppMessage.signUp,
-                    textAlign: TextAlign.center,
-                  style: TextStyleConfig.textStyle(
-                    fontFamily: FontFamilyText.sFProDisplayRegular,
-                    fontWeight: FontWeight.bold,
-                    textColor: AppColors.greenColor,
-                    fontSize: 14.sp,
-                  ),
+            CircleAvatar(
+                radius: 18,
+                backgroundColor: AppColors.redColor,
+                child: IconButton(
+                  icon: const FaIcon(FontAwesomeIcons.googlePlusG,
+                      color: AppColors.whiteColor, size: 20),
+                  onPressed: () {},
+                )),
+          ],
+        ).commonSymmetricPadding(horizontal: 60),
+        SizedBox(height: 2.5.h),
+
+        /// sign up text
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              AppMessage.youDonTHaveAnAccount,
+              textAlign: TextAlign.center,
+              style: TextStyleConfig.textStyle(
+                fontFamily: FontFamilyText.sFProDisplayRegular,
+                fontWeight: FontWeight.bold,
+                textColor: AppColors.greyColor,
+                fontSize: 12.sp,
+              ),
+            ),
+            SizedBox(width: 1.w),
+            InkWell(
+              onTap: () {
+                Get.to(() => SignUpScreen());
+              },
+              child: Text(
+                AppMessage.signUp,
+                textAlign: TextAlign.center,
+                style: TextStyleConfig.textStyle(
+                  fontFamily: FontFamilyText.sFProDisplayRegular,
+                  fontWeight: FontWeight.bold,
+                  textColor: AppColors.greenColor,
+                  fontSize: 14.sp,
                 ),
               ),
-            ],
-          ),
-      ]
-    ),
+            ),
+          ],
+        ),
+      ]),
     );
   }
 }

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 CategoryModel categoryModelFromJson(String str) => CategoryModel.fromJson(json.decode(str));
 
-String categoryModelToJson(CategoryModel data) => json.encode(data.toJson());
+// String categoryModelToJson(CategoryModel data) => json.encode(data.toJson());
 
 class CategoryModel {
   CategoryModel({
@@ -21,11 +21,11 @@ class CategoryModel {
     message: json["message"] ?? "",
   );
 
-  Map<String, dynamic> toJson() => {
-    "success": success,
-    "data": List<dynamic>.from(data.map((x) => x.toJson())),
-    "message": message,
-  };
+  // Map<String, dynamic> toJson() => {
+  //   "success": success,
+  //   "data": List<dynamic>.from(data.map((x) => x.toJson())),
+  //   "message": message,
+  // };
 }
 
 class CategoryData {
@@ -66,16 +66,16 @@ class CategoryData {
     // updatedAt: DateTime.parse(json["updated_at"]),
   );
 
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-    "image": image,
-    "parent_id": parentId,
-    "position": position,
-    "status": status,
-    "priority": priority,
-    // "slug": slug,
-    // "created_at": createdAt.toIso8601String(),
-    // "updated_at": updatedAt.toIso8601String(),
-  };
+  // Map<String, dynamic> toJson() => {
+  //   "id": id,
+  //   "name": name,
+  //   "image": image,
+  //   "parent_id": parentId,
+  //   "position": position,
+  //   "status": status,
+  //   "priority": priority,
+  //   // "slug": slug,
+  //   // "created_at": createdAt.toIso8601String(),
+  //   // "updated_at": updatedAt.toIso8601String(),
+  // };
 }
