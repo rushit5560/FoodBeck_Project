@@ -90,6 +90,7 @@ class SignUpScreenController extends GetxController {
       log('request.fields: ${request.fields}');
 
       response.stream.transform(utf8.decoder).listen((value) async {
+        log('Register value :$value');
         SignUpModel signUpModel = SignUpModel.fromJson(json.decode(value));
         isSuccessStatus.value = signUpModel.success;
 

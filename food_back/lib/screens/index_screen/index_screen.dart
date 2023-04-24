@@ -1,13 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+import '../../common_modules/custom_loader.dart';
 import '../../controller/index_screen_controller.dart';
-import '../cart_screen/cart_screen.dart';
-import '../favourite_screen/favourite_screen.dart';
-import '../home_screen/home_screen.dart';
-import '../profile_screen/profile_screen.dart';
-import '../search_screen/search_screen.dart';
 
 class IndexScreen extends StatelessWidget {
   IndexScreen({Key? key}) : super(key: key);
@@ -15,7 +10,7 @@ class IndexScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: PersistentTabView(
+     /* body: PersistentTabView(
         context,
         controller: indexScreenController.controller,
         screens: _buildScreens(context),
@@ -53,11 +48,59 @@ class IndexScreen extends StatelessWidget {
           duration: Duration(milliseconds: 200),
         ),
         navBarStyle: NavBarStyle.style6,
+      ),*/
+
+      body: Obx(
+            () => indexScreenController.isLoading.value
+            ? const CustomLoader()
+            : IndexedStack(
+          index: indexScreenController.selectedIndex.value,
+          children: indexScreenController.screen,
+        ),
+      ),
+
+
+      bottomNavigationBar: Obx(
+        () => BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          selectedItemColor: Theme.of(context).primaryColor,
+          unselectedItemColor: Theme.of(context).disabledColor,
+          showSelectedLabels: true,
+          showUnselectedLabels: true,
+          onTap: (index) {
+            //indexScreenController.homeScreenShow.value = false;
+            indexScreenController.changeIndex(index);
+          },
+          currentIndex: indexScreenController.selectedIndex.value,
+
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home_outlined, size: 24),
+              label: "Home",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.search, size: 24),
+              label: "Search",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.cart, size: 24),
+              label: "Cart",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.heart, size: 24),
+              label: "Favorites",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.person_alt_circle, size: 24),
+              label: "Profile",
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  List<Widget> _buildScreens(context) {
+  /*List<Widget> _buildScreens(context) {
     return [
       Container(
         color: Theme.of(context).scaffoldBackgroundColor,
@@ -101,9 +144,9 @@ class IndexScreen extends StatelessWidget {
         ),
       ),
     ];
-  }
+  }*/
 
-  List<PersistentBottomNavBarItem> _navBarsItems(context) {
+  /*List<PersistentBottomNavBarItem> _navBarsItems(context) {
     return [
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.home_outlined),
@@ -171,5 +214,5 @@ class IndexScreen extends StatelessWidget {
         contentPadding: 10,
       ),
     ];
-  }
+  }*/
 }

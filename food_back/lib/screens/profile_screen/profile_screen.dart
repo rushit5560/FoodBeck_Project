@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:food_back/common_modules/custom_loader.dart';
+import 'package:food_back/constance/app_images.dart';
 import 'package:food_back/constance/message.dart';
+import 'package:food_back/screens/cms_page_screen/cms_page_screen.dart';
 import 'package:food_back/utils/extensions.dart';
-import 'package:food_back/utils/style.dart';
 import 'package:get/get.dart';
-import 'package:sizer/sizer.dart';
-
 import '../../constance/color.dart';
 import '../../controller/profile_screen_controller.dart';
 import 'profile_screen_widgets.dart';
+
 
 class ProfileScreen extends StatelessWidget {
   final Function(bool)? onPressed;
@@ -35,17 +35,125 @@ class ProfileScreen extends StatelessWidget {
       body: Obx(
         () => profileScreenController.isLoading.value
             ? const CustomLoader()
-            : Column(
-                children: [
-                  ProfileDetailsModule(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      EditProfileButtonModule(),
-                    ],
-                  ),
-                ],
-              ),
+            : SingleChildScrollView(
+              child: Column(
+                  children: [
+                    ProfileDetailsModule(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        EditProfileButtonModule(),
+                      ],
+                    ),
+
+                    // Account Information Header
+                    HeaderModule(
+                      headerTitle: AppMessage.accountInfoLabel,
+                    ).commonSymmetricPadding(vertical: 5),
+
+                    // Manage Address
+                    SettingListTileModule(
+                      onTap: () {},
+                      leadingImage: AppImages.addresses,
+                      title: AppMessage.manageAddressesLabel,
+                    ).commonSymmetricPadding(vertical: 5),
+
+                    // Your Orders
+                    SettingListTileModule(
+                      onTap: () {},
+                      leadingImage: AppImages.orders,
+                      title: AppMessage.yourOrdersLabel,
+                    ).commonSymmetricPadding(vertical: 5),
+
+                    // Favourite Items
+                    SettingListTileModule(
+                      onTap: () {},
+                      leadingImage: AppImages.favourite,
+                      title: AppMessage.favouriteItemsLabel,
+                    ).commonSymmetricPadding(vertical: 5),
+
+                    // Notification
+                    SettingListTileModule(
+                      onTap: () {},
+                      leadingImage: AppImages.notification,
+                      title: AppMessage.notificationLabel,
+                    ).commonSymmetricPadding(vertical: 5),
+
+                    // Other Header
+                    HeaderModule(
+                      headerTitle: AppMessage.othersLabel,
+                    ).commonSymmetricPadding(vertical: 5),
+
+                    // T&C
+                    SettingListTileModule(
+                      onTap: () {
+                        Get.to(()=> CMSPageScreen(),
+                        arguments: "4",
+                        );
+                      },
+                      leadingImage: AppImages.contract,
+                      title: AppMessage.termsAndConditionLabel,
+                    ).commonSymmetricPadding(vertical: 5),
+
+                    // Privacy Policy
+                    SettingListTileModule(
+                      onTap: () {
+                        Get.to(()=> CMSPageScreen(),
+                          arguments: "3",
+                        );
+                      },
+                      leadingImage: AppImages.contract,
+                      title: AppMessage.privacyPolicyLabel,
+                    ).commonSymmetricPadding(vertical: 5),
+
+                    // About us
+                    SettingListTileModule(
+                      onTap: () {
+                        Get.to(()=> CMSPageScreen(),
+                          arguments: "6",
+                        );
+                      },
+                      leadingImage: AppImages.about,
+                      title: AppMessage.aboutUsLabel,
+                    ).commonSymmetricPadding(vertical: 5),
+
+                    // Refund Policy
+                    SettingListTileModule(
+                      onTap: () {
+                        Get.to(()=> CMSPageScreen(),
+                          arguments: "7",
+                        );
+                      },
+                      leadingImage: AppImages.contract,
+                      title: AppMessage.refundPolicyLabel,
+                    ).commonSymmetricPadding(vertical: 5),
+
+                    // Shipping Policy
+                    SettingListTileModule(
+                      onTap: () {
+                        Get.to(()=> CMSPageScreen(),
+                          arguments: "8",
+                        );
+                      },
+                      leadingImage: AppImages.contract,
+                      title: AppMessage.shippingPolicyLabel,
+                    ).commonSymmetricPadding(vertical: 5),
+
+                    // Cancellation Policy
+                    SettingListTileModule(
+                      onTap: () {
+                        Get.to(()=> CMSPageScreen(),
+                          arguments: "9",
+                        );
+                      },
+                      leadingImage: AppImages.contract,
+                      title: AppMessage.cancellationPolicyLabel,
+                    ).commonSymmetricPadding(vertical: 5),
+
+
+                  ],
+                ),
+            ),
       ),
       /*body: SafeArea(
         child: GridView.builder(

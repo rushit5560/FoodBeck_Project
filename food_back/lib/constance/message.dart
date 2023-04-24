@@ -57,6 +57,25 @@ class AppMessage {
       r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
   static String patternRegX = r'(^[0-9]*$)';
 
+  static String updateProfile = "update profile";
+  static String logOut = "Logout";
+  static String yes = "Yes";
+  static String no = "No";
+
+  static String termsAndConditionLabel = "Terms & Condition";
+  static String privacyPolicyLabel = "Privacy Policy";
+  static String aboutUsLabel = "About Us";
+  static String refundPolicyLabel = "Refund Policy";
+  static String shippingPolicyLabel = "Shipping Policy";
+  static String cancellationPolicyLabel = "Cancellation Policy";
+  static String accountInfoLabel = "Account Information";
+  static String othersLabel = "Others";
+  static String editProfileLabel = "Edit Profile";
+  static String manageAddressesLabel = "manage Addresses";
+  static String yourOrdersLabel = "Your Orders";
+  static String favouriteItemsLabel = "Favourite Items";
+  static String notificationLabel = "Notification";
+
   /// Validate Text
   static String nameIsRequired = "Please enter username.";
 }

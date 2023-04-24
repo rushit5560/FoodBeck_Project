@@ -7,6 +7,7 @@ import '../model/cms_screen_model/cms_screen_model.dart';
 
 class CMSPageScreenScreenController extends GetxController{
   String pageId = Get.arguments;
+
   RxBool isLoading = false.obs;
   RxBool successStatus = false.obs;
   String text="";

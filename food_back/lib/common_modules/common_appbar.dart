@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-
 import '../constance/color.dart';
+
+
 PreferredSizeWidget customAppBar({
   required String titleText,
   required bool leadingShow,
@@ -15,7 +16,14 @@ PreferredSizeWidget customAppBar({
   return AppBar(
     centerTitle: true,
     toolbarHeight: 50,
-    backgroundColor: AppColors.whiteColor2,
+    elevation: 0,
+    backgroundColor: AppColors.greenColor,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.only(
+        bottomRight: Radius.circular(25),
+        bottomLeft: Radius.circular(25),
+      ),
+    ),
     leading: leadingShow
         ? IconButton(
             onPressed: leadingOnTap ?? () {},

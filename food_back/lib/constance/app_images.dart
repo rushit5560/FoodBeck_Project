@@ -33,6 +33,12 @@ class AppImages {
   static const papaya = BaseImageUrl + "papaya.jpg";
   static const gastroObscura = BaseImageUrl + "Gastro Obscura.jpg";
   static const thaiGuava = BaseImageUrl + "thai_guava.jpg";
+  static const contract = BaseImageUrl + "contract.png";
+  static const about = BaseImageUrl + "about.png";
+  static const addresses = BaseImageUrl + "address.png";
+  static const orders = BaseImageUrl + "orders.png";
+  static const favourite = BaseImageUrl + "favourite.png";
+  static const notification = BaseImageUrl + "notification.png";
 
   static const imag1 = BaseImageUrl + "1.png";
   static const imag2 = BaseImageUrl + "2.png";

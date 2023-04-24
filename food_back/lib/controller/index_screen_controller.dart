@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:food_back/screens/cart_screen/cart_screen.dart';
+import 'package:food_back/screens/favourite_screen/favourite_screen.dart';
+import 'package:food_back/screens/profile_screen/profile_screen.dart';
+import 'package:food_back/screens/search_screen/search_screen.dart';
 import 'package:get/get.dart';
-import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../main.dart';
+import '../screens/home_screen/home_screen.dart';
 
 class IndexScreenController extends GetxController{
-  RxBool hideNavBar = false.obs;
-  int light = 2;
-  int dark = 1;
-   BuildContext? testContext;
-  PersistentTabController controller =  PersistentTabController(initialIndex: 0);
-  changeColor(BuildContext context, int color) {
-    if (color == light) {
-      MyApp.setCustomTheme(context, 6);
-    } else {
-      MyApp.setCustomTheme(context, 7);
-    }
+  RxBool isLoading = false.obs;
+  var selectedIndex = 0.obs;
+
+  List<Widget> screen = [
+    HomeScreen(),
+    SearchScreen(),
+    CartScreen(),
+    FavouriteScreen(),
+    ProfileScreen(),
+  ];
+
+  changeIndex(int index) {
+    selectedIndex.value = index;
   }
 }

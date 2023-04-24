@@ -1,7 +1,9 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:food_back/constance/message.dart';
 import 'package:food_back/screens/edit_profile_screen/edit_profile_screen.dart';
+import 'package:food_back/utils/extensions.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import '../../constance/app_images.dart';
@@ -117,12 +119,12 @@ class EditProfileButtonModule extends StatelessWidget {
             color: AppColors.greenColor,
             borderRadius: BorderRadius.circular(8),
           ),
-          child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
             child: Text(
-              'Edit Profile',
+              AppMessage.editProfileLabel,
               textScaleFactor: 1.1,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
               ),
             ),
@@ -132,3 +134,81 @@ class EditProfileButtonModule extends StatelessWidget {
     );
   }
 }
+
+class HeaderModule extends StatelessWidget {
+  final String headerTitle;
+  const HeaderModule({Key? key, required this.headerTitle}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Divider(color: AppColors.greenColor, thickness: 2),
+
+        Text(
+          headerTitle,
+          style: const TextStyle(fontSize: 22, color: AppColors.greenColor),
+        ).commonSymmetricPadding(horizontal: 10),
+
+        const Divider(color: AppColors.greenColor, thickness: 2),
+      ],
+    );
+  }
+}
+
+
+class SettingListTileModule extends StatelessWidget {
+  final String title;
+  final Function() onTap;
+  final String leadingImage;
+
+  const SettingListTileModule({
+    Key? key,
+    required this.title,
+    required this.onTap,
+    required this.leadingImage,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          // border: Border.all(),
+          color: AppColors.whiteColor,
+        ),
+        child: Row(
+          children: [
+            Image.asset(
+              leadingImage,
+              width: 25,
+              height: 25,
+            ),
+            Expanded(
+              child: Text(title,
+              style: const TextStyle(fontSize: 15),
+              ).commonSymmetricPadding(horizontal: 8),
+            ),
+            const Icon(
+              Icons.arrow_forward_ios_rounded,
+              size: 20,
+            ),
+          ],
+        ).commonSymmetricPadding(horizontal: 10, vertical: 10),
+        /*child: ListTile(
+          onTap: onTap,
+          leading: leadingWidget,
+          title: Text(
+            title,
+          ),
+          trailing: const Icon(Icons.arrow_forward_ios_rounded),
+        ),*/
+      ).commonSymmetricPadding(horizontal: 10),
+    );
+  }
+}
+
+

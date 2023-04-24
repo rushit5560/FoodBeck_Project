@@ -41,7 +41,7 @@ dependencies:
   like_button: ^2.0.5
   google_fonts: ^4.0.3
   font_awesome_flutter: ^10.2.1
-  persistent_bottom_nav_bar: ^5.0.2
+  #persistent_bottom_nav_bar: ^5.0.2
   carousel_slider: ^4.1.1
   flutter_html: ^2.2.1
   http: ^0.13.5

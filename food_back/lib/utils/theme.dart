@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use, prefer_const_constructors, depend_on_referenced_packages, prefer_interpolation_to_compose_strings
 import 'package:flutter/material.dart';
 import 'package:food_back/constance/app_images.dart' as constance;
+import 'package:food_back/constance/color.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
@@ -82,11 +83,17 @@ class AppTheme {
       hoverColor: Colors.transparent,
       splashFactory: InkRipple.splashFactory,
       highlightColor: Colors.transparent,
-      accentColor: primaryColor,
+      accentColor: Colors.black,
       canvasColor: Colors.white,
       scaffoldBackgroundColor: Color(0XFFf5f8fd),
       backgroundColor: Colors.white,
       errorColor: Colors.red,
+      tabBarTheme: TabBarTheme(
+        labelColor: AppColors.blackColor,
+        unselectedLabelStyle: TextStyle(
+          color: AppColors.blackColor,
+        )
+      ),
       // textTheme: _buildTextTheme(base.textTheme),
       // primaryTextTheme: _buildTextTheme(base.textTheme),
       platform: TargetPlatform.iOS,
