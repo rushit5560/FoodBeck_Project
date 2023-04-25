@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:food_back/constance/api_url.dart';
 import 'package:food_back/constance/app_images.dart';
 import 'package:food_back/constance/color.dart';
+import 'package:food_back/screens/restaurants_details_screen/restaurants_details_screen.dart';
 import 'package:food_back/utils/extensions.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
@@ -274,124 +275,130 @@ class PopularRestaurantsModule extends StatelessWidget {
               String imgUrl = "https://thumbs.dreamstime.com/b/wooden-table-food-top-view-cafe-102532611.jpg";
               // String imgUrl = "${ApiUrl.getrRestaurantImagePathUrl}/${screenController.allPopularRestaurantList[i].logo}";
               RestaurantData singleRestaurant = screenController.allPopularRestaurantList[i];
-              return Container(
-                width: Get.width * 0.60,
-                margin: const EdgeInsets.symmetric(vertical: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: const [
-                    BoxShadow(
-                      blurRadius: 4,
-                      color: AppColors.greyColor,
-                      blurStyle: BlurStyle.outer,
+              return GestureDetector(
+                onTap: () {
+                  Get.to(()=> RestaurantsDetailsScreen(),
+                  arguments: singleRestaurant.id.toString());
+                },
+                child: Container(
+                  width: Get.width * 0.60,
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: const [
+                      BoxShadow(
+                        blurRadius: 4,
+                        color: AppColors.greyColor,
+                        blurStyle: BlurStyle.outer,
 
-                    ),
-                  ],
-                ),
-                child: Stack(
-                  children: [
-                    Column(
-                      children: [
-                        Container(
-                          height: 105,
-                          width: Get.width,
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(10),
-                              topLeft: Radius.circular(10),
+                      ),
+                    ],
+                  ),
+                  child: Stack(
+                    children: [
+                      Column(
+                        children: [
+                          Container(
+                            height: 105,
+                            width: Get.width,
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(10),
+                                topLeft: Radius.circular(10),
+                              ),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.only(
+                                topRight: Radius.circular(10),
+                                topLeft: Radius.circular(10),
+                              ),
+                              child: Image.network(
+                                imgUrl,
+                                fit: BoxFit.fill,
+                                errorBuilder: (context, obj, st) {
+                                  return Image.asset(
+                                    AppImages.AppLogo,
+                                    fit: BoxFit.contain,
+                                  );
+                                },
+                              ),
                             ),
                           ),
-                          child: ClipRRect(
-                            borderRadius: const BorderRadius.only(
-                              topRight: Radius.circular(10),
-                              topLeft: Radius.circular(10),
-                            ),
-                            child: Image.network(
-                              imgUrl,
-                              fit: BoxFit.fill,
-                              errorBuilder: (context, obj, st) {
-                                return Image.asset(
-                                  AppImages.AppLogo,
-                                  fit: BoxFit.contain,
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                        Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Text(
-                                singleRestaurant.name,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
+                          Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Text(
+                                  singleRestaurant.name,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                singleRestaurant.description,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(fontSize: 10),
-                              ),
+                                Text(
+                                  singleRestaurant.description,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(fontSize: 10),
+                                ),
 
-                              Row(
-                                children: [
-                                  RatingBar.builder(
-                                    initialRating: 3.5,
-                                    minRating: 1,
-                                    direction: Axis.horizontal,
-                                    allowHalfRating: true,
-                                    ignoreGestures: true,
-                                    itemSize: 12,
-                                    itemCount: 5,
-                                    itemPadding: const EdgeInsets.symmetric(horizontal: 1.0),
-                                    itemBuilder: (context, _) => const Icon(
-                                      Icons.star,
-                                      color: Colors.orange,
+                                Row(
+                                  children: [
+                                    RatingBar.builder(
+                                      initialRating: 3.5,
+                                      minRating: 1,
+                                      direction: Axis.horizontal,
+                                      allowHalfRating: true,
+                                      ignoreGestures: true,
+                                      itemSize: 12,
+                                      itemCount: 5,
+                                      itemPadding: const EdgeInsets.symmetric(horizontal: 1.0),
+                                      itemBuilder: (context, _) => const Icon(
+                                        Icons.star,
+                                        color: Colors.orange,
+                                      ),
+                                      onRatingUpdate: (rating) {
+                                        log("$rating");
+                                      },
                                     ),
-                                    onRatingUpdate: (rating) {
-                                      log("$rating");
-                                    },
-                                  ),
-                                  const SizedBox(width: 5),
-                                  const Text("(3.5)",
-                                  style: TextStyle(fontSize: 10,
-                                  ),
-                                  )
-                                ],
-                              ),
+                                    const SizedBox(width: 5),
+                                    const Text("(3.5)",
+                                    style: TextStyle(fontSize: 10,
+                                    ),
+                                    )
+                                  ],
+                                ),
 
-                            ],
-                          ).commonAllSidePadding(8),
-                        ),
-
-                      ],
-                    ),
-                    Positioned(
-                      top: 8,
-                      right: 8,
-                      child: GestureDetector(
-                        onTap: () {
-                          Fluttertoast.cancel();
-                          Fluttertoast.showToast(msg: "Clicked On favourite!");
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.white,
+                              ],
+                            ).commonAllSidePadding(8),
                           ),
-                          child: const Icon(Icons.favorite_border_outlined,
-                          size: 18,).commonAllSidePadding(5),
+
+                        ],
+                      ),
+                      Positioned(
+                        top: 8,
+                        right: 8,
+                        child: GestureDetector(
+                          onTap: () {
+                            Fluttertoast.cancel();
+                            Fluttertoast.showToast(msg: "Clicked On favourite!");
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.white,
+                            ),
+                            child: const Icon(Icons.favorite_border_outlined,
+                            size: 18,).commonAllSidePadding(5),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ).commonSymmetricPadding(horizontal: 10);
+                    ],
+                  ),
+                ).commonSymmetricPadding(horizontal: 10),
+              );
             },
           ),
         ),
