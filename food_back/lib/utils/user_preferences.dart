@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:food_back/utils/userDetails.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserPreference {
@@ -10,6 +11,7 @@ class UserPreference {
   static String userNameKey = "userNameKey"; // String
   static String userPhoneKey = "userPhoneKey"; // String
   static String userImageKey = "userImageKey"; // String
+  String userProfileImageKey = "userProfileImageKey"; //string
 
 // logout function
   Future<void> removeuserDetails() async {
@@ -23,6 +25,36 @@ class UserPreference {
     prefs.setString(userNameKey, '');
     prefs.setString(userPhoneKey, '');
     prefs.setString(userImageKey, '');
+  }
+
+  /// Set UserName & Profile Pic
+  setUserProfilePrefs({
+    required String userName,
+    required String userProfile,
+    required String userEmail,
+    required String userPhoneNo,
+  }) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    /// Remove Old Data
+    prefs.remove(userNameKey);
+    prefs.remove(userProfileImageKey);
+    prefs.remove(userEmailKey);
+    prefs.remove(userPhoneNo);
+
+    /// Add New Data
+    prefs.setString(userNameKey, userName);
+    prefs.setString(userProfileImageKey, userProfile);
+    prefs.setString(userEmailKey, userEmail);
+    prefs.setString(userPhoneKey, userPhoneNo);
+
+
+    /// Set Data in Local Variable
+    UserDetails.userName = prefs.getString(userNameKey) ?? "UserName";
+    UserDetails.userProfilePic = prefs.getString(userProfileImageKey) ?? "";
+
+    log("userName : ${UserDetails.userName}");
+    log("userProfilePic : ${UserDetails.userProfilePic}");
   }
 
   // Set String Value in Prefs

@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:food_back/constance/app_images.dart';
 import 'package:food_back/constance/color.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
@@ -10,76 +11,125 @@ class ProfileImageModule extends StatelessWidget {
   final editProfileScreenController = Get.find<EditProfileScreenController>();
   @override
   Widget build(BuildContext context) {
-    log("editProfileScreenController.selectedProfileImage 222 ${editProfileScreenController.selectedProfileImage}");
-    log("editProfileScreenController.profileImage 222 ${editProfileScreenController.profileImage}");
     return GestureDetector(
-      onTap: () {
-        editProfileScreenController.showImagePickerBottomSheet(
-            context: context);
-      },
-      child: Stack(
-        alignment: Alignment.bottomRight,
-        children: [
-          Container(
-            height: 100,
-            width: 100,
-            decoration: BoxDecoration(
-              border: Border.all(color: AppColors.greyColor),
-              shape: BoxShape.circle,
-            ),
-            child: ClipRRect(
-              borderRadius: const BorderRadius.all(
-                Radius.circular(200),
-              ),
-              child: editProfileScreenController.selectedProfileImage != null
-                  ? Container(
-                      decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: FileImage(
-                          editProfileScreenController.selectedProfileImage!,
-                        ),
-                        fit: BoxFit.cover,
-                      ),
-                    ))
-                  : Container(
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                      ),
-                      child: ClipRRect(
-                        child: Image.network(
-                          editProfileScreenController.profileData == null
-                              ? ""
-                              : editProfileScreenController.profileData!.image,
-                          fit: BoxFit.fill,
-                          errorBuilder: (ctx, obj, st) {
-                            return Container(
-                              color: AppColors.greyColor.withOpacity(0.35),
-                              child: Center(
-                                child: Text(
-                                  "No Image",
-                                  style: TextStyle(
-                                    color: AppColors.blackColor,
-                                    fontSize: 10.sp,
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
+        onTap: () {
+          editProfileScreenController.showImagePickerBottomSheet(
+              context: context);
+        },
+        child: Stack(
+          alignment: Alignment.bottomRight,
+          children: [
+            editProfileScreenController.userProfilePhoto != null
+                ? ClipRRect(
+                    borderRadius: BorderRadius.circular(80.0),
+                    child: Image.file(
+                      editProfileScreenController.userProfilePhoto!,
+                      height: 120,
+                      width: 120,
+                      fit: BoxFit.fill,
+                      // color: AppColors.grey200Color,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(AppImages.AppLogo);
+                      },
                     ),
+                  )
+                : ClipRRect(
+                    borderRadius: BorderRadius.circular(80.0),
+                    child: Image.network(
+                      editProfileScreenController.userProfileImage,
+                      height: 120,
+                      width: 120,
+                      fit: BoxFit.fill,
+                      // color: AppColors.grey200Color,
+                      errorBuilder: (context, error, stackTrace) {
+                        return Image.asset(AppImages.AppLogo);
+                      },
+                    ),
+                  ),
+            GestureDetector(
+              onTap: () {
+                editProfileScreenController.showImagePickerBottomSheet(
+                    context: context);
+              },
+              child: Container(
+                height: 25,
+                width: 25,
+                margin: const EdgeInsets.only(bottom: 10),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    color: AppColors.greenColor),
+                child: const Icon(
+                  Icons.camera_alt,
+                  color: Colors.white,
+                  size: 15,
+                ),
+              ),
             ),
-          ),
-          Container(
-            height: 30,
-            width: 30,
-            decoration: const BoxDecoration(
-                shape: BoxShape.circle, color: AppColors.whiteColor),
-            child: const Icon(Icons.edit),
-          )
-        ],
-      ),
-    );
+          ],
+        )
+        //  Stack(
+        //   alignment: Alignment.bottomRight,
+        //   children: [
+        //     Container(
+        //       height: 100,
+        //       width: 100,
+        //       decoration: BoxDecoration(
+        //         border: Border.all(color: AppColors.greyColor),
+        //         shape: BoxShape.circle,
+        //       ),
+        //       child: ClipRRect(
+        //         borderRadius: const BorderRadius.all(
+        //           Radius.circular(200),
+        //         ),
+        //         child: editProfileScreenController.userProfilePhoto != null
+        //             ? Container(
+        //                 decoration: BoxDecoration(
+        //                 shape: BoxShape.circle,
+        //                 image: DecorationImage(
+        //                   image: FileImage(
+        //                     editProfileScreenController.userProfilePhoto!,
+        //                   ),
+        //                   fit: BoxFit.cover,
+        //                 ),
+        //               ))
+        //             : Container(
+        //                 decoration: const BoxDecoration(
+        //                   shape: BoxShape.circle,
+        //                 ),
+        //                 child: ClipRRect(
+        //                   child: Image.network(
+        //                     editProfileScreenController.profileData == null
+        //                         ? ""
+        //                         : editProfileScreenController.profileData!.image,
+        //                     fit: BoxFit.fill,
+        //                     errorBuilder: (ctx, obj, st) {
+        //                       return Container(
+        //                         color: AppColors.greyColor.withOpacity(0.35),
+        //                         child: Center(
+        //                           child: Text(
+        //                             "No Image",
+        //                             style: TextStyle(
+        //                               color: AppColors.blackColor,
+        //                               fontSize: 10.sp,
+        //                             ),
+        //                           ),
+        //                         ),
+        //                       );
+        //                     },
+        //                   ),
+        //                 ),
+        //               ),
+        //       ),
+        //     ),
+        //     Container(
+        //       height: 30,
+        //       width: 30,
+        //       decoration: const BoxDecoration(
+        //           shape: BoxShape.circle, color: AppColors.whiteColor),
+        //       child: const Icon(Icons.edit),
+        //     )
+        //   ],
+        // ),
+        );
   }
 }

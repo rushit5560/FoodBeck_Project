@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import '../utils/user_preferences.dart';
 
 class ApiUrl {
@@ -13,6 +11,7 @@ class ApiUrl {
   static String categoryImagePathUrl = "${databaseUrl}public/assests/category/";
   static String restaurantImagePathUrl =
       "${databaseUrl}public/assests/restaurant/";
+  static String profileImage = "${databaseUrl}public/assests/users/";
 // http://food.omdemo.co.in/public/assests/restaurant/logo.png
   // Authentication
   static String registerApi = "$baseUrl/register_user";
@@ -26,6 +25,7 @@ class ApiUrl {
   static String zoneApi = "$baseUrl/zone";
   static String getProfileApi = "$baseUrl/profile/";
   static String updateProfileApi = "$baseUrl/update-profile/";
+  static String contactus = "$baseUrl/contactus";
 //home page api's
   static String bannerApi = "$baseUrl/banner/";
   static String getCategoryApi = "$baseUrl/get-categorys";

@@ -127,9 +127,8 @@ class EditProfileScreen extends StatelessWidget {
                         labelText: AppMessage.updateProfile,
                         onPress: () async {
                           log("11");
-                          await editProfileScreenController.userPreference
-                              .removeuserDetails();
-                          Get.offAll(() => SignInScreen());
+                          await editProfileScreenController
+                              .updateProfileDataFunction();
                         },
                       ),
 

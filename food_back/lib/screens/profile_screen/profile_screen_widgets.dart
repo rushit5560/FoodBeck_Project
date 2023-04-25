@@ -17,6 +17,7 @@ class ProfileDetailsModule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log("profileScreenController userName ${profileScreenController.userName}");
     return Padding(
       padding: const EdgeInsets.all(12),
       child: Container(
@@ -31,13 +32,12 @@ class ProfileDetailsModule extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Expanded(
-                // flex: 65,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      profileScreenController.userName.value,
+                      " profileScreenController.userName",
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       // textScaleFactor: 1.35,
@@ -49,7 +49,7 @@ class ProfileDetailsModule extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      profileScreenController.userEmail.value,
+                      " profileScreenController.userEmail",
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -59,7 +59,7 @@ class ProfileDetailsModule extends StatelessWidget {
                     ),
                     const SizedBox(height: 3),
                     Text(
-                      profileScreenController.userPhone.value,
+                      "profileScreenController.userPhone",
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -76,7 +76,7 @@ class ProfileDetailsModule extends StatelessWidget {
                   height: 78,
                   width: 78,
                   child: Image.network(
-                    profileScreenController.userImage.value,
+                    "profileScreenController.userImage",
                     errorBuilder: (context, obj, st) {
                       return Image.asset(
                         AppImages.AppLogo,
@@ -145,18 +145,15 @@ class HeaderModule extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Divider(color: AppColors.greenColor, thickness: 2),
-
         Text(
           headerTitle,
           style: const TextStyle(fontSize: 22, color: AppColors.greenColor),
         ).commonSymmetricPadding(horizontal: 10),
-
         const Divider(color: AppColors.greenColor, thickness: 2),
       ],
     );
   }
 }
-
 
 class SettingListTileModule extends StatelessWidget {
   final String title;
@@ -188,8 +185,9 @@ class SettingListTileModule extends StatelessWidget {
               height: 25,
             ),
             Expanded(
-              child: Text(title,
-              style: const TextStyle(fontSize: 15),
+              child: Text(
+                title,
+                style: const TextStyle(fontSize: 15),
               ).commonSymmetricPadding(horizontal: 8),
             ),
             const Icon(
@@ -210,5 +208,3 @@ class SettingListTileModule extends StatelessWidget {
     );
   }
 }
-
-
