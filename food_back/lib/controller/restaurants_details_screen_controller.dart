@@ -13,7 +13,18 @@ class RestaurantsDetailsScreenController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool successStatus = false.obs;
   List<RestaurantDetails> popularRestaurantsList = [];
-  String image = '';
+  String coverImage = '';
+  String restaurantLogo = "";
+  String restaurantName = "";
+  String restaurantDescription = "";
+  String restaurantAddress = "";
+  int ratingCount = 0;
+  String overallRating = "";
+  String deliveryTime = "";
+
+
+
+
   Future<void> getRestaurantsDetailsFunction() async {
     isLoading(true);
     String url = "${ApiUrl.getPRestaurantDetailsApi}$restaurantId";
@@ -32,9 +43,16 @@ class RestaurantsDetailsScreenController extends GetxController {
       if (successStatus.value) {
         popularRestaurantsList.addAll(getRestaurantDetailsModel.data);
         log("getRestaurantsDetailsFunction popularRestaurantsList $popularRestaurantsList");
-        image = ApiUrl.restaurantImagePathUrl +
-            getRestaurantDetailsModel.data[0].logo;
-        log("image 11 $image");
+        coverImage = ApiUrl.restaurantImagePathUrl + getRestaurantDetailsModel.data[0].coverPhoto;
+        restaurantLogo = ApiUrl.restaurantImagePathUrl + getRestaurantDetailsModel.data[0].logo;
+        restaurantName = getRestaurantDetailsModel.data[0].name;
+        restaurantDescription = getRestaurantDetailsModel.data[0].description;
+        restaurantAddress = getRestaurantDetailsModel.data[0].address;
+        overallRating = getRestaurantDetailsModel.data[0].rating;
+        // ratingCount = int.parse(getRestaurantDetailsModel.data[0].rating ?? "0");
+        deliveryTime = getRestaurantDetailsModel.data[0].deliveryTime;
+
+        log("image 11 $coverImage");
       }
     } catch (e) {
       log("getRestaurantsDetailsFunction catch: $e");
