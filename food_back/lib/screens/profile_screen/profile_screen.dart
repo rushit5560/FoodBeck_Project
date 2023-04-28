@@ -7,6 +7,7 @@ import 'package:food_back/utils/extensions.dart';
 import 'package:get/get.dart';
 import '../../constance/color.dart';
 import '../../controller/profile_screen_controller.dart';
+import '../address_manage_screen/address_manage_screen.dart';
 import 'profile_screen_widgets.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -53,7 +54,7 @@ class ProfileScreen extends StatelessWidget {
 
             // Manage Address
             SettingListTileModule(
-              onTap: () {},
+              onTap: () => Get.to(()=> AddressManageScreen()),
               leadingImage: AppImages.addresses,
               title: AppMessage.manageAddressesLabel,
             ).commonSymmetricPadding(vertical: 5),

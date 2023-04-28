@@ -23,67 +23,106 @@ class RestaurantsDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Obx(
-        () => restaurantsDetailsScreenController.isLoading.value
-            ? const CustomLoader()
-            : NestedScrollView(
-                floatHeaderSlivers: true,
-                headerSliverBuilder: (context, innerBoxIsScrolled) => [
-                  SliverAppBar(
-                    backgroundColor: AppColors.greenColor,
-                    elevation: 0,
-                    floating: true,
-                    snap: true,
-                    pinned: true,
-                    expandedHeight: 250,
-                    leading: Container(
-                      height: 40,
-                      width: 40,
-                      decoration: const BoxDecoration(
-                          shape: BoxShape.circle, color: AppColors.greenColor),
-                      child: IconButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        icon: const Icon(
-                          Icons.arrow_back_ios,
-                        ),
-                      ),
-                    ).commonOnlyPadding(left: 20),
-                    actions: [
-                      Container(
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        body: Obx(
+          () => restaurantsDetailsScreenController.isLoading.value
+              ? const CustomLoader()
+              : NestedScrollView(
+                  floatHeaderSlivers: true,
+                  headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                    SliverAppBar(
+                      backgroundColor: AppColors.greenColor,
+                      elevation: 0,
+                      floating: true,
+                      snap: true,
+                      // pinned: true,
+                      expandedHeight: 250,
+                      // title: Text(
+                      //     restaurantsDetailsScreenController.restaurantName
+                      // ),
+                      leading: Container(
                         height: 40,
                         width: 40,
                         decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: AppColors.greenColor),
+                          shape: BoxShape.circle,
+                          // color: AppColors.greenColor,
+                        ),
                         child: IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.back();
+                          },
                           icon: const Icon(
-                            Icons.search,
+                            Icons.arrow_back_ios,
                           ),
                         ),
-                      ).commonOnlyPadding(right: 20),
-                    ],
-                    flexibleSpace: FlexibleSpaceBar(
-                      background: Image.network(
-                        restaurantsDetailsScreenController.coverImage,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, obj, st) {
-                          return Image.asset(AppImages.AppLogo);
-                        },
+                      ).commonOnlyPadding(left: 10),
+                      actions: [
+                        Container(
+                          height: 40,
+                          width: 40,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            // color: AppColors.greenColor,
+                          ),
+                          child: IconButton(
+                            onPressed: () {},
+                            icon: const Icon(
+                              Icons.search,
+                            ),
+                          ),
+                        ).commonOnlyPadding(right: 10),
+                      ],
+                      flexibleSpace: FlexibleSpaceBar(
+                        background: Image.network(
+                          restaurantsDetailsScreenController.coverImage,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, obj, st) {
+                            return Image.asset(AppImages.AppLogo);
+                          },
+                        ),
                       ),
-                    ),
-                  )
-                ],
-                body: Column(
-                  children: [
-                    RestaurantLogoAndNameModule().commonSymmetricPadding(horizontal: 10, vertical: 10),
-                    RestaurantRatingModule(),
+                    )
                   ],
+                  body: Column(
+                    children: [
+                      RestaurantLogoAndNameModule()
+                          .commonSymmetricPadding(horizontal: 10, vertical: 10),
+                      RestaurantRatingModule(),
+                      const TabBar(
+                        tabs: [
+                          Tab(text: "All"),
+                          Tab(text: "Veg"),
+                          Tab(text: "Non-Veg"),
+                        ],
+                      ),
+                      Expanded(
+                        child: TabBarView(
+                          physics: const NeverScrollableScrollPhysics(),
+                          children: [
+                            restaurantsDetailsScreenController.allFoodList.isEmpty
+                                ? const Center(child: Text('Food not available'))
+                                : AllFoodShowModule(
+                                    foodList: restaurantsDetailsScreenController.allFoodList,
+                                  ),
+                            restaurantsDetailsScreenController.vegFoodList.isEmpty
+                                ? const Center(child: Text('Veg food not available'))
+                                : AllFoodShowModule(
+                                    foodList: restaurantsDetailsScreenController.vegFoodList,
+                                  ),
+                            restaurantsDetailsScreenController.nonVegFoodList.isEmpty
+                                ? const Center(child: Text('Non-veg food not available'))
+                                : AllFoodShowModule(
+                                    foodList: restaurantsDetailsScreenController.nonVegFoodList,
+                                  ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+        ),
       ),
     );
   }

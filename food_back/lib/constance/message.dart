@@ -61,6 +61,8 @@ class AppMessage {
   static String logOut = "Logout";
   static String yes = "Yes";
   static String no = "No";
+  static String addressHeader = "Address";
+  static String addNewAddressHeader = "+ Add New Address";
 
   static String termsAndConditionLabel = "Terms & Condition";
   static String privacyPolicyLabel = "Privacy Policy";
@@ -71,7 +73,7 @@ class AppMessage {
   static String accountInfoLabel = "Account Information";
   static String othersLabel = "Others";
   static String editProfileLabel = "Edit Profile";
-  static String manageAddressesLabel = "manage Addresses";
+  static String manageAddressesLabel = "Manage Addresses";
   static String yourOrdersLabel = "Your Orders";
   static String favouriteItemsLabel = "Favourite Items";
   static String notificationLabel = "Notification";

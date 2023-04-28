@@ -40,6 +40,10 @@ class ApiUrl {
   static String getBestReviewedFoodApi = "$baseUrl/best-reviewed-food/";
   static String getAllRestaurantApi = "$baseUrl/restaurants/";
   static String getCategoryWiseRestaurantsApi = "$baseUrl/filter-by-category/";
+
+  // Address
+  static String getUserAddressApi = "$baseUrl/get-addresses/";
+  static String deleteUserAddressApi = "$baseUrl/delete-address/";
 }
 
 UserPreference userPreference = UserPreference();
