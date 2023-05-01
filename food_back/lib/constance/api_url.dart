@@ -51,6 +51,14 @@ class ApiUrl {
   static String addUserAddressApi = "$baseUrl/add-address";
   static String getByIdUserAddressApi = "$baseUrl/get-addressby-id/";
   static String updateUserAddressApi = "$baseUrl/update-address/";
+
+  //favorite-food
+  static String addFavoriteFoodApi = "$baseUrl/add-favorite-food/";
+  //favorite-Restauran
+
+  static String addFavoriteRestaurantApi = "$baseUrl/add-favorite-restaurant/";
+  static String removeFavoriteRestaurantApi = "$baseUrl/remove-favorite-restaurant/";
+
 }
 
 UserPreference userPreference = UserPreference();

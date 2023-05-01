@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:food_back/common_modules/custom_loader.dart';
 import 'package:food_back/constance/app_images.dart';
@@ -8,6 +10,7 @@ import 'package:get/get.dart';
 import '../../constance/color.dart';
 import '../../controller/profile_screen_controller.dart';
 import '../address_manage_screen/list_address_screen/address_list_screen.dart';
+import '../favourite_screen/favourite_screen.dart';
 import 'profile_screen_widgets.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -18,6 +21,9 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log("profileScreenController userName ${profileScreenController.userName}");
+    log("profileScreenController userEmail ${profileScreenController.userEmail}");
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -68,7 +74,9 @@ class ProfileScreen extends StatelessWidget {
 
             // Favourite Items
             SettingListTileModule(
-              onTap: () {},
+              onTap: () {
+                Get.to(() => const FavouriteScreen());
+              },
               leadingImage: AppImages.favourite,
               title: AppMessage.favouriteItemsLabel,
             ).commonSymmetricPadding(vertical: 5),

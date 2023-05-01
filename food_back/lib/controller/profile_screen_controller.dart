@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:food_back/utils/user_preferences.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -13,11 +14,11 @@ import '../screens/authentication_screen/sign_in_screen/sign_in_screen.dart';
 
 class ProfileScreenController extends GetxController {
   RxBool isLoading = false.obs;
-  String userId = "";
-  String userName = "";
-  String userEmail = "";
-  String userPhone = "";
-  String userImage = "";
+  RxString userId = "".obs;
+  RxString userName = "".obs;
+  RxString userEmail = "".obs;
+  RxString userPhone = "".obs;
+  RxString userImage = "".obs;
   String authorizationToken = "";
   RxBool successStatus = false.obs;
 
@@ -26,54 +27,6 @@ class ProfileScreenController extends GetxController {
   List<ProfileCategory> selectList = [
     ProfileCategory(image: AppImages.i4, name: "Terms & Conditions"),
   ];
-
-  // void optionProfileClickFunction(int index) {
-  //   // if (index == 0) {
-  //   //   Get.to(
-  //   //         () => TermsAndConditionsScreen(),
-  //   //   );
-  //   // }
-  // }
-
-  getUserAccount() async {
-    isLoading(true);
-    String url = "${ApiUrl.getProfileApi}$userId";
-    log("getUserAccount Api Url : $url");
-
-    try {
-      Map<String, String> headers = <String, String>{
-        'Accept': "application/json",
-        'Authorization': "Bearer $authorizationToken",
-      };
-      log("authorizationToken $authorizationToken");
-      http.Response response = await http.get(Uri.parse(url), headers: headers);
-      log("getUserProfileFunction response :  ${response.body}");
-      GetProfileModel getProfileModel =
-          GetProfileModel.fromJson(json.decode(response.body));
-
-      successStatus.value = getProfileModel.success;
-
-      log("successStatus.value ${successStatus.value}");
-      if (successStatus.value) {
-        userName = getProfileModel.data.name;
-        userEmail = getProfileModel.data.email;
-        userPhone = getProfileModel.data.phoneno;
-        userImage = "${ApiUrl.profileImage}${getProfileModel.data.image}";
-        log("userName $userName");
-        userPreference.setUserProfilePrefs(
-          userName: getProfileModel.data.name,
-          userProfile: "${ApiUrl.profileImage}${getProfileModel.data.image}",
-          userEmail: getProfileModel.data.email,
-          userPhoneNo: getProfileModel.data.phoneno,
-        );
-      }
-    } catch (e) {
-      log("getUserAccount error $e");
-      rethrow;
-    } finally {
-      isLoading(false);
-    }
-  }
 
   @override
   void onInit() async {
@@ -84,22 +37,21 @@ class ProfileScreenController extends GetxController {
 
   Future<void> initMethod() async {
     log("111");
-    userId = await userPreference.getUserLoggedInFromPrefs(
+    userId.value = await userPreference.getUserLoggedInFromPrefs(
         key: UserPreference.userIdKey);
     log("getUserLoggedInFromPrefs userid $userId");
     authorizationToken = await userPreference.getAuthorizationToken(
         key: UserPreference.userTokenKey);
-    await getUserAccount();
   }
 
   Future<void> getMyProfileDataValueFromPrefs() async {
-    userName = await userPreference.getStringFromPrefs(
+    userName.value = await userPreference.getStringFromPrefs(
         key: UserPreference.userNameKey);
-    userEmail = await userPreference.getStringFromPrefs(
+    userEmail.value = await userPreference.getStringFromPrefs(
         key: UserPreference.userEmailKey);
-    userPhone = await userPreference.getStringFromPrefs(
+    userPhone.value = await userPreference.getStringFromPrefs(
         key: UserPreference.userPhoneKey);
-    userImage = await userPreference.getStringFromPrefs(
+    userImage.value = await userPreference.getStringFromPrefs(
         key: UserPreference.userImageKey);
 
     loadUI();
@@ -107,30 +59,8 @@ class ProfileScreenController extends GetxController {
 
   logOutButtonFunction() async {
     await userPreference.removeuserDetails();
-    // await signUpPreference.clearSignUpDataFromPrefs();
-    Get.offAll(() => SignInScreen());
   }
 
-  // Future<void> getUserDetailsFromPrefsFunction() async {
-  //   isLoading(true);
-  //   userId.value = await userPreference.getStringValueFromPrefs(
-  //           key: UserPreference.userIdKey) ??
-  //       "";
-  //   log(" userId.value ${userId.value}");
-  //   userName.value = await userPreference.getStringValueFromPrefs(
-  //           key: UserPreference.userNameKey) ??
-  //       "";
-  //   userEmail.value = await userPreference.getStringValueFromPrefs(
-  //           key: UserPreference.userEmailKey) ??
-  //       "";
-  //   userPhone.value = await userPreference.getStringValueFromPrefs(
-  //           key: UserPreference.userPhoneKey) ??
-  //       "";
-  //   userImage.value = await userPreference.getStringValueFromPrefs(
-  //           key: UserPreference.userImageKey) ??
-  //       "";
-  //   isLoading(false);
-  // }
   loadUI() {
     isLoading(true);
     isLoading(false);

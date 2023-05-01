@@ -99,6 +99,7 @@ class SignUpScreen extends StatelessWidget {
                           hintText: AppMessage.emailOrPhoneNumber,
                           keyboardType: TextInputType.emailAddress,
                           color: AppColors.grey50Color,
+                          maxLength: 10,
                         ),
                         SizedBox(height: 2.h),
 

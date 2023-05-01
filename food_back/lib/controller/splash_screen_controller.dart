@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:developer';
 import 'package:food_back/screens/authentication_screen/sign_in_screen/sign_in_screen.dart';
 import 'package:food_back/screens/index_screen/index_screen.dart';
+import 'package:food_back/screens/onboarding_screen/onboarding_screen.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../utils/user_preferences.dart';
 
 class SplashScreenController extends GetxController {
@@ -12,15 +14,39 @@ class SplashScreenController extends GetxController {
   UserPreference userPreference = UserPreference();
 
   startTimer() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    bool onboardingValue = prefs.getBool('onboarding') ?? false;
+
     Timer(
       const Duration(milliseconds: 3000),
       () {
-        if (isUserLoggedInStatus.value) {
-          log("login");
-          Get.to(() => IndexScreen());
-        } else {
-          Get.to(() => SignInScreen());
+        if (onboardingValue == false) {
+          Get.offAll(
+            () => OnboardingScreen(),
+            transition: Transition.native,
+          );
+        } else if (isUserLoggedInStatus.value == true) {
+          Get.offAll(
+            () => IndexScreen(),
+            transition: Transition.native,
+          );
+          log("isUserLoggedInStatus.value ${isUserLoggedInStatus.value}");
         }
+
+        // else if (isUserLoggedInStatus.value == false) {
+        //   Get.offAll(
+        //     () => SignInScreen(),
+        //     transition: Transition.native,
+        //   );
+        //   log("isUserLoggedInStatus.value ${isUserLoggedInStatus.value}");
+        // }
+        // if (isUserLoggedInStatus.value) {
+        //   log("login");
+        //   Get.to(() => IndexScreen());
+        // } else {
+        //   Get.to(() => SignInScreen());
+        // }
       },
     );
   }

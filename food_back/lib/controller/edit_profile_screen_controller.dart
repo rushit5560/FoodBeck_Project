@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:food_back/constance/api_url.dart';
 import 'package:food_back/constance/color.dart';
+import 'package:food_back/controller/profile_screen_controller.dart';
 import 'package:food_back/model/profile_screen_model/get_profile_model.dart';
 import 'package:food_back/model/sign_up_model/zone_model.dart';
 import 'package:get/get.dart';
@@ -19,6 +20,7 @@ class EditProfileScreenController extends GetxController {
   // String userEmail = Get.arguments[2];
   // String userPhoneNo = Get.arguments[3];
   // String userImage = Get.arguments[4];
+  final profileScreenController = Get.find<ProfileScreenController>();
 
   RxBool isLoading = false.obs;
 
@@ -141,6 +143,11 @@ class EditProfileScreenController extends GetxController {
       },
     );
   }
+//update profile button function
+
+  updateProfileButtonOntap() async {
+    await updateProfileDataFunction();
+  }
 
   /// Get Zone List Function
   Future<void> getZoneListFunction() async {
@@ -191,7 +198,6 @@ class EditProfileScreenController extends GetxController {
       http.Response response = await http.get(Uri.parse(url), headers: header);
 
       log("getUserProfileFunction response :  ${response.body}");
-      // log("getUserProfileFunction headers $headers");
 
       GetProfileModel getProfileModel =
           GetProfileModel.fromJson(json.decode(response.body));
@@ -205,10 +211,6 @@ class EditProfileScreenController extends GetxController {
         userProfileImage =
             "${ApiUrl.profileImage}${getProfileModel.data.image}";
         log("userProfileImage $userProfileImage");
-        // selectedProfileImage = File(getProfileModel.data.image);
-        // profileImage = selectedProfileImage!.path;
-        // log("apiGetProfileImage $selectedProfileImage");
-        // log("profileImage $profileImage");
 
         for (int i = 0; i < zoneList.length; i++) {
           if (getProfileModel.data.zoneId == zoneList[i].id) {
@@ -240,26 +242,20 @@ class EditProfileScreenController extends GetxController {
       if (userProfilePhoto != null) {
         var request = http.MultipartRequest('POST', Uri.parse(url));
 
-        // request.files.add(
-        //   await http.MultipartFile.fromPath(
-        //     "image",
-        //     selectedProfileImage!.path,
-        //   ),
-        // );
         var stream = http.ByteStream(userProfilePhoto!.openRead());
         stream.cast();
         var length = await userProfilePhoto!.length();
         request.files.add(
             await http.MultipartFile.fromPath("image", userProfilePhoto!.path));
-
+        request.headers['Accept'] = "application/json";
+        request.headers['Authorization'] = finalToken;
         request.fields['id'] = userId;
         request.fields['name'] = nameFieldController.text;
         // request.fields['EmailId'] = emailcontroller.text;
         request.fields['email'] = emailFieldController.text;
         request.fields['phoneno'] = phoneNoFieldController.text;
         request.fields['zone_id'] = "${selectedZoneValue!.id}";
-        request.headers['Accept'] = "application/json";
-        request.headers['Authorization'] = finalToken;
+
         var multiPart = http.MultipartFile('image', stream, length);
         request.files.add(multiPart);
 
@@ -283,39 +279,42 @@ class EditProfileScreenController extends GetxController {
               msg: updateProfileModel.message,
               toastLength: Toast.LENGTH_SHORT,
             );
-            // log(updateProfileMOdel.message);
+            log(updateProfileModel.message);
 
-            // userPreference.setStringValueInPrefs(
-            //     key: UserPreference.userNameKey,
-            //     value: updateProfileModel.data.name);
-            // userPreference.setStringValueInPrefs(
-            //     key: UserPreference.userEmailKey,
-            //     value: updateProfileModel.data.email);
+            userPreference.setStringValueInPrefs(
+                key: UserPreference.userNameKey,
+                value: updateProfileModel.data.name);
+            userPreference.setStringValueInPrefs(
+                key: UserPreference.userEmailKey,
+                value: updateProfileModel.data.email);
 
-            // userPreference.setStringValueInPrefs(
-            //     key: UserPreference.userPhoneKey,
-            //     value: updateProfileModel.data.phoneno);
-            // userPreference.setStringValueInPrefs(
-            //     key: UserPreference.userZoneIdKey,
-            //     value: updateProfileModel.data.zoneId);
-
+            userPreference.setStringValueInPrefs(
+                key: UserPreference.userPhoneKey,
+                value: updateProfileModel.data.phoneno);
+            userPreference.setStringValueInPrefs(
+                key: UserPreference.userZoneIdKey,
+                value: updateProfileModel.data.zoneId);
             Get.back();
+            // await profileScreenController.getUserAccount();
           } else {
             log("false false");
           }
         });
       } else if (userProfilePhoto == null) {
-        Map<String, String> header = await ApiHeader().getHeader();
+        // Map<String, String> header = await ApiHeader().getHeader();
+        String authorizationToken = await userPreference.getAuthorizationToken(
+            key: UserPreference.userTokenKey);
 
+        String finalToken = "Bearer $authorizationToken";
         var request = http.MultipartRequest('POST', Uri.parse(url));
-
+        request.headers['Accept'] = "application/json";
+        request.headers['Authorization'] = finalToken;
         request.fields['id'] = userId;
         request.fields['name'] = nameFieldController.text;
         // request.fields['EmailId'] = emailcontroller.text;
         request.fields['email'] = emailFieldController.text;
         request.fields['phoneno'] = phoneNoFieldController.text;
         request.fields['zone_id'] = "${selectedZoneValue!.id}";
-        request.headers['Authorization'] = header.toString();
 
         log('updateProfileDataFunction request.fields: ${request.fields}');
         log("selectedZoneValue zodeid ${selectedZoneValue!.id}");
@@ -337,21 +336,21 @@ class EditProfileScreenController extends GetxController {
               msg: updateProfileModel.message,
               toastLength: Toast.LENGTH_SHORT,
             );
-            // log(updateProfileMOdel.message);
+            log(updateProfileModel.message);
 
-            // userPreference.setStringValueInPrefs(
-            //     key: UserPreference.userNameKey,
-            //     value: updateProfileModel.data.name);
-            // userPreference.setStringValueInPrefs(
-            //     key: UserPreference.userEmailKey,
-            //     value: updateProfileModel.data.email);
+            userPreference.setStringValueInPrefs(
+                key: UserPreference.userNameKey,
+                value: updateProfileModel.data.name);
+            userPreference.setStringValueInPrefs(
+                key: UserPreference.userEmailKey,
+                value: updateProfileModel.data.email);
 
-            // userPreference.setStringValueInPrefs(
-            //     key: UserPreference.userPhoneKey,
-            //     value: updateProfileModel.data.phoneno);
-            // userPreference.setStringValueInPrefs(
-            //     key: UserPreference.userZoneIdKey,
-            //     value: updateProfileModel.data.zoneId);
+            userPreference.setStringValueInPrefs(
+                key: UserPreference.userPhoneKey,
+                value: updateProfileModel.data.phoneno);
+            userPreference.setStringValueInPrefs(
+                key: UserPreference.userZoneIdKey,
+                value: updateProfileModel.data.zoneId);
 
             Get.back();
           } else {

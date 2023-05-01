@@ -1,21 +1,16 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:food_back/common_modules/custom_loader.dart';
 import 'package:food_back/common_modules/custom_submit_button.dart';
-import 'package:food_back/screens/authentication_screen/sign_in_screen/sign_in_screen.dart';
 import 'package:food_back/screens/edit_profile_screen/edit_profile_screen_widgets.dart';
 import 'package:food_back/utils/extensions.dart';
 import 'package:food_back/utils/widget/common_text_form_field.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-import '../../common_modules/custom_alert_dialog.dart';
 import '../../constance/color.dart';
-import '../../constance/font_family.dart';
 import '../../constance/message.dart';
 import '../../controller/edit_profile_screen_controller.dart';
 import '../../model/sign_up_model/zone_model.dart';
-import '../../utils/style.dart';
 import '../../utils/validator.dart';
 
 class EditProfileScreen extends StatelessWidget {
@@ -48,9 +43,7 @@ class EditProfileScreen extends StatelessWidget {
           ),
         ),
       ),
-      body:
-      
-       Obx(
+      body: Obx(
         () => editProfileScreenController.isLoading.value
             ? const CustomLoader()
             : SingleChildScrollView(
@@ -130,7 +123,7 @@ class EditProfileScreen extends StatelessWidget {
                         onPress: () async {
                           log("11");
                           await editProfileScreenController
-                              .updateProfileDataFunction();
+                              .updateProfileButtonOntap();
                         },
                       ),
 

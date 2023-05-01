@@ -1,5 +1,7 @@
 import 'dart:developer';
+import 'package:food_back/screens/authentication_screen/sign_in_screen/sign_in_screen.dart';
 import 'package:food_back/utils/userDetails.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserPreference {
@@ -25,6 +27,7 @@ class UserPreference {
     prefs.setString(userNameKey, '');
     prefs.setString(userPhoneKey, '');
     prefs.setString(userImageKey, '');
+    Get.offAll(() => SignInScreen());
   }
 
   /// Set UserName & Profile Pic
@@ -47,7 +50,6 @@ class UserPreference {
     prefs.setString(userImageKey, userProfile);
     prefs.setString(userEmailKey, userEmail);
     prefs.setString(userPhoneKey, userPhoneNo);
-
 
     /// Set Data in Local Variable
     UserDetails.userName = prefs.getString(userNameKey) ?? "UserName";
@@ -106,7 +108,8 @@ class UserPreference {
     String value = prefs.getString(key) ?? "";
     return value;
   }
-    // Get String value
+
+  // Get String value
   Future<String> getStringFromPrefs({required String key}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String value = prefs.getString(key) ?? "";

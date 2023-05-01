@@ -18,7 +18,6 @@ class ProfileDetailsModule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log("profileScreenController userName ${profileScreenController.userName}");
     return Padding(
       padding: const EdgeInsets.all(12),
       child: Container(
@@ -38,7 +37,7 @@ class ProfileDetailsModule extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      profileScreenController.userName,
+                      profileScreenController.userName.value,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       // textScaleFactor: 1.35,
@@ -50,7 +49,7 @@ class ProfileDetailsModule extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      profileScreenController.userEmail,
+                      profileScreenController.userEmail.value,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -60,7 +59,7 @@ class ProfileDetailsModule extends StatelessWidget {
                     ),
                     const SizedBox(height: 3),
                     Text(
-                      profileScreenController.userPhone,
+                      profileScreenController.userPhone.value,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -81,7 +80,7 @@ class ProfileDetailsModule extends StatelessWidget {
                     height: 78,
                     width: 78,
                     child: Image.network(
-                      profileScreenController.userImage,
+                      profileScreenController.userImage.value,
                       fit: BoxFit.cover,
                       errorBuilder: (context, obj, st) {
                         return Image.asset(

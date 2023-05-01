@@ -10,46 +10,7 @@ class IndexScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-     /* body: PersistentTabView(
-        context,
-        controller: indexScreenController.controller,
-        screens: _buildScreens(context),
-        items: _navBarsItems(context),
-        confineInSafeArea: true,
-        backgroundColor: Theme.of(context).backgroundColor,
-        handleAndroidBackButtonPress: true,
-        resizeToAvoidBottomInset: true,
-        stateManagement: true,
-        decoration: const NavBarDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(18),
-            topRight: Radius.circular(18),
-          ),
-        ),
-        navBarHeight: MediaQuery.of(context).viewInsets.bottom > 0
-            ? 0.0
-            : kBottomNavigationBarHeight,
-        hideNavigationBarWhenKeyboardShows: true,
-        margin: const EdgeInsets.all(0.0),
-        popActionScreens: PopActionScreensType.all,
-        bottomScreenMargin: 0.0,
-        selectedTabScreenContext: (context) {
-          indexScreenController.testContext = context!;
-        },
-        hideNavigationBar: indexScreenController.hideNavBar.value,
-        popAllScreensOnTapOfSelectedTab: true,
-        itemAnimationProperties: const ItemAnimationProperties(
-          duration: Duration(milliseconds: 400),
-          curve: Curves.ease,
-        ),
-        screenTransitionAnimation: const ScreenTransitionAnimation(
-          animateTabTransition: true,
-          curve: Curves.ease,
-          duration: Duration(milliseconds: 200),
-        ),
-        navBarStyle: NavBarStyle.style6,
-      ),*/
-
+     
       body: Obx(
             () => indexScreenController.isLoading.value
             ? const CustomLoader()
@@ -87,13 +48,13 @@ class IndexScreen extends StatelessWidget {
               label: "Cart",
             ),
             BottomNavigationBarItem(
-              icon: Icon(CupertinoIcons.heart, size: 24),
-              label: "Favorites",
-            ),
-            BottomNavigationBarItem(
               icon: Icon(CupertinoIcons.person_alt_circle, size: 24),
               label: "Profile",
             ),
+            // BottomNavigationBarItem(
+            //   icon: Icon(CupertinoIcons.heart, size: 24),
+            //   label: "Favorites",
+            // ),
           ],
         ),
       ),
