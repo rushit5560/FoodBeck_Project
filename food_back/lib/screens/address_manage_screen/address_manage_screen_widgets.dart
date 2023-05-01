@@ -17,9 +17,7 @@ class AddNewAddress extends StatelessWidget {
       onTap: () {
         Get.to(
           () => AddAddressScreen(),
-          arguments: [
-            AddressOption.add,
-          ],
+          arguments: [AddressOption.add, ""],
         );
       },
       child: Container(

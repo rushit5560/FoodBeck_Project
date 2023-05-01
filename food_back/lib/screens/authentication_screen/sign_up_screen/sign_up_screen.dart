@@ -30,10 +30,10 @@ class SignUpScreen extends StatelessWidget {
         () => signUpScreenController.isLoading.value
             ? const CustomLoader()
             : SingleChildScrollView(
-              child: Form(
-                key: signUpScreenController.signUpFormKey,
-                child: SafeArea(
-                  child: Column(
+                child: Form(
+                  key: signUpScreenController.signUpFormKey,
+                  child: SafeArea(
+                    child: Column(
                       children: [
                         Hero(
                           tag: AppMessage.appIcon,
@@ -52,6 +52,7 @@ class SignUpScreen extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 3.h),
+
                         /// welcome back text
                         Text(
                           AppMessage.signUp,
@@ -63,7 +64,6 @@ class SignUpScreen extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 1.h),
-
 
                         /// sign to continue text
                         Text(
@@ -80,8 +80,10 @@ class SignUpScreen extends StatelessWidget {
 
                         // User Name Field
                         CommonTextFormFieldModule(
-                          fieldController: signUpScreenController.nameFieldController,
-                          validate: (value) => FieldValidation().validateName(value!),
+                          fieldController:
+                              signUpScreenController.nameFieldController,
+                          validate: (value) =>
+                              FieldValidation().validateName(value!),
                           hintText: AppMessage.userName,
                           keyboardType: TextInputType.text,
                           color: AppColors.grey50Color,
@@ -90,8 +92,10 @@ class SignUpScreen extends StatelessWidget {
 
                         // Email Field
                         CommonTextFormFieldModule(
-                          fieldController: signUpScreenController.emailFieldController,
-                          validate: (value) => FieldValidation().validateUserEmail(value!),
+                          fieldController:
+                              signUpScreenController.emailFieldController,
+                          validate: (value) =>
+                              FieldValidation().validateUserEmail(value!),
                           hintText: AppMessage.emailOrPhoneNumber,
                           keyboardType: TextInputType.emailAddress,
                           color: AppColors.grey50Color,
@@ -100,8 +104,10 @@ class SignUpScreen extends StatelessWidget {
 
                         // Phone Field
                         CommonTextFormFieldModule(
-                          fieldController: signUpScreenController.phoneFieldController,
-                          validate: (value) => FieldValidation().validateUserMobileNumber(value!),
+                          fieldController:
+                              signUpScreenController.phoneFieldController,
+                          validate: (value) => FieldValidation()
+                              .validateUserMobileNumber(value!),
                           hintText: AppMessage.enterNumber,
                           keyboardType: TextInputType.phone,
                           color: AppColors.grey50Color,
@@ -110,17 +116,23 @@ class SignUpScreen extends StatelessWidget {
 
                         // Password Field
                         Obx(
-                          ()=> CommonTextFormFieldModule(
-                            fieldController: signUpScreenController.passwordFieldController,
-                            validate: (value) => FieldValidation().validateUserPassword(value!),
+                          () => CommonTextFormFieldModule(
+                            fieldController:
+                                signUpScreenController.passwordFieldController,
+                            validate: (value) =>
+                                FieldValidation().validateUserPassword(value!),
                             hintText: AppMessage.enterPassword,
                             keyboardType: TextInputType.text,
                             color: AppColors.grey50Color,
-                            obscureText: signUpScreenController.isPasswordVisible.value,
+                            obscureText:
+                                signUpScreenController.isPasswordVisible.value,
                             suffixIcon: IconButton(
-                              onPressed: () => signUpScreenController.changePasswordVisibility(),
-                              icon: signUpScreenController.isPasswordVisible.value
-                                  ? const Icon(Icons.visibility_off_rounded) : const Icon(Icons.visibility_rounded),
+                              onPressed: () => signUpScreenController
+                                  .changePasswordVisibility(),
+                              icon:
+                                  signUpScreenController.isPasswordVisible.value
+                                      ? const Icon(Icons.visibility_off_rounded)
+                                      : const Icon(Icons.visibility_rounded),
                             ),
                           ),
                         ),
@@ -128,21 +140,27 @@ class SignUpScreen extends StatelessWidget {
 
                         // Confirm Password Field
                         Obx(
-                          ()=> CommonTextFormFieldModule(
-                            fieldController: signUpScreenController.cPasswordFieldController,
+                          () => CommonTextFormFieldModule(
+                            fieldController:
+                                signUpScreenController.cPasswordFieldController,
                             validate: (value) =>
                                 FieldValidation().validateConfirmPassword(
                               value!,
-                              signUpScreenController.passwordFieldController.text,
+                              signUpScreenController
+                                  .passwordFieldController.text,
                             ),
                             hintText: AppMessage.enterConfirmPassword,
                             keyboardType: TextInputType.text,
                             color: AppColors.grey50Color,
-                            obscureText: signUpScreenController.isCPasswordVisible.value,
+                            obscureText:
+                                signUpScreenController.isCPasswordVisible.value,
                             suffixIcon: IconButton(
-                              onPressed: () => signUpScreenController.changeConfirmPasswordVisibility(),
-                              icon: signUpScreenController.isCPasswordVisible.value
-                                ? const Icon(Icons.visibility_off_rounded) : const Icon(Icons.visibility_rounded),
+                              onPressed: () => signUpScreenController
+                                  .changeConfirmPasswordVisibility(),
+                              icon: signUpScreenController
+                                      .isCPasswordVisible.value
+                                  ? const Icon(Icons.visibility_off_rounded)
+                                  : const Icon(Icons.visibility_rounded),
                             ),
                           ),
                         ),
@@ -160,16 +178,15 @@ class SignUpScreen extends StatelessWidget {
                               isExpanded: true,
                               borderRadius: BorderRadius.circular(15),
                               value: signUpScreenController.selectedZoneValue,
-
-                              onChanged: (value) => signUpScreenController.selectValueFromDropdown(value!),
-
-                              items: signUpScreenController.zoneList.map((ZoneData items) {
+                              onChanged: (value) => signUpScreenController
+                                  .selectValueFromDropdown(value!),
+                              items: signUpScreenController.zoneList
+                                  .map((ZoneData items) {
                                 return DropdownMenuItem(
                                   value: items,
                                   child: Text(items.name!),
                                 );
                               }).toList(),
-
                             ),
                           ).commonSymmetricPadding(horizontal: 15),
                         ),
@@ -180,8 +197,11 @@ class SignUpScreen extends StatelessWidget {
                         CustomButton(
                           height: 50,
                           onPressed: () async {
-                            if (signUpScreenController.signUpFormKey.currentState!.validate()) {
-                              await signUpScreenController.userRegisterFunction();
+                            if (signUpScreenController
+                                .signUpFormKey.currentState!
+                                .validate()) {
+                              await signUpScreenController
+                                  .userRegisterFunction();
                             }
                           },
                           text: AppMessage.signUp,
@@ -190,7 +210,7 @@ class SignUpScreen extends StatelessWidget {
 
                         /// or text
                         Row(
-                          children:  [
+                          children: [
                             const Expanded(
                               child: Divider(
                                 color: AppColors.greyColor,
@@ -198,7 +218,8 @@ class SignUpScreen extends StatelessWidget {
                               ),
                             ),
                             SizedBox(width: 2.w),
-                            Text(AppMessage.or,
+                            Text(
+                              AppMessage.or,
                               style: TextStyleConfig.textStyle(
                                 textColor: AppColors.greyColor,
                                 fontSize: 15.sp,
@@ -233,12 +254,12 @@ class SignUpScreen extends StatelessWidget {
                         ).commonSymmetricPadding(horizontal: 60),
                         SizedBox(height: 2.5.h),
 
-
                         /// sign up text
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(AppMessage.alreadyHaveAccount,
+                            Text(
+                              AppMessage.alreadyHaveAccount,
                               textAlign: TextAlign.center,
                               style: TextStyleConfig.textStyle(
                                 fontFamily: FontFamilyText.sFProDisplayRegular,
@@ -250,13 +271,14 @@ class SignUpScreen extends StatelessWidget {
                             SizedBox(width: 1.w),
                             InkWell(
                               onTap: () {
-                                Get.to(()=> SignInScreen());
-                                //Navigator.pushReplacementNamed(context, Routes.SINGIN);
+                                Get.to(() => SignInScreen());
                               },
-                              child: Text(AppMessage.signIn,
+                              child: Text(
+                                AppMessage.signIn,
                                 textAlign: TextAlign.center,
                                 style: TextStyleConfig.textStyle(
-                                  fontFamily: FontFamilyText.sFProDisplayRegular,
+                                  fontFamily:
+                                      FontFamilyText.sFProDisplayRegular,
                                   fontWeight: FontWeight.bold,
                                   textColor: AppColors.greenColor,
                                   fontSize: 14.sp,
@@ -265,15 +287,11 @@ class SignUpScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-
-
-
-
                       ],
                     ).commonSymmetricPadding(horizontal: 25),
+                  ),
                 ),
               ),
-            ),
       ),
     );
   }

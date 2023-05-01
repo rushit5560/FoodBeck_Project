@@ -5,10 +5,12 @@ import 'package:food_back/constance/app_images.dart';
 import 'package:food_back/constance/color.dart';
 import 'package:food_back/constance/message.dart';
 import 'package:food_back/model/address_screen_model/user_address_model.dart';
+import 'package:food_back/screens/address_manage_screen/add_address_screen/add_address_screen.dart';
 import 'package:food_back/utils/extensions.dart';
 import 'package:get/get.dart';
 
 import '../../common_modules/custom_alert_dialog.dart';
+import '../../constance/enums.dart';
 import '../../controller/address_manage_screen_controller.dart';
 import 'address_manage_screen_widgets.dart';
 
@@ -78,8 +80,16 @@ class AddressManageScreen extends StatelessWidget {
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
                                         TextButton(
-                                          onPressed: () {},
-                                          child: Text('Edit'),
+                                          onPressed: () {
+                                            Get.to(
+                                              () => AddAddressScreen(),
+                                              arguments: [
+                                                AddressOption.edit,
+                                                singleAddress.id.toString()
+                                              ],
+                                            );
+                                          },
+                                          child: const Text('Edit'),
                                         ),
                                         TextButton(
                                           onPressed: () {
@@ -91,12 +101,12 @@ class AddressManageScreen extends StatelessWidget {
                                               onYesTap: () async =>
                                                   addressManageScreenController
                                                       .deleteUserAddressFunction(
-                                                          addressId:
-                                                              singleAddress.id
-                                                                  .toString()),
+                                                addressId:
+                                                    singleAddress.id.toString(),
+                                              ),
                                             );
                                           },
-                                          child: Text('Delete'),
+                                          child: const Text('Delete'),
                                         ),
                                       ],
                                     ),
@@ -112,7 +122,9 @@ class AddressManageScreen extends StatelessWidget {
                     /// Add New Address Button
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [AddNewAddress(),],
+                      children: [
+                        AddNewAddress(),
+                      ],
                     ).commonSymmetricPadding(vertical: 10),
                   ],
                 ),

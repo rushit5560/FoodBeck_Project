@@ -47,11 +47,9 @@ class AppMessage {
   static String contactNumber = "Contact number";
   static String contactName = "Contact name";
   static String landmark = "Landmark";
-
   static String address = "Address";
   static String floor = "Floor";
   static String houseNo = "House no";
-
   static String alreadyHaveAccount = "You have an account?";
   static String youDonTHaveAnAccount = "You don't have an account?";
   static String invalidEmailAddress = 'Invalid email address.';
