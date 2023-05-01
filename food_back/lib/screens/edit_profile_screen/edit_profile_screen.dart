@@ -48,7 +48,9 @@ class EditProfileScreen extends StatelessWidget {
           ),
         ),
       ),
-      body: Obx(
+      body:
+      
+       Obx(
         () => editProfileScreenController.isLoading.value
             ? const CustomLoader()
             : SingleChildScrollView(
@@ -114,7 +116,7 @@ class EditProfileScreen extends StatelessWidget {
                                 .map((ZoneData items) {
                               return DropdownMenuItem(
                                 value: items,
-                                child: Text(items.name),
+                                child: Text(items.name!),
                               );
                             }).toList(),
                           ),
@@ -133,46 +135,11 @@ class EditProfileScreen extends StatelessWidget {
                       ),
 
                       SizedBox(height: 5.h),
-                      BothButtonModule()
                     ],
                   ).commonSymmetricPadding(horizontal: 20),
                 ),
               ),
       ),
-    );
-  }
-}
-
-class BothButtonModule extends StatelessWidget {
-  BothButtonModule({Key? key}) : super(key: key);
-  final editProfileScreenController = Get.put(EditProfileScreenController());
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ButtonCustom(
-          backgroundColor: AppColors.greenColor,
-          shadowColor: AppColors.grey100Color,
-          text: AppMessage.logOut,
-          textColor: AppColors.whiteColor,
-          textFontFamily: FontFamilyText.sFProDisplaySemibold,
-          textsize: 14.sp,
-          onPressed: () => showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return CustomLogoutAlertDialog(
-                  text: "Logout",
-                  content: "Are you sure you want logout ?",
-                  yesButtonText: "Yes",
-                  onYesPressed: () async =>
-                      await editProfileScreenController.logOutButtonFunction(),
-                  noButtonText: "No",
-                  onNoPressed: () => Get.back(),
-                );
-              }),
-        ),
-      ],
     );
   }
 }

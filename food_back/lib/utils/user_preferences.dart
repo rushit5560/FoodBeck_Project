@@ -11,7 +11,7 @@ class UserPreference {
   static String userNameKey = "userNameKey"; // String
   static String userPhoneKey = "userPhoneKey"; // String
   static String userImageKey = "userImageKey"; // String
-  String userProfileImageKey = "userProfileImageKey"; //string
+  // String userProfileImageKey = "userProfileImageKey"; //string
 
 // logout function
   Future<void> removeuserDetails() async {
@@ -38,20 +38,20 @@ class UserPreference {
 
     /// Remove Old Data
     prefs.remove(userNameKey);
-    prefs.remove(userProfileImageKey);
+    prefs.remove(userImageKey);
     prefs.remove(userEmailKey);
     prefs.remove(userPhoneNo);
 
     /// Add New Data
     prefs.setString(userNameKey, userName);
-    prefs.setString(userProfileImageKey, userProfile);
+    prefs.setString(userImageKey, userProfile);
     prefs.setString(userEmailKey, userEmail);
     prefs.setString(userPhoneKey, userPhoneNo);
 
 
     /// Set Data in Local Variable
     UserDetails.userName = prefs.getString(userNameKey) ?? "UserName";
-    UserDetails.userProfilePic = prefs.getString(userProfileImageKey) ?? "";
+    UserDetails.userProfilePic = prefs.getString(userImageKey) ?? "";
 
     log("userName : ${UserDetails.userName}");
     log("userProfilePic : ${UserDetails.userProfilePic}");
@@ -102,6 +102,12 @@ class UserPreference {
 
   // get getAuthorizationToken From Sting
   Future<String> getAuthorizationToken({required String key}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String value = prefs.getString(key) ?? "";
+    return value;
+  }
+    // Get String value
+  Future<String> getStringFromPrefs({required String key}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String value = prefs.getString(key) ?? "";
     return value;

@@ -166,7 +166,7 @@ class SignUpScreen extends StatelessWidget {
                               items: signUpScreenController.zoneList.map((ZoneData items) {
                                 return DropdownMenuItem(
                                   value: items,
-                                  child: Text(items.name),
+                                  child: Text(items.name!),
                                 );
                               }).toList(),
 

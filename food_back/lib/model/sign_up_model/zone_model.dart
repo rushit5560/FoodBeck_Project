@@ -30,9 +30,9 @@ class ZoneModel {
 
 class ZoneData {
   ZoneData({
-    required this.id,
-    required this.name,
-    required this.status,
+     this.id,
+     this.name,
+     this.status,
     // required this.restaurantWiseTopic,
     // required this.customerWiseTopic,
     // required this.deliverymanWiseTopic,
@@ -45,9 +45,9 @@ class ZoneData {
     // this.increaseDeliveryChargeMessage,
   });
 
-  int id;
-  String name;
-  int status;
+  int? id;
+  String? name;
+  int? status;
   // String restaurantWiseTopic;
   // String customerWiseTopic;
   // String deliverymanWiseTopic;

@@ -6,6 +6,7 @@ import 'package:food_back/screens/edit_profile_screen/edit_profile_screen.dart';
 import 'package:food_back/utils/extensions.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+import '../../common_modules/custom_alert_dialog.dart';
 import '../../constance/app_images.dart';
 import '../../constance/color.dart';
 import '../../controller/profile_screen_controller.dart';
@@ -37,7 +38,7 @@ class ProfileDetailsModule extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      " profileScreenController.userName",
+                      profileScreenController.userName,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       // textScaleFactor: 1.35,
@@ -49,7 +50,7 @@ class ProfileDetailsModule extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      " profileScreenController.userEmail",
+                      profileScreenController.userEmail,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -59,7 +60,7 @@ class ProfileDetailsModule extends StatelessWidget {
                     ),
                     const SizedBox(height: 3),
                     Text(
-                      "profileScreenController.userPhone",
+                      profileScreenController.userPhone,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -72,17 +73,23 @@ class ProfileDetailsModule extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(right: 10),
-                child: SizedBox(
-                  height: 78,
-                  width: 78,
-                  child: Image.network(
-                    "profileScreenController.userImage",
-                    errorBuilder: (context, obj, st) {
-                      return Image.asset(
-                        AppImages.AppLogo,
-                        fit: BoxFit.cover,
-                      );
-                    },
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(200),
+                  ),
+                  child: SizedBox(
+                    height: 78,
+                    width: 78,
+                    child: Image.network(
+                      profileScreenController.userImage,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, obj, st) {
+                        return Image.asset(
+                          AppImages.AppLogo,
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -107,8 +114,17 @@ class EditProfileButtonModule extends StatelessWidget {
         onTap: () {
           Get.to(
             () => EditProfileScreen(),
-            // arguments: profileScreenController.userId,
-          );
+            // arguments: [
+            //   profileScreenController.userId,
+            //   profileScreenController.userName,
+            //   profileScreenController.userEmail,
+            //   profileScreenController.userPhone,
+            //   profileScreenController.userImage
+            // ],
+          )!
+              .then((value) async {
+            await profileScreenController.getMyProfileDataValueFromPrefs();
+          });
           // log("profileScreenController.userId ${profileScreenController.userId}");
         },
         // onTap: () => Get.to(()=> EditProfileScreen())!.then((value) async {
@@ -149,6 +165,52 @@ class HeaderModule extends StatelessWidget {
           headerTitle,
           style: const TextStyle(fontSize: 22, color: AppColors.greenColor),
         ).commonSymmetricPadding(horizontal: 10),
+        const Divider(color: AppColors.greenColor, thickness: 2),
+      ],
+    );
+  }
+}
+
+class LogOutHeaderModule extends StatelessWidget {
+  final String headerTitle;
+  LogOutHeaderModule({Key? key, required this.headerTitle}) : super(key: key);
+  final profileScreenController = Get.find<ProfileScreenController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Divider(color: AppColors.greenColor, thickness: 2),
+        GestureDetector(
+          onTap: () => showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return CustomLogoutAlertDialog(
+                  text: "Logout",
+                  content: "Are you sure you want logout ?",
+                  yesButtonText: "Yes",
+                  onYesPressed: () async =>
+                      await profileScreenController.logOutButtonFunction(),
+                  noButtonText: "No",
+                  onNoPressed: () => Get.back(),
+                );
+              }),
+          child: Row(
+            children: [
+              const Icon(
+                Icons.logout_rounded,
+                color: AppColors.greenColor,
+              ),
+              SizedBox(width: 2.w),
+              Text(
+                headerTitle,
+                style:
+                    const TextStyle(fontSize: 22, color: AppColors.greenColor),
+              ),
+            ],
+          ).commonSymmetricPadding(horizontal: 10, vertical: 10),
+        ),
         const Divider(color: AppColors.greenColor, thickness: 2),
       ],
     );

@@ -8,12 +8,12 @@ import '../constance/api_url.dart';
 import '../constance/app_images.dart';
 import '../model/profile_screen_model/get_profile_model.dart';
 import '../model/profile_screen_model/main_category_model.dart';
+import '../screens/authentication_screen/sign_in_screen/sign_in_screen.dart';
 // import '../screens/terms_conditins_screen/terms_conditins_screen.dart';
 
 class ProfileScreenController extends GetxController {
   RxBool isLoading = false.obs;
   String userId = "";
-
   String userName = "";
   String userEmail = "";
   String userPhone = "";
@@ -92,6 +92,25 @@ class ProfileScreenController extends GetxController {
     await getUserAccount();
   }
 
+  Future<void> getMyProfileDataValueFromPrefs() async {
+    userName = await userPreference.getStringFromPrefs(
+        key: UserPreference.userNameKey);
+    userEmail = await userPreference.getStringFromPrefs(
+        key: UserPreference.userEmailKey);
+    userPhone = await userPreference.getStringFromPrefs(
+        key: UserPreference.userPhoneKey);
+    userImage = await userPreference.getStringFromPrefs(
+        key: UserPreference.userImageKey);
+
+    loadUI();
+  }
+
+  logOutButtonFunction() async {
+    await userPreference.removeuserDetails();
+    // await signUpPreference.clearSignUpDataFromPrefs();
+    Get.offAll(() => SignInScreen());
+  }
+
   // Future<void> getUserDetailsFromPrefsFunction() async {
   //   isLoading(true);
   //   userId.value = await userPreference.getStringValueFromPrefs(
@@ -112,4 +131,8 @@ class ProfileScreenController extends GetxController {
   //       "";
   //   isLoading(false);
   // }
+  loadUI() {
+    isLoading(true);
+    isLoading(false);
+  }
 }

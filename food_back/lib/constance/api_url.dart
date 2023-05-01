@@ -44,6 +44,7 @@ class ApiUrl {
   // Address
   static String getUserAddressApi = "$baseUrl/get-addresses/";
   static String deleteUserAddressApi = "$baseUrl/delete-address/";
+  static String addUserAddessApi = "$baseUrl/add-address";
 }
 
 UserPreference userPreference = UserPreference();

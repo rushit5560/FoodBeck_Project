@@ -1,7 +1,6 @@
 import '../constance/message.dart';
 
 class FieldValidation {
-
   String? validateName(String value) {
     if (value.isEmpty) {
       return AppMessage.nameIsRequired;
@@ -9,6 +8,48 @@ class FieldValidation {
     return null;
   }
 
+  String? validateContactName(String value) {
+    if (value.isEmpty) {
+      return AppMessage.contactIsRequired;
+    }
+    return null;
+  }
+
+  String? validateLandmark(String value) {
+    if (value.isEmpty) {
+      return AppMessage.landmarkIsRequired;
+    }
+    return null;
+  }
+  
+
+  String? validateFloor(String value) {
+    if (value.isEmpty) {
+      return AppMessage.lfloorkIsRequired;
+    }
+    return null;
+  }
+  
+  String? validateDropdownAddress(String value) {
+    if (value == AppMessage.chooseOption) {
+      return AppMessage.pleaseSelectAddress;
+    } else {
+      return null;
+    }
+  }
+  String? validateHouseNo(String value) {
+    if (value.isEmpty) {
+      return AppMessage.houseIsRequired;
+    }
+    return null;
+  }
+
+  String? validateAddress(String value) {
+    if (value.isEmpty) {
+      return AppMessage.nameIsRequired;
+    }
+    return null;
+  }
 
   String? validateUserEmail(String value) {
     if (value.isEmpty) {
@@ -48,7 +89,7 @@ class FieldValidation {
     // RegExp regExp = RegExp(pattern);
     if (value.isEmpty) {
       return AppMessage.pleaseEnterValidPassword;
-    } else if(value.length < 8) {
+    } else if (value.length < 8) {
       return AppMessage.pleaseEnterValidPasswordLength;
     }
     return null;

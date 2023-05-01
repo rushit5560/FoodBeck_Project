@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../constance/color.dart';
 import '../../constance/font_family.dart';
 
+// ignore: must_be_immutable
 class CommonTextFormFieldModule extends StatelessWidget {
   TextEditingController fieldController;
   String hintText;
@@ -46,9 +47,12 @@ class CommonTextFormFieldModule extends StatelessWidget {
         hintText: hintText,
         errorMaxLines: 2,
         suffixIcon: suffixIcon,
-        counterText: text,
-        hintStyle: TextStyle(color: AppColors.greyColor,fontFamily: FontFamilyText.sFProDisplayRegular),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
+        counterText: "",
+        hintStyle: TextStyle(
+            color: AppColors.greyColor,
+            fontFamily: FontFamilyText.sFProDisplayRegular,),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
       ),
     );
   }

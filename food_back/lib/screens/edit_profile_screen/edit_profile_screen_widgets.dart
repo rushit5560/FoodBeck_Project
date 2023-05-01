@@ -29,7 +29,11 @@ class ProfileImageModule extends StatelessWidget {
                       fit: BoxFit.fill,
                       // color: AppColors.grey200Color,
                       errorBuilder: (context, error, stackTrace) {
-                        return Image.asset(AppImages.AppLogo);
+                        return Image.asset(
+                          AppImages.AppLogo,
+                          height: 120,
+                          width: 120,
+                        );
                       },
                     ),
                   )
@@ -42,7 +46,11 @@ class ProfileImageModule extends StatelessWidget {
                       fit: BoxFit.fill,
                       // color: AppColors.grey200Color,
                       errorBuilder: (context, error, stackTrace) {
-                        return Image.asset(AppImages.AppLogo);
+                        return Image.asset(
+                          AppImages.AppLogo,
+                          height: 120,
+                          width: 120,
+                        );
                       },
                     ),
                   ),

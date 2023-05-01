@@ -28,85 +28,94 @@ class AddressManageScreen extends StatelessWidget {
       body: Obx(
         () => addressManageScreenController.isLoading.value
             ? const CustomLoader()
-            : Column(
-                children: [
-                  /// Address List Module
+            : SingleChildScrollView(
+                child: Column(
+                  children: [
+                    /// Address List Module
 
-                  ListView.builder(
-                    itemCount:
-                        addressManageScreenController.userAddressList.length,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, i) {
-                      AddressData singleAddress = addressManageScreenController.userAddressList[i];
-                      return Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.white,
-                        ),
-                        child: Row(
-                          children: [
-                            Image.asset(
+                    ListView.builder(
+                      itemCount:
+                          addressManageScreenController.userAddressList.length,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, i) {
+                        AddressData singleAddress =
+                            addressManageScreenController.userAddressList[i];
+                        return Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.white,
+                          ),
+                          child: Row(
+                            children: [
+                              Image.asset(
                                 AppImages.addresses,
-                              height: 80,
-                              width: 80,
-                            ),
-
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                      singleAddress.addressType.capitalizeFirstLetter(),
-                                    style: const TextStyle(fontWeight: FontWeight.bold),
-                                  ),
-                                  const SizedBox(height: 1),
-                                  Text(singleAddress.contactPersonName.capitalizeFirstLetter()),
-                                  const SizedBox(height: 1),
-                                  Text("${singleAddress.houseNo} ${singleAddress.floor} ${singleAddress.address} ${singleAddress.landmark}"),
-                                  const SizedBox(height: 1),
-                                  Text(
-                                    "Phone Number : ${singleAddress.contactPersonNumber}"
-                                  ),
-
-                                  const SizedBox(height: 2),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      TextButton(
+                                height: 80,
+                                width: 80,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      singleAddress.addressType
+                                          .capitalizeFirstLetter(),
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(height: 1),
+                                    Text(singleAddress.contactPersonName
+                                        .capitalizeFirstLetter()),
+                                    const SizedBox(height: 1),
+                                    Text(
+                                        "${singleAddress.houseNo} ${singleAddress.floor} ${singleAddress.address} ${singleAddress.landmark}"),
+                                    const SizedBox(height: 1),
+                                    Text(
+                                        "Phone Number : ${singleAddress.contactPersonNumber}"),
+                                    const SizedBox(height: 2),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        TextButton(
                                           onPressed: () {},
                                           child: Text('Edit'),
-                                      ),
-                                      TextButton(
+                                        ),
+                                        TextButton(
                                           onPressed: () {
                                             CustomAlertDialog().showAlertDialog(
                                               context: context,
-                                              textContent: "Are you sure you want to delete this address ?",
+                                              textContent:
+                                                  "Are you sure you want to delete this address ?",
                                               onCancelTap: () => Get.back(),
-                                              onYesTap: () async => addressManageScreenController.deleteUserAddressFunction(
-                                                addressId: singleAddress.id.toString()
-                                              ),
+                                              onYesTap: () async =>
+                                                  addressManageScreenController
+                                                      .deleteUserAddressFunction(
+                                                          addressId:
+                                                              singleAddress.id
+                                                                  .toString()),
                                             );
                                           },
                                           child: Text('Delete'),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ).commonSymmetricPadding(vertical: 10);
-                    },
-                  ).commonSymmetricPadding(vertical: 10, horizontal: 10),
+                            ],
+                          ),
+                        ).commonSymmetricPadding(vertical: 10);
+                      },
+                    ).commonSymmetricPadding(vertical: 10, horizontal: 10),
 
-                  /// Add New Address Button
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [AddNewAddress()],
-                  ).commonSymmetricPadding(vertical: 10),
-                ],
+                    /// Add New Address Button
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [AddNewAddress(),],
+                    ).commonSymmetricPadding(vertical: 10),
+                  ],
+                ),
               ),
       ),
     );

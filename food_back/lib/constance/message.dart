@@ -24,9 +24,11 @@ class AppMessage {
   static String editProfile = "Edit profile";
   static String send = "Send";
   static String signIn = "Sign In";
+  static String submit = "Submit";
+
   static String saveProfile = "Save profile";
 
-  static String password = "Enet password";
+  static String password = "Enter password";
   static String newPassword = "New Password";
   static String resetPassword = "Reset Password";
   static String confirmNewPassword = " Confirm New Password";
@@ -42,6 +44,14 @@ class AppMessage {
   static String enterPassword = "Enter Password";
   static String enterConfirmPassword = "Enter Confirm Password";
   static String userName = "Enter Username";
+  static String contactNumber = "Contact number";
+  static String contactName = "Contact name";
+  static String landmark = "Landmark";
+
+  static String address = "Address";
+  static String floor = "Floor";
+  static String houseNo = "House no";
+
   static String alreadyHaveAccount = "You have an account?";
   static String youDonTHaveAnAccount = "You don't have an account?";
   static String invalidEmailAddress = 'Invalid email address.';
@@ -77,7 +87,15 @@ class AppMessage {
   static String yourOrdersLabel = "Your Orders";
   static String favouriteItemsLabel = "Favourite Items";
   static String notificationLabel = "Notification";
+  static String chooseOption = 'Choose Address';
 
   /// Validate Text
   static String nameIsRequired = "Please enter username.";
+  static String addressIsRequired = "Please enter address.";
+  static String contactIsRequired = "Please enter contact.";
+  static String landmarkIsRequired = "Please enter landmark.";
+  static String lfloorkIsRequired = "Please enter floor.";
+
+  static String pleaseSelectAddress = 'Please select address.';
+  static String houseIsRequired = "Please enter house no.";
 }

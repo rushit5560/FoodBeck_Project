@@ -54,7 +54,7 @@ class ProfileScreen extends StatelessWidget {
 
             // Manage Address
             SettingListTileModule(
-              onTap: () => Get.to(()=> AddressManageScreen()),
+              onTap: () => Get.to(() => AddressManageScreen()),
               leadingImage: AppImages.addresses,
               title: AppMessage.manageAddressesLabel,
             ).commonSymmetricPadding(vertical: 5),
@@ -156,6 +156,8 @@ class ProfileScreen extends StatelessWidget {
               leadingImage: AppImages.contract,
               title: AppMessage.cancellationPolicyLabel,
             ).commonSymmetricPadding(vertical: 5),
+
+            LogOutHeaderModule(headerTitle: AppMessage.logOut)
           ],
         ),
       ),

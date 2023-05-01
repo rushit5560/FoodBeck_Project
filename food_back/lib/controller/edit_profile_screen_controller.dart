@@ -7,7 +7,6 @@ import 'package:food_back/constance/api_url.dart';
 import 'package:food_back/constance/color.dart';
 import 'package:food_back/model/profile_screen_model/get_profile_model.dart';
 import 'package:food_back/model/sign_up_model/zone_model.dart';
-import 'package:food_back/screens/authentication_screen/sign_in_screen/sign_in_screen.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -15,7 +14,11 @@ import '../model/profile_screen_model/update_profile_model.dart';
 import '../utils/user_preferences.dart';
 
 class EditProfileScreenController extends GetxController {
-  // RxString userId = Get.arguments;
+  // String userId = Get.arguments[0];
+  // String userName = Get.arguments[1];
+  // String userEmail = Get.arguments[2];
+  // String userPhoneNo = Get.arguments[3];
+  // String userImage = Get.arguments[4];
 
   RxBool isLoading = false.obs;
 
@@ -139,12 +142,6 @@ class EditProfileScreenController extends GetxController {
     );
   }
 
-  logOutButtonFunction() async {
-    await userPreference.removeuserDetails();
-    // await signUpPreference.clearSignUpDataFromPrefs();
-    Get.offAll(() => SignInScreen());
-  }
-
   /// Get Zone List Function
   Future<void> getZoneListFunction() async {
     isLoading(true);
@@ -188,12 +185,10 @@ class EditProfileScreenController extends GetxController {
     log("getUserProfileFunction Api Url : $url");
 
     try {
-      Map<String, String> headers = <String, String>{
-        'Accept': "application/json",
-        'Authorization': "Bearer $authorizationToken",
-      };
+      Map<String, String> header = await ApiHeader().getHeader();
+
       log("authorizationToken $authorizationToken");
-      http.Response response = await http.get(Uri.parse(url), headers: headers);
+      http.Response response = await http.get(Uri.parse(url), headers: header);
 
       log("getUserProfileFunction response :  ${response.body}");
       // log("getUserProfileFunction headers $headers");
@@ -206,7 +201,6 @@ class EditProfileScreenController extends GetxController {
       if (successStatus.value) {
         nameFieldController.text = getProfileModel.data.name;
         emailFieldController.text = getProfileModel.data.email;
-
         phoneNoFieldController.text = getProfileModel.data.phoneno;
         userProfileImage =
             "${ApiUrl.profileImage}${getProfileModel.data.image}";
@@ -237,6 +231,12 @@ class EditProfileScreenController extends GetxController {
     String url = "${ApiUrl.updateProfileApi}$userId";
     log("updateProfileDataFunction url: $url");
     try {
+      String authorizationToken = await userPreference.getAuthorizationToken(
+          key: UserPreference.userTokenKey);
+
+      String finalToken = "Bearer $authorizationToken";
+      // Map<String, String> header = await ApiHeader().getHeader();
+
       if (userProfilePhoto != null) {
         var request = http.MultipartRequest('POST', Uri.parse(url));
 
@@ -258,8 +258,8 @@ class EditProfileScreenController extends GetxController {
         request.fields['email'] = emailFieldController.text;
         request.fields['phoneno'] = phoneNoFieldController.text;
         request.fields['zone_id'] = "${selectedZoneValue!.id}";
-
-        request.headers['Authorization'] = "Bearer $authorizationToken";
+        request.headers['Accept'] = "application/json";
+        request.headers['Authorization'] = finalToken;
         var multiPart = http.MultipartFile('image', stream, length);
         request.files.add(multiPart);
 
@@ -305,6 +305,8 @@ class EditProfileScreenController extends GetxController {
           }
         });
       } else if (userProfilePhoto == null) {
+        Map<String, String> header = await ApiHeader().getHeader();
+
         var request = http.MultipartRequest('POST', Uri.parse(url));
 
         request.fields['id'] = userId;
@@ -313,7 +315,7 @@ class EditProfileScreenController extends GetxController {
         request.fields['email'] = emailFieldController.text;
         request.fields['phoneno'] = phoneNoFieldController.text;
         request.fields['zone_id'] = "${selectedZoneValue!.id}";
-        request.headers['Authorization'] = "Bearer $authorizationToken";
+        request.headers['Authorization'] = header.toString();
 
         log('updateProfileDataFunction request.fields: ${request.fields}');
         log("selectedZoneValue zodeid ${selectedZoneValue!.id}");

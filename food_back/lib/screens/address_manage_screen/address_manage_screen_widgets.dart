@@ -4,6 +4,7 @@ import 'package:food_back/constance/message.dart';
 import 'package:food_back/screens/address_manage_screen/add_address_screen/add_address_screen.dart';
 import 'package:get/get.dart';
 
+import '../../constance/enums.dart';
 import '../../controller/address_manage_screen_controller.dart';
 
 class AddNewAddress extends StatelessWidget {
@@ -14,7 +15,12 @@ class AddNewAddress extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(()=> AddAddressScreen());
+        Get.to(
+          () => AddAddressScreen(),
+          arguments: [
+            AddressOption.add,
+          ],
+        );
       },
       child: Container(
         decoration: BoxDecoration(

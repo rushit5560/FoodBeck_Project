@@ -1,0 +1,1 @@
+enum AddressOption  { edit, add }
