@@ -22,6 +22,7 @@ import '../../model/home_screen_model/new_restaurant_model.dart';
 import '../../model/home_screen_model/popular_food_near_by_you_model.dart';
 import '../../model/home_screen_model/popular_restaurants_model.dart';
 import '../../model/home_screen_model/trending_food_model.dart';
+import '../food_details_screen/food_details_screen.dart';
 import '../restaurants_screen/restaurants_screen.dart';
 
 class SearchbarModule extends StatelessWidget {
@@ -455,7 +456,11 @@ class TrendingFoodsModule extends StatelessWidget {
               // log("TrendingFood imgUrl $imgUrl");
               return GestureDetector(
                 onTap: () async {
-                  await screenController.getFoodDetailsFunction(singleFood.id.toString());
+                  // await screenController.getFoodDetailsFunction(singleFood.id.toString());
+                  Get.to(()=> FoodDetailsScreen(),
+                  arguments: [singleFood.id.toString()],
+                  );
+
                 },
                 child: Container(
                   width: Get.width * 0.30,
@@ -646,7 +651,7 @@ class PopularFoodNearByModule extends StatelessWidget {
                     Row(
                       children: [
                         Stack(
-                          children: [
+                          children: [//todo
                             Container(
                               height: 80,
                               width: 80,

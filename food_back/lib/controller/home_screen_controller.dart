@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
+import '../common_modules/food_details_model_sheet_module.dart';
 import '../constance/api_url.dart';
 import '../model/home_screen_model/all_restaurant_model.dart';
 import '../model/home_screen_model/best_reviewed_food_model.dart';
@@ -311,6 +312,7 @@ class HomeScreenController extends GetxController {
 
       if(isFoodDetailsSuccessStatus.value) {
         selectedFoodData = foodDetailsModel.data[0];
+        // FoodDetailsBottomSheetModule().foodDetailsBottomSheet(foodData: selectedFoodData);
       } else {
         log('getFoodDetailsFunction Else');
       }

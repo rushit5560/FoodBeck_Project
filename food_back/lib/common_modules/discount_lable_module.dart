@@ -6,9 +6,10 @@ import '../constance/color.dart';
 class DiscountLabelModule extends StatelessWidget {
   final String label;
   final bool labelShowRightSide;
+  final double fontSize;
 
   const DiscountLabelModule(
-      {Key? key, required this.label, required this.labelShowRightSide})
+      {Key? key, required this.label, required this.labelShowRightSide, this.fontSize = 8})
       : super(key: key);
 
   @override
@@ -28,7 +29,7 @@ class DiscountLabelModule extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: const TextStyle(color: Colors.white, fontSize: 8),
+        style: TextStyle(color: Colors.white, fontSize: fontSize),
       ).commonSymmetricPadding(horizontal: 5, vertical: 2),
     );
   }

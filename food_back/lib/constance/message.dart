@@ -27,6 +27,7 @@ class AppMessage {
   static String submit = "Submit";
 
   static String saveProfile = "Save profile";
+  static String favofavorite = "Favofavorite profile";
 
   static String password = "Enter password";
   static String newPassword = "New Password";
