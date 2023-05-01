@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:food_back/common_modules/custom_loader.dart';
@@ -37,11 +38,16 @@ class RestaurantsDetailsScreen extends StatelessWidget {
                       elevation: 0,
                       floating: true,
                       snap: true,
-                      // pinned: true,
+                      pinned: true,
                       expandedHeight: 250,
-                      // title: Text(
-                      //     restaurantsDetailsScreenController.restaurantName
-                      // ),
+
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(20.0),
+                          bottomRight: Radius.circular(20.0),
+                        ),
+                      ),
+
                       leading: Container(
                         height: 40,
                         width: 40,
@@ -75,12 +81,20 @@ class RestaurantsDetailsScreen extends StatelessWidget {
                         ).commonOnlyPadding(right: 10),
                       ],
                       flexibleSpace: FlexibleSpaceBar(
-                        background: Image.network(
-                          restaurantsDetailsScreenController.coverImage,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, obj, st) {
-                            return Image.asset(AppImages.AppLogo);
-                          },
+                        title: Text(restaurantsDetailsScreenController.restaurantName),
+                        // collapseMode: CollapseMode.parallax,
+                        background: ClipRRect(
+                          borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(20.0),
+                            bottomRight: Radius.circular(20.0),
+                          ),
+                          child: Image.network(
+                            restaurantsDetailsScreenController.coverImage,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, obj, st) {
+                              return Image.asset(AppImages.AppLogo);
+                            },
+                          ),
                         ),
                       ),
                     )
@@ -100,6 +114,7 @@ class RestaurantsDetailsScreen extends StatelessWidget {
                       Expanded(
                         child: TabBarView(
                           physics: const NeverScrollableScrollPhysics(),
+                          dragStartBehavior: DragStartBehavior.start,
                           children: [
                             restaurantsDetailsScreenController.allFoodList.isEmpty
                                 ? const Center(child: Text('Food not available'))
