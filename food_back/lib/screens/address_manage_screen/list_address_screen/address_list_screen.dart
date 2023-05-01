@@ -2,22 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:food_back/common_modules/common_appbar.dart';
 import 'package:food_back/common_modules/custom_loader.dart';
 import 'package:food_back/constance/app_images.dart';
-import 'package:food_back/constance/color.dart';
 import 'package:food_back/constance/message.dart';
 import 'package:food_back/model/address_screen_model/user_address_model.dart';
-import 'package:food_back/screens/address_manage_screen/add_address_screen/add_address_screen.dart';
+import 'package:food_back/screens/address_manage_screen/add_address_screen/address_manage_screen.dart';
 import 'package:food_back/utils/extensions.dart';
 import 'package:get/get.dart';
 
-import '../../common_modules/custom_alert_dialog.dart';
-import '../../constance/enums.dart';
-import '../../controller/address_manage_screen_controller.dart';
-import 'address_manage_screen_widgets.dart';
+import '../../../common_modules/custom_alert_dialog.dart';
+import '../../../constance/enums.dart';
+import '../../../controller/address_list_screen_controller.dart';
+import 'address_list_screen_widgets.dart';
 
-class AddressManageScreen extends StatelessWidget {
-  AddressManageScreen({Key? key}) : super(key: key);
+
+
+class AddressListScreen extends StatelessWidget {
+  AddressListScreen({Key? key}) : super(key: key);
   final addressManageScreenController =
-      Get.put(AddressManageScreenController());
+      Get.put(AddressListScreenController());
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +83,7 @@ class AddressManageScreen extends StatelessWidget {
                                         TextButton(
                                           onPressed: () {
                                             Get.to(
-                                              () => AddAddressScreen(),
+                                              () => AddressManageScreen(),
                                               arguments: [
                                                 AddressOption.edit,
                                                 singleAddress.id.toString()
@@ -123,7 +124,7 @@ class AddressManageScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        AddNewAddress(),
+                        AddNewAddressModule(),
                       ],
                     ).commonSymmetricPadding(vertical: 10),
                   ],

@@ -7,12 +7,12 @@ import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import '../../../constance/color.dart';
 import '../../../constance/message.dart';
-import '../../../controller/add_address_screen_controller.dart';
-import 'add_address_screen_widgets.dart';
+import '../../../controller/address_manage_screen_controller.dart';
+import 'address_manage_screen_widgets.dart';
 
-class AddAddressScreen extends StatelessWidget {
-  AddAddressScreen({Key? key}) : super(key: key);
-  final addAddressScreenController = Get.put(AddAddressScreenController());
+class AddressManageScreen extends StatelessWidget {
+  AddressManageScreen({Key? key}) : super(key: key);
+  final addAddressScreenController = Get.put(AddressManageScreenController());
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class AddAddressScreen extends StatelessWidget {
                   key: addAddressScreenController.addAddressFormKey,
                   child: Column(
                     children: [
-                      AddAddressTextFormFieldModule(),
+                      AddressManageTextFormFieldModule(),
                       SizedBox(height: 5.h),
                       CustomSubmitButtonModule(
                         labelText: AppMessage.submit,

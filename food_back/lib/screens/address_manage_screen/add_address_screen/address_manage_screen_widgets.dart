@@ -9,14 +9,14 @@ import '../../../constance/app_images.dart';
 import '../../../constance/color.dart';
 import '../../../constance/font_family.dart';
 import '../../../constance/message.dart';
-import '../../../controller/add_address_screen_controller.dart';
+import '../../../controller/address_manage_screen_controller.dart';
 import '../../../model/sign_up_model/zone_model.dart';
 import '../../../utils/validator.dart';
 import '../../../utils/widget/common_text_form_field.dart';
 
-class AddAddressTextFormFieldModule extends StatelessWidget {
-  AddAddressTextFormFieldModule({super.key});
-  final addAddressScreenController = Get.find<AddAddressScreenController>();
+class AddressManageTextFormFieldModule extends StatelessWidget {
+  AddressManageTextFormFieldModule({super.key});
+  final addAddressScreenController = Get.find<AddressManageScreenController>();
   @override
   Widget build(BuildContext context) {
     return Column(
