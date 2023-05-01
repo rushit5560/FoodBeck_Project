@@ -212,7 +212,7 @@ class AddAddressScreenController extends GetxController {
 
   Future<void> addUserAddressFunction() async {
     isLoading(true);
-    String url = ApiUrl.addUserAddessApi;
+    String url = ApiUrl.addUserAddressApi;
     log("addUserAddressFunction url: $url");
     try {
       String authorizationToken = await userPreference.getAuthorizationToken(

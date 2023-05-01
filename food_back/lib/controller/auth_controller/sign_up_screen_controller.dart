@@ -117,7 +117,6 @@ class SignUpScreenController extends GetxController {
   }
 
   Future<void> initMethod() async {
-    
     await getZoneListFunction();
   }
 

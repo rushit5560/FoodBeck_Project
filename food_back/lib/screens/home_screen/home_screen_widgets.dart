@@ -12,10 +12,12 @@ import 'package:food_back/utils/extensions.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import '../../common_modules/discount_lable_module.dart';
+import '../../constance/enums.dart';
 import '../../controller/home_screen_controller.dart';
 import '../../model/home_screen_model/all_restaurant_model.dart';
 import '../../model/home_screen_model/best_reviewed_food_model.dart';
 import '../../model/home_screen_model/category_model.dart';
+import '../../model/home_screen_model/cuisine_model.dart';
 import '../../model/home_screen_model/new_restaurant_model.dart';
 import '../../model/home_screen_model/popular_food_near_by_you_model.dart';
 import '../../model/home_screen_model/popular_restaurants_model.dart';
@@ -197,6 +199,7 @@ class CategoriesModule extends StatelessWidget {
                   arguments: [
                     singleCategory.id.toString(),
                     singleCategory.name,
+                    RestaurantComingFrom.category,
                   ],
                 );
               },
@@ -450,126 +453,131 @@ class TrendingFoodsModule extends StatelessWidget {
               TrendingFood singleFood = screenController.trendingFoodList[i];
               String imgUrl = ApiUrl.foodImagePathUrl + singleFood.image;
               // log("TrendingFood imgUrl $imgUrl");
-              return Container(
-                width: Get.width * 0.30,
-                margin: const EdgeInsets.symmetric(vertical: 10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: const [
-                    BoxShadow(
-                      blurRadius: 4,
-                      color: AppColors.greyColor,
-                      blurStyle: BlurStyle.outer,
-                    ),
-                  ],
-                ),
-                child: Stack(
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: 80,
-                          width: Get.width,
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(10),
-                              topLeft: Radius.circular(10),
+              return GestureDetector(
+                onTap: () async {
+                  await screenController.getFoodDetailsFunction(singleFood.id.toString());
+                },
+                child: Container(
+                  width: Get.width * 0.30,
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: const [
+                      BoxShadow(
+                        blurRadius: 4,
+                        color: AppColors.greyColor,
+                        blurStyle: BlurStyle.outer,
+                      ),
+                    ],
+                  ),
+                  child: Stack(
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 80,
+                            width: Get.width,
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(10),
+                                topLeft: Radius.circular(10),
+                              ),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.only(
+                                topRight: Radius.circular(10),
+                                topLeft: Radius.circular(10),
+                              ),
+                              child: Image.network(
+                                imgUrl,
+                                fit: BoxFit.fill,
+                                errorBuilder: (context, obj, st) {
+                                  return Image.asset(
+                                    AppImages.AppLogo,
+                                    fit: BoxFit.contain,
+                                  );
+                                },
+                              ),
                             ),
                           ),
-                          child: ClipRRect(
-                            borderRadius: const BorderRadius.only(
-                              topRight: Radius.circular(10),
-                              topLeft: Radius.circular(10),
-                            ),
-                            child: Image.network(
-                              imgUrl,
-                              fit: BoxFit.fill,
-                              errorBuilder: (context, obj, st) {
-                                return Image.asset(
-                                  AppImages.AppLogo,
-                                  fit: BoxFit.contain,
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                        Container(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Text(
-                                singleFood.name,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 1),
-                              Text(
-                                singleFood.description,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(fontSize: 10),
-                              ),
-                              const SizedBox(height: 1),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      "\$${singleFood.price}",
-                                      style: const TextStyle(fontSize: 10),
-                                    ),
+                          Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Text(
+                                  singleFood.name,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
                                   ),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      const Icon(
-                                        CupertinoIcons.star_fill,
-                                        color: Colors.orange,
-                                        size: 11,
-                                      ),
-                                      const SizedBox(width: 1),
-                                      Text(
-                                        // "4.5",
-                                        singleFood.rating,
+                                ),
+                                const SizedBox(height: 1),
+                                Text(
+                                  singleFood.description,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(fontSize: 10),
+                                ),
+                                const SizedBox(height: 1),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        "\$${singleFood.price}",
                                         style: const TextStyle(fontSize: 10),
                                       ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ).commonAllSidePadding(8),
-                        ),
-                      ],
-                    ),
-                    Positioned(
-                      right: 0,
-                      top: 8,
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          color: AppColors.greenColor,
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            bottomLeft: Radius.circular(10),
+                                    ),
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        const Icon(
+                                          CupertinoIcons.star_fill,
+                                          color: Colors.orange,
+                                          size: 11,
+                                        ),
+                                        const SizedBox(width: 1),
+                                        Text(
+                                          // "4.5",
+                                          singleFood.rating,
+                                          style: const TextStyle(fontSize: 10),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ).commonAllSidePadding(8),
                           ),
-                        ),
-                        child: Text(
-                          "${singleFood.discount} %",
-                          style:
-                              const TextStyle(color: Colors.white, fontSize: 8),
-                        ).commonSymmetricPadding(horizontal: 5, vertical: 2),
+                        ],
                       ),
-                    ),
-                  ],
-                ),
-              ).commonSymmetricPadding(horizontal: 10);
+                      Positioned(
+                        right: 0,
+                        top: 8,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: AppColors.greenColor,
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              bottomLeft: Radius.circular(10),
+                            ),
+                          ),
+                          child: Text(
+                            "${singleFood.discount} %",
+                            style:
+                                const TextStyle(color: Colors.white, fontSize: 8),
+                          ).commonSymmetricPadding(horizontal: 5, vertical: 2),
+                        ),
+                      ),
+                    ],
+                  ),
+                ).commonSymmetricPadding(horizontal: 10),
+              );
             },
           ),
         ),
@@ -1243,6 +1251,109 @@ class AllRestaurantsModule extends StatelessWidget {
     );
   }
 }
+
+class CuisineListModule extends StatelessWidget {
+  CuisineListModule({Key? key}) : super(key: key);
+  final screenController = Get.find<HomeScreenController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Text(
+                "Cuisines",
+                style: TextStyle(
+                  fontSize: 11.sp,
+                  color: AppColors.blackColor,
+                ),
+              ),
+            ),
+            Text(
+              "View All",
+              style: TextStyle(
+                fontSize: 10.sp,
+                color: AppColors.greenColor,
+              ),
+            ),
+          ],
+        ).commonSymmetricPadding(horizontal: 10, vertical: 5),
+        GridView.builder(
+          itemCount: screenController.cuisinesList.length,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 4,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            childAspectRatio: 0.85,
+          ),
+
+          itemBuilder: (context, i) {
+            CuisineDetails cuisineDetails = screenController.cuisinesList[i];
+            return cuisineGridTile(cuisineDetails);
+          },
+        ),
+      ],
+    ).commonSymmetricPadding(vertical: 5);
+  }
+  
+  Widget cuisineGridTile(CuisineDetails cuisineDetails) {
+    String imgUrl = ApiUrl.cuisineImageUrl + cuisineDetails.image;
+    // log('Cuisine imgUrl : $imgUrl');
+    return GestureDetector(
+      onTap: () {
+        Get.to(
+              () => RestaurantsScreen(),
+          arguments: [
+            cuisineDetails.id.toString(),
+            cuisineDetails.name,
+            RestaurantComingFrom.cuisines,
+          ],
+        );
+      },
+      child: Column(
+        children: [
+          Expanded(
+            flex: 75,
+            child:
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image.network(
+                width: Get.width,
+                imgUrl,
+                fit: BoxFit.cover,
+                errorBuilder: (context, obj, st) {
+                  return Image.asset(AppImages.AppLogo,
+                    fit: BoxFit.cover,
+                  );
+                },
+              ),
+            ).commonSymmetricPadding(horizontal: 5),
+          ),
+          Expanded(
+            flex: 25,
+            child:
+            Center(
+              child: Text(
+                cuisineDetails.name,
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(fontSize: 12),
+              ),
+            ).commonSymmetricPadding(horizontal: 2),
+          ),
+        ],
+      ),
+    );
+  }
+  
+}
+
 
 
 /*class BreakfastModule extends StatelessWidget {

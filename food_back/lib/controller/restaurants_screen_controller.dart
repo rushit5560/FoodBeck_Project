@@ -5,11 +5,15 @@ import 'package:food_back/constance/api_url.dart';
 import 'package:food_back/utils/user_preferences.dart';
 import 'package:get/get.dart';
 
+import '../constance/enums.dart';
 import '../model/home_screen_model/all_restaurant_model.dart';
 
 class RestaurantsScreenController extends GetxController {
-  String categoryId = Get.arguments[0] ?? "";
-  String categoryName = Get.arguments[1] ?? "";
+  String categoryId = Get.arguments[0] ?? ""; // Category Id & Cuisine Id same here
+  String categoryName = Get.arguments[1] ?? ""; // Category Name & Cuisine Name same here
+  RestaurantComingFrom restaurantComingFrom = Get.arguments[2] ?? RestaurantComingFrom.category;
+
+
   RxBool isLoading = false.obs;
   RxBool successStatus = false.obs;
 
@@ -22,7 +26,9 @@ class RestaurantsScreenController extends GetxController {
 
   Future<void> getRestaurantsFunction() async {
     isLoading(true);
-    String url = "${ApiUrl.getCategoryWiseRestaurantsApi}$zoneId/$categoryId";
+    String url = restaurantComingFrom == RestaurantComingFrom.category
+    ? "${ApiUrl.getCategoryWiseRestaurantsApi}$zoneId/$categoryId"
+    : "${ApiUrl.getCuisinesRestaurantApi}$zoneId/$categoryId";
     log('getRestaurantsFunction Api Url : $url');
 
     try {

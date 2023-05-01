@@ -12,7 +12,8 @@ class ApiUrl {
   static String restaurantImagePathUrl =
       "${databaseUrl}public/assests/restaurant/";
   static String profileImage = "${databaseUrl}public/assests/users/";
-// http://food.omdemo.co.in/public/assests/restaurant/logo.png
+  static String cuisineImageUrl = "${databaseUrl}public/assests/cuisine/";
+
   // Authentication
   static String registerApi = "$baseUrl/register_user";
   static String loginApi = "$baseUrl/login";
@@ -26,7 +27,7 @@ class ApiUrl {
   static String getProfileApi = "$baseUrl/profile/";
   static String updateProfileApi = "$baseUrl/update-profile/";
   static String contactus = "$baseUrl/contactus";
-//home page api's
+  //home page api's
   static String bannerApi = "$baseUrl/banner/";
   static String getCategoryApi = "$baseUrl/get-categorys";
   static String allProductsApi = "$baseUrl/all-products/";
@@ -40,11 +41,16 @@ class ApiUrl {
   static String getBestReviewedFoodApi = "$baseUrl/best-reviewed-food/";
   static String getAllRestaurantApi = "$baseUrl/restaurants/";
   static String getCategoryWiseRestaurantsApi = "$baseUrl/filter-by-category/";
+  static String getAllCuisinesApi = "$baseUrl/get-all-cuisine";
+  static String getCuisinesRestaurantApi = "$baseUrl/cuisine-restaurant/";
+  static String getFoodDetailsApi = "$baseUrl/product-detail/";
 
   // Address
   static String getUserAddressApi = "$baseUrl/get-addresses/";
   static String deleteUserAddressApi = "$baseUrl/delete-address/";
-  static String addUserAddessApi = "$baseUrl/add-address";
+  static String addUserAddressApi = "$baseUrl/add-address";
+  static String getByIdUserAddressApi = "$baseUrl/get-addressby-id/";
+  static String updateUserAddressApi = "$baseUrl/update-address/";
 }
 
 UserPreference userPreference = UserPreference();

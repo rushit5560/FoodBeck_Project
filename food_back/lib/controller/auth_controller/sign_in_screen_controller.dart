@@ -76,10 +76,10 @@ class SignInScreenController extends GetxController {
     isLoading(false);
   }
 
-  @override
+  /*@override
   void onInit() {
     loginEmailController.clear();
     loginPasswordController.clear();
     super.onInit();
-  }
+  }*/
 }

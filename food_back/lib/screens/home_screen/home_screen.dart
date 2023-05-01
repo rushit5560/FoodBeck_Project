@@ -31,6 +31,8 @@ class HomeScreen extends StatelessWidget {
                       ? Container() : PopularRestaurantsModule(),
                       homeScreenController.trendingFoodList.isEmpty
                       ? Container() : TrendingFoodsModule(),
+                      homeScreenController.cuisinesList.isEmpty
+                      ? Container() : CuisineListModule(),
                       homeScreenController.popularFoodNearbyList.isEmpty
                       ? Container() : PopularFoodNearByModule(),
                       homeScreenController.newRestaurantList.isEmpty

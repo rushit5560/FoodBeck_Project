@@ -10,6 +10,8 @@ import '../constance/api_url.dart';
 import '../model/home_screen_model/all_restaurant_model.dart';
 import '../model/home_screen_model/best_reviewed_food_model.dart';
 import '../model/home_screen_model/category_model.dart';
+import '../model/home_screen_model/cuisine_model.dart';
+import '../model/home_screen_model/food_details_model.dart';
 import '../model/home_screen_model/new_food_model.dart';
 import '../model/home_screen_model/new_restaurant_model.dart';
 import '../model/home_screen_model/popular_food_near_by_you_model.dart';
@@ -21,6 +23,9 @@ class HomeScreenController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool successStatus = false.obs;
   String zoneId = "";
+
+  RxBool isFoodDetailsLoading = false.obs;
+  RxBool isFoodDetailsSuccessStatus = false.obs;
 
   UserPreference userPreference = UserPreference();
 
@@ -34,6 +39,9 @@ class HomeScreenController extends GetxController {
   List<NewRestaurantData> newRestaurantList = [];
   List<BestReviewedFood> bestReviewedFoodList = [];
   List<RestaurantDetails> allRestaurantList = [];
+  List<CuisineDetails> cuisinesList = [];
+
+  FoodData selectedFoodData = FoodData();
 
 
   RxInt currentIndex = 0.obs;
@@ -255,32 +263,65 @@ class HomeScreenController extends GetxController {
       rethrow;
     }
     isLoading(false);
+    await getAllCuisinesFunction();
   }
 
-
-  /// Get All Products
-  /*Future<void> getAllProductFunction() async {
+  /// Get Cuisines List
+  Future<void> getAllCuisinesFunction() async {
     isLoading(true);
-    String url = "${ApiUrl.allProductsApi}1";
-    log("getAllProductFunction url : $url");
+    String url = ApiUrl.getAllCuisinesApi;
+    log('getAllCuisinesFunction Api Url :$url');
+
     try {
-      http.Response response = await http.get(Uri.parse(url));
-      // log('getTakeYourPickProductFunction response :${response.body}');
-      AllProductsModel allProductsModel =
-          AllProductsModel.fromJson(json.decode(response.body));
-      successStatus.value = allProductsModel.success;
-      if (successStatus.value) {
-        allProductsList.addAll(allProductsModel.data);
-        log('allProductsList Length : ${allProductsList.length}');
+      http.Response response =await http.get(Uri.parse(url));
+      log('getAllCuisinesFunction Response : ${response.body}');
+
+      CuisineModel cuisineModel = CuisineModel.fromJson(json.decode(response.body));
+      successStatus.value = cuisineModel.success;
+
+      if(successStatus.value) {
+        cuisinesList.clear();
+        cuisinesList.addAll(cuisineModel.data);
+        log('cuisinesList Length : ${cuisinesList.length}');
       } else {
-        log("getAllProductFunction Else");
+       log('getAllCuisinesFunction Else');
       }
-    } catch (e) {
-      log("getAllProductFunction Error $e");
+
+    } catch(e) {
+      log('getAllCuisinesFunction Error :$e');
       rethrow;
     }
     isLoading(false);
-  }*/
+  }
+
+
+  /// Get Food Details - Click on Food
+  Future<void> getFoodDetailsFunction(String foodId) async {
+    isFoodDetailsLoading(true);
+    String url = "${ApiUrl.getFoodDetailsApi}$foodId";
+    log('getFoodDetailsFunction Api Url : $url');
+
+    try {
+      Map<String, String> header = await ApiHeader().getHeader();
+      http.Response response = await http.get(Uri.parse(url), headers: header);
+      log('getFoodDetailsFunction Response :${response.body}');
+
+      FoodDetailsModel foodDetailsModel = FoodDetailsModel.fromJson(json.decode(response.body));
+      isFoodDetailsSuccessStatus.value = foodDetailsModel.success;
+
+      if(isFoodDetailsSuccessStatus.value) {
+        selectedFoodData = foodDetailsModel.data[0];
+      } else {
+        log('getFoodDetailsFunction Else');
+      }
+
+    } catch(e) {
+      log('getFoodDetailsFunction Error :$e');
+      rethrow;
+    }
+    isFoodDetailsLoading(false);
+  }
+
 
   @override
   void onInit() {
