@@ -38,6 +38,7 @@ class FoodDetailsScreen extends StatelessWidget {
                               left: 10, right: 10, bottom: 5),
                           FoodQuantityModule().commonOnlyPadding(
                               left: 10, right: 10, bottom: 10),
+                          FoodVariantModule(),
                           // FoodTotalAmountModule().commonOnlyPadding(left: 10, right: 10, bottom: 10),
                         ],
                       ),

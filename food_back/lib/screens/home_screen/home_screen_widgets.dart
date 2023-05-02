@@ -395,6 +395,9 @@ class TrendingFoodsModule extends StatelessWidget {
             itemBuilder: (context, i) {
               TrendingFood singleFood = screenController.trendingFoodList[i];
               String imgUrl = ApiUrl.foodImagePathUrl + singleFood.image;
+
+              String discountType = singleFood.discountType == "amount" ? "\$" : "%";
+
               // log("TrendingFood imgUrl $imgUrl");
               return GestureDetector(
                 onTap: () async {
@@ -503,24 +506,35 @@ class TrendingFoodsModule extends StatelessWidget {
                           ),
                         ],
                       ),
+
                       Positioned(
+                        top: 10,
                         right: 0,
-                        top: 8,
-                        child: Container(
-                          decoration: const BoxDecoration(
-                            color: AppColors.greenColor,
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10),
-                              bottomLeft: Radius.circular(10),
-                            ),
-                          ),
-                          child: Text(
-                            "${singleFood.discount} %",
-                            style:
-                                const TextStyle(color: Colors.white, fontSize: 8),
-                          ).commonSymmetricPadding(horizontal: 5, vertical: 2),
+                        child: DiscountLabelModule(
+                          label: "${singleFood.discount} $discountType",
+                          labelShowRightSide: true,
+                          fontSize: 10,
                         ),
                       ),
+
+                      // Positioned(
+                      //   right: 0,
+                      //   top: 8,
+                      //   child: Container(
+                      //     decoration: const BoxDecoration(
+                      //       color: AppColors.greenColor,
+                      //       borderRadius: BorderRadius.only(
+                      //         topLeft: Radius.circular(10),
+                      //         bottomLeft: Radius.circular(10),
+                      //       ),
+                      //     ),
+                      //     child: Text(
+                      //       "${singleFood.discount} %",
+                      //       style:
+                      //           const TextStyle(color: Colors.white, fontSize: 8),
+                      //     ).commonSymmetricPadding(horizontal: 5, vertical: 2),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ).commonSymmetricPadding(horizontal: 10),
@@ -575,6 +589,8 @@ class PopularFoodNearByModule extends StatelessWidget {
               // String imgUrl = ApiUrl.foodImagePathUrl + singleFood.image;
               String imgUrl =
                   "https://thumbs.dreamstime.com/b/wooden-table-food-top-view-cafe-102532611.jpg";
+
+              String discountType = singleFood.discountType == "amount" ? "\$" : "%";
               return Container(
                 width: Get.size.width * 0.65,
                 margin: const EdgeInsets.symmetric(vertical: 10),
@@ -614,10 +630,10 @@ class PopularFoodNearByModule extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            const Positioned(
+                            Positioned(
                               top: 10,
                               child: DiscountLabelModule(
-                                label: "10 %",
+                                label: "${singleFood.discount} $discountType",
                                 labelShowRightSide: false,
                               ),
                             ),
@@ -920,6 +936,9 @@ class BestReviewedFoodModule extends StatelessWidget {
               // String imgUrl = ApiUrl.foodImagePathUrl + singleFood.image;
               String imgUrl =
                   "https://thumbs.dreamstime.com/b/wooden-table-food-top-view-cafe-102532611.jpg";
+
+              String discountType = singleFood.discountType == "amount" ? "\$" : "%";
+
               return Container(
                 width: Get.size.width * 0.65,
                 margin: const EdgeInsets.symmetric(vertical: 10),
@@ -959,10 +978,10 @@ class BestReviewedFoodModule extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            const Positioned(
+                            Positioned(
                               top: 10,
                               child: DiscountLabelModule(
-                                label: "10 %",
+                                label: "${singleFood.discount} $discountType",
                                 labelShowRightSide: false,
                               ),
                             ),
@@ -1121,13 +1140,13 @@ class AllRestaurantsModule extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const Positioned(
+                    /*const Positioned(
                       top: 10,
                       child: DiscountLabelModule(
                         label: "10 %",
                         labelShowRightSide: false,
                       ),
-                    ),
+                    ),*/
                   ],
                 ),
                 const SizedBox(width: 5),

@@ -17,7 +17,7 @@ class FoodDetailsModel {
 
   factory FoodDetailsModel.fromJson(Map<String, dynamic> json) => FoodDetailsModel(
     success: json["success"] ?? false,
-    data: List<FoodData>.from((json["data"] ?? []).map((x) => FoodData.fromJson(x))),
+    data: List<FoodData>.from((json["data"] ?? []).map((x) => FoodData.fromJson(x ?? {}))),
     message: json["message"] ?? "",
   );
 

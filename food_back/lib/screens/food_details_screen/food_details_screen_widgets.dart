@@ -11,6 +11,7 @@ import '../../common_modules/discount_lable_module.dart';
 import '../../constance/app_images.dart';
 import '../../constance/color.dart';
 import '../../controller/food_details_screen_controller.dart';
+import '../../model/food_details_model/food_details_model.dart';
 
 class FoodImageModule extends StatelessWidget {
   FoodImageModule({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class FoodImageModule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String discountType = screenController.selectedFoodData.discountType! == "amount" ? "\$" : "%";
+    String discountType = screenController.selectedFoodData!.discountType == "amount" ? "\$" : "%";
 
     return Stack(
       children: [
@@ -46,7 +47,7 @@ class FoodImageModule extends StatelessWidget {
         Positioned(
           top: 10,
           child: DiscountLabelModule(
-            label: "${screenController.selectedFoodData.discount} $discountType OFF",
+            label: "${screenController.selectedFoodData!.discount} $discountType OFF",
             labelShowRightSide: false,
             fontSize: 12,
           ),
@@ -58,11 +59,11 @@ class FoodImageModule extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: screenController.selectedFoodData.veg! == 1 ? AppColors.greenColor
+              color: screenController.selectedFoodData!.veg == 1 ? AppColors.greenColor
               : AppColors.redColor,
             ),
             child: Text(
-              screenController.selectedFoodData.veg! == 1 ? "Veg" : "Non-Veg",
+              screenController.selectedFoodData!.veg == 1 ? "Veg" : "Non-Veg",
               maxLines: 1,
               // textAlign: TextAlign.end,
               overflow: TextOverflow.ellipsis,
@@ -89,7 +90,7 @@ class FoodNameAndBasicDetails extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          "${screenController.selectedFoodData.name}",
+          screenController.selectedFoodData!.name,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(
@@ -103,7 +104,7 @@ class FoodNameAndBasicDetails extends StatelessWidget {
           onTap: () {
             Get.to(
                   ()=> RestaurantsDetailsScreen(),
-              arguments: screenController.selectedFoodData.id.toString(),
+              arguments: screenController.selectedFoodData!.id.toString(),
             );
           },
           child: const Text(
@@ -119,7 +120,7 @@ class FoodNameAndBasicDetails extends StatelessWidget {
         Row(
           children: [
             RatingBar.builder(
-              initialRating: double.parse(screenController.selectedFoodData.rating!),
+              initialRating: double.parse(screenController.selectedFoodData!.rating),
               minRating: 1,
               direction: Axis.horizontal,
               allowHalfRating: true,
@@ -138,7 +139,7 @@ class FoodNameAndBasicDetails extends StatelessWidget {
             ),
             const SizedBox(width: 5),
             Text(
-              "(${screenController.selectedFoodData.rating})",
+              "(${screenController.selectedFoodData!.rating})",
               style: const TextStyle(fontSize: 14),
             )
           ],
@@ -146,7 +147,7 @@ class FoodNameAndBasicDetails extends StatelessWidget {
         const SizedBox(height: 3),
 
         Text(
-          "\$${screenController.selectedFoodData.price}",
+          "\$${screenController.selectedFoodData!.price}",
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -165,7 +166,7 @@ class FoodNameAndBasicDetails extends StatelessWidget {
           ),
         ),
         Text(
-          "${screenController.selectedFoodData.description}",
+          screenController.selectedFoodData!.description,
           maxLines: 5,
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(fontSize: 15),
@@ -232,6 +233,73 @@ class FoodQuantityModule extends StatelessWidget {
   }
 }
 
+
+class FoodVariantModule extends StatelessWidget {
+  FoodVariantModule({Key? key}) : super(key: key);
+  final screenController = Get.find<FoodDetailsScreenController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return  ListView.builder(
+      itemCount: screenController.selectedFoodData!.variations.length,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      itemBuilder: (context, i) {
+
+        Variation variantData = screenController.selectedFoodData!.variations[i];
+        log('variantData : ${variantData.selectedVariantValue}');
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              variantData.name,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 5),
+            ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: variantData.values.length,
+              itemBuilder: (context, j) {
+                VariantValue variantValue = variantData.values[j];
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Radio<String>(
+                            onChanged: (value) {
+                              variantData.selectedVariantValue = value!;
+                              screenController.loadUI();
+                            },
+                            value: variantValue.optionPrice,
+                            groupValue: variantData.selectedVariantValue,
+                          ),
+                          Text(
+                              variantValue.label
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    Text(
+                        "+ \$ ${variantValue.optionPrice}",
+                      style: const TextStyle(color: AppColors.greyColor),
+                    ),
+                  ],
+                );
+              },
+            ),
+
+          ],
+        );
+      },
+    ).commonSymmetricPadding(horizontal: 10);
+  }
+}
+
 class StoreButtonAndCartButtonModule extends StatelessWidget {
   StoreButtonAndCartButtonModule({Key? key}) : super(key: key);
   final screenController = Get.find<FoodDetailsScreenController>();
@@ -248,7 +316,7 @@ class StoreButtonAndCartButtonModule extends StatelessWidget {
               onTap: () {
                 Get.to(
                       ()=> RestaurantsDetailsScreen(),
-                arguments: screenController.selectedFoodData.id.toString(),
+                arguments: screenController.selectedFoodData!.id.toString(),
                 );
               },
               child: Container(
@@ -327,4 +395,7 @@ class FoodTotalAmountModule extends StatelessWidget {
     );
   }
 }
+
+
+
 

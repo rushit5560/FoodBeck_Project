@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import '../constance/api_url.dart';
-import '../model/home_screen_model/food_details_model.dart';
+import '../model/food_details_model/food_details_model.dart';
 
 class FoodDetailsScreenController extends GetxController {
   String foodId = Get.arguments[0] ?? "0";
@@ -14,7 +14,7 @@ class FoodDetailsScreenController extends GetxController {
 
   // RxString foodName = "".obs;
 
-  FoodData selectedFoodData = FoodData();
+  FoodData? selectedFoodData;
   String imageUrl = "";
   RxInt qty = 1.obs;
   double foodPrice = 0.0;
@@ -35,9 +35,9 @@ class FoodDetailsScreenController extends GetxController {
       successStatus.value = foodDetailsModel.success;
 
       if(successStatus.value) {
-        selectedFoodData = foodDetailsModel.data[0];
-        imageUrl = ApiUrl.foodImagePathUrl + selectedFoodData.image!;
-        foodPrice = double.parse(selectedFoodData.price!);
+        selectedFoodData = foodDetailsModel.data;
+        imageUrl = ApiUrl.foodImagePathUrl + selectedFoodData!.image;
+        foodPrice = double.parse(selectedFoodData!.price);
         finalFoodAmount.value = foodPrice * qty.value;
         // FoodDetailsBottomSheetModule().foodDetailsBottomSheet(foodData: selectedFoodData);
       } else {

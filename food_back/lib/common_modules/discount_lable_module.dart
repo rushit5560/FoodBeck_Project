@@ -19,8 +19,8 @@ class DiscountLabelModule extends StatelessWidget {
         color: AppColors.greenColor,
         borderRadius: labelShowRightSide == true
             ? const BorderRadius.only(
-                topRight: Radius.circular(10),
-                bottomRight: Radius.circular(10),
+                topLeft: Radius.circular(10),
+                bottomLeft: Radius.circular(10),
               )
             : const BorderRadius.only(
                 topRight: Radius.circular(10),

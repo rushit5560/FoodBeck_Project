@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:food_back/model/home_screen_model/popular_restaurants_model.dart';
-import 'package:food_back/screens/search_screen/search_screen.dart';
 import 'package:food_back/utils/user_preferences.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
@@ -47,9 +46,8 @@ class HomeScreenController extends GetxController {
 
 
   RxInt currentIndex = 0.obs;
-  // TextEditingController searchbarController = TextEditingController();
+  TextEditingController searchbarController = TextEditingController();
   final CarouselController carouselController = CarouselController();
-
 
   /// Get Banners
   Future<void> getBannerFunction() async {

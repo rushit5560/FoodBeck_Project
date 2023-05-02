@@ -75,7 +75,7 @@ class ProfileScreen extends StatelessWidget {
             // Favourite Items
             SettingListTileModule(
               onTap: () {
-                Get.to(() => const FavouriteScreen());
+                Get.to(() => FavouriteScreen());
               },
               leadingImage: AppImages.favourite,
               title: AppMessage.favouriteItemsLabel,

@@ -36,10 +36,10 @@ class PopularFoodData {
     required this.image,
     required this.categoryId,
     required this.subcategoryId,
-    required this.variations,
-    required this.addOns,
-    required this.attributes,
-    required this.choiceOptions,
+    // required this.variations,
+    // required this.addOns,
+    // required this.attributes,
+    // required this.choiceOptions,
     required this.price,
     required this.discount,
     required this.discountType,
@@ -67,10 +67,10 @@ class PopularFoodData {
   String image;
   int categoryId;
   int subcategoryId;
-  String variations;
-  String addOns;
-  String attributes;
-  String choiceOptions;
+  // String variations;
+  // String addOns;
+  // String attributes;
+  // String choiceOptions;
   String price;
   String discount;
   String discountType;
@@ -98,10 +98,10 @@ class PopularFoodData {
     image: json["image"] ?? "",
     categoryId: json["category_id"] ?? 0,
     subcategoryId: json["subcategory_id"] ?? 0,
-    variations: json["variations"] ?? "",
-    addOns: json["add_ons"] ?? "",
-    attributes: json["attributes"] ?? "",
-    choiceOptions: json["choice_options"] ?? "",
+    // variations: json["variations"] ?? "",
+    // addOns: json["add_ons"] ?? "",
+    // attributes: json["attributes"] ?? "",
+    // choiceOptions: json["choice_options"] ?? "",
     price: json["price"] ?? "",
     discount: json["discount"] ?? "",
     discountType: json["discount_type"] ?? "",
@@ -130,10 +130,10 @@ class PopularFoodData {
     "image": image,
     "category_id": categoryId,
     "subcategory_id": subcategoryId,
-    "variations": variations,
-    "add_ons": addOns,
-    "attributes": attributes,
-    "choice_options": choiceOptions,
+    // "variations": variations,
+    // "add_ons": addOns,
+    // "attributes": attributes,
+    // "choice_options": choiceOptions,
     "price": price,
     "discount": discount,
     "discount_type": discountType,

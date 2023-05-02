@@ -48,6 +48,9 @@ class ApiUrl {
   // Search Screen
   static String searchApi = "$baseUrl/search?value=";
 
+  // Favourite Screen
+  static String getFavouriteApi = "$baseUrl/getFavouriteApi/";
+
   // Address
   static String getUserAddressApi = "$baseUrl/get-addresses/";
   static String deleteUserAddressApi = "$baseUrl/delete-address/";
