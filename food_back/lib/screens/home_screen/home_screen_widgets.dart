@@ -25,65 +25,7 @@ import '../../model/home_screen_model/trending_food_model.dart';
 import '../food_details_screen/food_details_screen.dart';
 import '../restaurants_screen/restaurants_screen.dart';
 
-class SearchbarModule extends StatelessWidget {
-  final void Function(bool)? onPressed;
 
-  SearchbarModule({Key? key, this.onPressed}) : super(key: key);
-  final screenController = Get.find<HomeScreenController>();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          color: Theme.of(context).colorScheme.background,
-          child: Row(
-            children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(13),
-                    color: Theme.of(context).dividerColor,
-                  ),
-                  child: TextFormField(
-                    controller: screenController.searchbarController,
-                    decoration: const InputDecoration(
-                      contentPadding: EdgeInsets.only(left: 10),
-                      border: InputBorder.none,
-                      hintText: 'Find something...',
-                    ),
-                  ),
-                ).commonOnlyPadding(right: 12),
-              ),
-              Container(
-                //padding: const EdgeInsets.all(1),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: Theme.of(context).primaryColor,
-                ),
-                child: IconButton(
-                  onPressed: () {
-                    //log('message');
-                  },
-                  icon: const Icon(
-                    Icons.search,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ).commonOnlyPadding(left: 10, right: 10),
-        // InkWell(
-        //   onTap: () {
-        //     Get.to(() => FoodScreen());
-        //   },
-        //
-        // ),
-      ],
-    );
-  }
-}
 
 class BannerModule extends StatelessWidget {
   BannerModule({Key? key}) : super(key: key);

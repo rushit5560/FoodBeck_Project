@@ -25,39 +25,27 @@ class FoodDetailsScreen extends StatelessWidget {
         () => foodDetailsScreenController.isLoading.value
         ? const CustomLoader()
         : Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-
-            Expanded(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
                     child: SingleChildScrollView(
                       physics: const BouncingScrollPhysics(),
                       child: Column(
                         children: [
                           FoodImageModule().commonAllSidePadding(10),
-                          FoodNameAndBasicDetails().commonOnlyPadding(left: 10, right: 10, bottom: 5),
-                          FoodQuantityModule().commonOnlyPadding(left: 10, right: 10, bottom: 10),
-                          FoodTotalAmountModule().commonOnlyPadding(left: 10, right: 10, bottom: 10),
+                          FoodNameAndBasicDetails().commonOnlyPadding(
+                              left: 10, right: 10, bottom: 5),
+                          FoodQuantityModule().commonOnlyPadding(
+                              left: 10, right: 10, bottom: 10),
+                          // FoodTotalAmountModule().commonOnlyPadding(left: 10, right: 10, bottom: 10),
                         ],
                       ),
                     ),
                   ),
 
-                  Row(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: AppColors.greenColor,
-                          ),
-                        ),
-                        child: const Icon(
-                          Icons.store_mall_directory_rounded,
-                          color: AppColors.greenColor,
-                        ).commonAllSidePadding(10),
-                      ),
-                    ],
-                  ).commonSymmetricPadding(horizontal: 10, vertical: 10),
+                  // At the end
+                  StoreButtonAndCartButtonModule(),
 
                   /*Row(
               children: [
@@ -184,8 +172,8 @@ class FoodDetailsScreen extends StatelessWidget {
               ],
             ).commonAllSidePadding(5),*/
 
-            // Description
-            /*const Text(
+                  // Description
+                  /*const Text(
               "Description",
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -200,8 +188,8 @@ class FoodDetailsScreen extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(fontSize: 14),
             ),*/
-          ],
-        ),
+                ],
+              ),
       ),
     );
   }

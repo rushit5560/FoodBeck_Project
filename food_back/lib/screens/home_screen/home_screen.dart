@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_back/common_modules/common_appbar.dart';
 import 'package:food_back/utils/extensions.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
@@ -13,6 +14,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: customAppBar(titleText: "FoodBeck", leadingShow: false, actionShow: false),
       body: SafeArea(
         child: Obx(
           () => homeScreenController.isLoading.value
@@ -21,7 +23,7 @@ class HomeScreen extends StatelessWidget {
                   // scrollDirection: Axis.vertical,
                   child: Column(
                     children: [
-                      SearchbarModule(),
+                      // SearchbarModule(),
                       homeScreenController.bannerList.isEmpty
                       ? Container() : BannerModule(),
                       homeScreenController.categoryList.isEmpty

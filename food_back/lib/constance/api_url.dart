@@ -45,6 +45,9 @@ class ApiUrl {
   static String getCuisinesRestaurantApi = "$baseUrl/cuisine-restaurant/";
   static String getFoodDetailsApi = "$baseUrl/product-detail/";
 
+  // Search Screen
+  static String searchApi = "$baseUrl/search?value=";
+
   // Address
   static String getUserAddressApi = "$baseUrl/get-addresses/";
   static String deleteUserAddressApi = "$baseUrl/delete-address/";

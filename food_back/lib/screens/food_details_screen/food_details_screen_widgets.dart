@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:food_back/screens/restaurants_details_screen/restaurants_details_screen.dart';
 import 'package:food_back/utils/extensions.dart';
 import 'package:get/get.dart';
 
@@ -97,12 +99,20 @@ class FoodNameAndBasicDetails extends StatelessWidget {
         ),
         const SizedBox(height: 3),
 
-        const Text(
-          "Restaurant Name",
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-              fontSize: 15, color: AppColors.greenColor),
+        GestureDetector(
+          onTap: () {
+            Get.to(
+                  ()=> RestaurantsDetailsScreen(),
+              arguments: screenController.selectedFoodData.id.toString(),
+            );
+          },
+          child: const Text(
+            "Restaurant Name",
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+                fontSize: 15, color: AppColors.greenColor),
+          ),
         ),
         const SizedBox(height: 3),
 
@@ -222,6 +232,71 @@ class FoodQuantityModule extends StatelessWidget {
   }
 }
 
+class StoreButtonAndCartButtonModule extends StatelessWidget {
+  StoreButtonAndCartButtonModule({Key? key}) : super(key: key);
+  final screenController = Get.find<FoodDetailsScreenController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        FoodTotalAmountModule().commonSymmetricPadding(horizontal: 10),
+        Row(
+          children: [
+
+            GestureDetector(
+              onTap: () {
+                Get.to(
+                      ()=> RestaurantsDetailsScreen(),
+                arguments: screenController.selectedFoodData.id.toString(),
+                );
+              },
+              child: Container(
+                height: 55,
+                width: 55,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(color: AppColors.greenColor, width: 2),
+                ),
+                child: const Icon(
+                  Icons.store_mall_directory_rounded,
+                  color: AppColors.greenColor,
+                ).commonAllSidePadding(10),
+              ).commonOnlyPadding(right: 20),
+            ),
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  Fluttertoast.cancel();
+                  Fluttertoast.showToast(msg: "Going to cart!");
+                },
+                child: Container(
+                  width: Get.size.width,
+                  height: 55,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: AppColors.greenColor,
+                  ),
+                  child: const Center(
+                    child: Text(
+                      'Order Now',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ).commonSymmetricPadding(horizontal: 10, vertical: 10),
+      ],
+    );
+  }
+}
+
 class FoodTotalAmountModule extends StatelessWidget {
   FoodTotalAmountModule({Key? key}) : super(key: key);
   final screenController = Get.find<FoodDetailsScreenController>();
@@ -229,6 +304,7 @@ class FoodTotalAmountModule extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Text(
           "Total Amount: ",
@@ -251,5 +327,4 @@ class FoodTotalAmountModule extends StatelessWidget {
     );
   }
 }
-
 

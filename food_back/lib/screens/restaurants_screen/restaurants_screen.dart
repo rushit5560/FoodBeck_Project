@@ -41,14 +41,15 @@ class RestaurantsScreen extends StatelessWidget {
                             restaurantList:
                                 restaurantsScreenController.allRestaurantList,
                           ),
+
                           restaurantsScreenController.vegRestaurantList.isEmpty
                           ? const Center(child: Text('Veg restaurant not available'))
                           : AllRestaurantsShowModule(
                             restaurantList:
                                 restaurantsScreenController.vegRestaurantList,
                           ),
-                          restaurantsScreenController
-                              .nonVegRestaurantList.isEmpty
+
+                          restaurantsScreenController.nonVegRestaurantList.isEmpty
                           ? const Center(child: Text('Non-veg restaurant not available'))
                           : AllRestaurantsShowModule(
                             restaurantList: restaurantsScreenController

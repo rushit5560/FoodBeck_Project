@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:food_back/model/home_screen_model/popular_restaurants_model.dart';
+import 'package:food_back/screens/search_screen/search_screen.dart';
 import 'package:food_back/utils/user_preferences.dart';
 import 'package:get/get.dart';
 import 'dart:convert';
@@ -46,8 +47,9 @@ class HomeScreenController extends GetxController {
 
 
   RxInt currentIndex = 0.obs;
-  TextEditingController searchbarController = TextEditingController();
+  // TextEditingController searchbarController = TextEditingController();
   final CarouselController carouselController = CarouselController();
+
 
   /// Get Banners
   Future<void> getBannerFunction() async {
@@ -56,7 +58,7 @@ class HomeScreenController extends GetxController {
     log("getBannerFunction url : $url");
     try {
       http.Response response = await http.get(Uri.parse(url));
-      // log('getBannerFunction response :${response.body}');
+      log('getBannerFunction response :${response.body}');
       BannerModel cmsPageModel =
           BannerModel.fromJson(json.decode(response.body));
       successStatus.value = cmsPageModel.success;
@@ -107,7 +109,7 @@ class HomeScreenController extends GetxController {
     log("getAllPopularRestaurantFunctionurl: $url");
     try {
       http.Response response = await http.get(Uri.parse(url));
-      log("getAllPopularRestaurantFunction response: ${response.body}");
+      // log("getAllPopularRestaurantFunction response: ${response.body}");
       AllPopularRestaurantsModel allPopularRestaurantsModel =
           AllPopularRestaurantsModel.fromJson(json.decode(response.body));
       successStatus.value = allPopularRestaurantsModel.success;
@@ -132,7 +134,7 @@ class HomeScreenController extends GetxController {
 
     try {
       http.Response response = await http.get(Uri.parse(url));
-      log('getTrendingFoodFunction Response : ${response.body}');
+      // log('getTrendingFoodFunction Response : ${response.body}');
 
       TrendingFoodModel trendingFoodModel = TrendingFoodModel.fromJson(json.decode(response.body));
       successStatus.value = trendingFoodModel.success;
@@ -160,7 +162,7 @@ class HomeScreenController extends GetxController {
 
     try {
       http.Response response = await http.get(Uri.parse(url));
-      log('getPopularFoodNearByYouFunction Response : ${response.body}');
+      // log('getPopularFoodNearByYouFunction Response : ${response.body}');
 
       PopularFoodNearByModel popularFoodNearByModel = PopularFoodNearByModel.fromJson(json.decode(response.body));
       successStatus.value = popularFoodNearByModel.success;
@@ -188,7 +190,7 @@ class HomeScreenController extends GetxController {
 
     try {
       http.Response response = await http.get(Uri.parse(url));
-      log('getNewRestaurantFunction Response : ${response.body}');
+      // log('getNewRestaurantFunction Response : ${response.body}');
 
       NewRestaurantModel newRestaurantModel = NewRestaurantModel.fromJson(json.decode(response.body));
       successStatus.value = newRestaurantModel.success;
@@ -217,7 +219,7 @@ class HomeScreenController extends GetxController {
 
     try {
       http.Response response = await http.get(Uri.parse(url));
-      log('getBestReviewedFunction Response : ${response.body}');
+      // log('getBestReviewedFunction Response : ${response.body}');
 
       BestReviewedFoodModel bestReviewedFoodModel = BestReviewedFoodModel.fromJson(json.decode(response.body));
       successStatus.value = bestReviewedFoodModel.success;
@@ -246,7 +248,7 @@ class HomeScreenController extends GetxController {
 
     try {
       http.Response response = await http.get(Uri.parse(url));
-      log('getAllRestaurantFunction Response : ${response.body}');
+      // log('getAllRestaurantFunction Response : ${response.body}');
 
       AllRestaurantModel allRestaurantModel = AllRestaurantModel.fromJson(json.decode(response.body));
       successStatus.value = allRestaurantModel.success;
@@ -275,7 +277,7 @@ class HomeScreenController extends GetxController {
 
     try {
       http.Response response =await http.get(Uri.parse(url));
-      log('getAllCuisinesFunction Response : ${response.body}');
+      // log('getAllCuisinesFunction Response : ${response.body}');
 
       CuisineModel cuisineModel = CuisineModel.fromJson(json.decode(response.body));
       successStatus.value = cuisineModel.success;
@@ -305,7 +307,7 @@ class HomeScreenController extends GetxController {
     try {
       Map<String, String> header = await ApiHeader().getHeader();
       http.Response response = await http.get(Uri.parse(url), headers: header);
-      log('getFoodDetailsFunction Response :${response.body}');
+      // log('getFoodDetailsFunction Response :${response.body}');
 
       FoodDetailsModel foodDetailsModel = FoodDetailsModel.fromJson(json.decode(response.body));
       isFoodDetailsSuccessStatus.value = foodDetailsModel.success;
