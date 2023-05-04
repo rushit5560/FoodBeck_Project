@@ -66,11 +66,10 @@ class AppMessage {
       r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?";
   static String patternRegX = r'(^[0-9]*$)';
 
-  static String updateProfile = "update profile";
   static String logOut = "Logout";
   static String yes = "Yes";
   static String no = "No";
-  static String addressHeader = "Address";
+  static String addressHeader = "Addresses.";
   static String addNewAddressHeader = "+ Add New Address";
 
   static String termsAndConditionLabel = "Terms & Condition";
@@ -96,5 +95,7 @@ class AppMessage {
   static String lfloorkIsRequired = "Please enter floor.";
 
   static String pleaseSelectAddress = 'Please select address.';
+  static String pleaseSelectZone = 'Please select zone.';
+
   static String houseIsRequired = "Please enter house no.";
 }

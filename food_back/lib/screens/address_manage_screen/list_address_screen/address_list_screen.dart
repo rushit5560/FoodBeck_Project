@@ -6,19 +6,18 @@ import 'package:food_back/constance/message.dart';
 import 'package:food_back/model/address_screen_model/user_address_model.dart';
 import 'package:food_back/screens/address_manage_screen/add_address_screen/address_manage_screen.dart';
 import 'package:food_back/utils/extensions.dart';
+import 'package:food_back/utils/style.dart';
 import 'package:get/get.dart';
 
 import '../../../common_modules/custom_alert_dialog.dart';
+import '../../../constance/color.dart';
 import '../../../constance/enums.dart';
 import '../../../controller/address_list_screen_controller.dart';
 import 'address_list_screen_widgets.dart';
 
-
-
 class AddressListScreen extends StatelessWidget {
   AddressListScreen({Key? key}) : super(key: key);
-  final addressManageScreenController =
-      Get.put(AddressListScreenController());
+  final addressManageScreenController = Get.put(AddressListScreenController());
 
   @override
   Widget build(BuildContext context) {
@@ -102,12 +101,18 @@ class AddressListScreen extends StatelessWidget {
                                               onYesTap: () async =>
                                                   addressManageScreenController
                                                       .deleteUserAddressFunction(
-                                                addressId:
-                                                    singleAddress.id.toString(),
-                                              ),
+                                                         
+                                                              singleAddress.id
+                                                                  .toString(),
+                                                           i),
                                             );
                                           },
-                                          child: const Text('Delete'),
+                                          child: Text(
+                                            'Delete',
+                                            style: TextStyleConfig.textStyle(
+                                              textColor: AppColors.redColor,
+                                            ),
+                                          ),
                                         ),
                                       ],
                                     ),

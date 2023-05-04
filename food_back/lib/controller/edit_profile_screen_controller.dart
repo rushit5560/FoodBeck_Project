@@ -240,6 +240,7 @@ class EditProfileScreenController extends GetxController {
       // Map<String, String> header = await ApiHeader().getHeader();
 
       if (userProfilePhoto != null) {
+        log("userProfilePhoto != null ${userProfilePhoto != null}");
         var request = http.MultipartRequest('POST', Uri.parse(url));
 
         var stream = http.ByteStream(userProfilePhoto!.openRead());
@@ -260,8 +261,11 @@ class EditProfileScreenController extends GetxController {
         request.files.add(multiPart);
 
         log('updateProfileDataFunction request.fields: ${request.fields}');
+        log('updateProfileDataFunction request.files: ${userProfilePhoto!.path}');
+
         log("selectedZoneValue zodeid ${selectedZoneValue!.id}");
         log("selectedZoneValue Zonename ${selectedZoneValue!.name}");
+        log("selectedZoneValue profile image ${userProfilePhoto!.path}");
 
         var response = await request.send();
 
@@ -294,6 +298,10 @@ class EditProfileScreenController extends GetxController {
             userPreference.setStringValueInPrefs(
                 key: UserPreference.userZoneIdKey,
                 value: updateProfileModel.data.zoneId);
+
+            userPreference.setStringValueInPrefs(
+                key: UserPreference.userImageKey,
+                value: updateProfileModel.data.image);
             Get.back();
             // await profileScreenController.getUserAccount();
           } else {

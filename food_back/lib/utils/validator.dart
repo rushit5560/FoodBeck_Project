@@ -21,7 +21,6 @@ class FieldValidation {
     }
     return null;
   }
-  
 
   String? validateFloor(String value) {
     if (value.isEmpty) {
@@ -29,7 +28,7 @@ class FieldValidation {
     }
     return null;
   }
-  
+
   String? validateDropdownAddress(String value) {
     if (value == AppMessage.chooseOption) {
       return AppMessage.pleaseSelectAddress;
@@ -37,6 +36,15 @@ class FieldValidation {
       return null;
     }
   }
+
+  String? validateDropdownZone(String value) {
+    if (value == "Choose zone") {
+      return AppMessage.pleaseSelectZone;
+    } else {
+      return null;
+    }
+  }
+
   String? validateHouseNo(String value) {
     if (value.isEmpty) {
       return AppMessage.houseIsRequired;

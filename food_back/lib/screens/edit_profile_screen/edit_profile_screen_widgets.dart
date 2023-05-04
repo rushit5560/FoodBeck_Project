@@ -64,8 +64,9 @@ class ProfileImageModule extends StatelessWidget {
                 width: 25,
                 margin: const EdgeInsets.only(bottom: 10),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    color: AppColors.greenColor),
+                  borderRadius: BorderRadius.circular(50),
+                  color: AppColors.greenColor,
+                ),
                 child: const Icon(
                   Icons.camera_alt,
                   color: Colors.white,

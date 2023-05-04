@@ -16,7 +16,6 @@ import 'package:http/http.dart' as http;
 
 import 'address_list_screen_controller.dart';
 
-
 class AddressManageScreenController extends GetxController {
   AddressOption addressOption = Get.arguments[0];
   String addressId = Get.arguments[1];
@@ -29,8 +28,7 @@ class AddressManageScreenController extends GetxController {
 
   UserPreference userPreference = UserPreference();
   GlobalKey<FormState> addAddressFormKey = GlobalKey<FormState>();
-  final addressManageScreenController =
-      Get.find<AddressListScreenController>();
+  final addressManageScreenController = Get.find<AddressListScreenController>();
   TextEditingController contactPhoneNoController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController contactPersonNameController = TextEditingController();
@@ -63,7 +61,13 @@ class AddressManageScreenController extends GetxController {
   buttonOnpressButtonFunction() async {
     if (addAddressFormKey.currentState!.validate()) {
       if (addressOption == AddressOption.add) {
-        await addUserAddressFunction();
+        if (selectAddressValue.value == "Choose Address") {
+          Fluttertoast.showToast(msg: "Please selecte address");
+        } else if (selectedZoneValue!.name == "Choose zone") {
+          Fluttertoast.showToast(msg: "Please selecte zone");
+        } else {
+          await addUserAddressFunction();
+        }
       } else if (addressOption == AddressOption.edit) {
         await updateUserAddressFunction();
       }
@@ -85,12 +89,12 @@ class AddressManageScreenController extends GetxController {
 
       if (isSuccessStatus.value) {
         zoneList.clear();
+        zoneList.add(ZoneData(name: "Choose zone"));
+
         if (zoneModel.data.isNotEmpty) {
-          // zoneList.add(ZoneData(name: "Choose zone"));
           zoneList.addAll(zoneModel.data);
           selectedZoneValue = zoneList[0];
         }
-        // log('selectedZoneValue : ${selectedZoneValue!.name}');
       } else {
         log('getZoneListFunction Else');
       }
@@ -143,6 +147,8 @@ class AddressManageScreenController extends GetxController {
         for (int i = 0; i < zoneList.length; i++) {
           if (getByIdUserAddressModel.data.zoneId == zoneList[i].id) {
             selectedZoneValue = zoneList[i];
+            log("zoneList $zoneList");
+            log("selectedZoneValue $selectedZoneValue");
           }
         }
       } else {

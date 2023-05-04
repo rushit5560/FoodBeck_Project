@@ -1,14 +1,11 @@
 import 'dart:developer';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:food_back/utils/extensions.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../common_modules/discount_lable_module.dart';
+import '../../constance/api_url.dart';
 import '../../constance/app_images.dart';
 import '../../constance/color.dart';
 import '../../controller/restaurants_screen_controller.dart';
@@ -31,9 +28,9 @@ class AllRestaurantsShowModule extends StatelessWidget {
       },
       itemBuilder: (context, i) {
         RestaurantDetails restaurantDetails = restaurantList[i];
-        // String imgUrl = ApiUrl.restaurantImagePathUrl + restaurantDetails.coverPhoto;
-        String imgUrl =
-            "https://thumbs.dreamstime.com/b/wooden-table-food-top-view-cafe-102532611.jpg";
+        String imgUrl = ApiUrl.restaurantImagePathUrl + restaurantDetails.coverPhoto;
+        // String imgUrl =
+            // "https://thumbs.dreamstime.com/b/wooden-table-food-top-view-cafe-102532611.jpg";
         return Row(
           children: [
             Stack(

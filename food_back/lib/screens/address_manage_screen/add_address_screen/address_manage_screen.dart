@@ -6,6 +6,7 @@ import 'package:food_back/utils/extensions.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import '../../../constance/color.dart';
+import '../../../constance/enums.dart';
 import '../../../constance/message.dart';
 import '../../../controller/address_manage_screen_controller.dart';
 import 'address_manage_screen_widgets.dart';
@@ -19,7 +20,9 @@ class AddressManageScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.whiteColor,
       appBar: customAppBar(
-        titleText: "Add Address",
+        titleText: addAddressScreenController.addressOption == AddressOption.add
+            ? "Add addresses"
+            : "Edit addresses",
         leadingShow: false,
         actionShow: false,
       ),

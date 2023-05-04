@@ -31,25 +31,27 @@ class UserPreference {
   }
 
   /// Set UserName & Profile Pic
-  setUserProfilePrefs({
-    required String userName,
-    required String userProfile,
-    required String userEmail,
-    required String userPhoneNo,
-  }) async {
+  setUserProfilePrefs(
+      {required String userProfileImage,
+      required String userName,
+      required String userEmail,
+      required String userPhoneNo,
+      required String userZoneId}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     /// Remove Old Data
-    prefs.remove(userNameKey);
     prefs.remove(userImageKey);
+    prefs.remove(userNameKey);
     prefs.remove(userEmailKey);
     prefs.remove(userPhoneNo);
+    prefs.remove(userZoneIdKey);
 
     /// Add New Data
+    prefs.setString(userImageKey, userProfileImage);
     prefs.setString(userNameKey, userName);
-    prefs.setString(userImageKey, userProfile);
     prefs.setString(userEmailKey, userEmail);
     prefs.setString(userPhoneKey, userPhoneNo);
+    prefs.setString(userZoneIdKey, userZoneId);
 
     /// Set Data in Local Variable
     UserDetails.userName = prefs.getString(userNameKey) ?? "UserName";

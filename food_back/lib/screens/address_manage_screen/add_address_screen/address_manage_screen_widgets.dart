@@ -40,8 +40,8 @@ class AddressManageTextFormFieldModule extends StatelessWidget {
                 // height: 50,
                 child: Center(
                   child: DropdownButtonFormField<String>(
-                    validator: (value) =>
-                        FieldValidation().validateDropdownAddress(value!),
+                    // validator: (value) =>
+                    //     FieldValidation().validateDropdownAddress(value!),
                     decoration: const InputDecoration.collapsed(hintText: ''),
                     value: addAddressScreenController.selectAddressValue.value,
                     items: addAddressScreenController.isAddressList

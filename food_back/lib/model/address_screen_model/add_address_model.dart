@@ -81,7 +81,7 @@ class AddressData {
         houseNo: json["house_no"] ?? "",
         // updatedAt: DateTime.parse(json["updated_at"]),
         // createdAt: DateTime.parse(json["created_at"]),
-        id: json["id"] ?? "",
+        id: json["id"] ?? 0,
       );
 
   // Map<String, dynamic> toJson() => {

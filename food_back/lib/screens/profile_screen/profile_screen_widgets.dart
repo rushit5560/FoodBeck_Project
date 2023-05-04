@@ -7,6 +7,7 @@ import 'package:food_back/utils/extensions.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import '../../common_modules/custom_alert_dialog.dart';
+import '../../constance/api_url.dart';
 import '../../constance/app_images.dart';
 import '../../constance/color.dart';
 import '../../controller/profile_screen_controller.dart';
@@ -18,14 +19,16 @@ class ProfileDetailsModule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log(" ApiUrl.profileImage profileScreenController.userImage.value ${ApiUrl.profileImage}${profileScreenController.userImage.value}");
     return Padding(
       padding: const EdgeInsets.all(12),
       child: Container(
         // height: 100,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.greenColor),
-            color: Colors.white),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: AppColors.greenColor),
+          color: Colors.white,
+        ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
           child: Row(
@@ -80,7 +83,7 @@ class ProfileDetailsModule extends StatelessWidget {
                     height: 78,
                     width: 78,
                     child: Image.network(
-                      profileScreenController.userImage.value,
+                      "${ApiUrl.profileImage}${profileScreenController.userImage.value}",
                       fit: BoxFit.cover,
                       errorBuilder: (context, obj, st) {
                         return Image.asset(
@@ -183,6 +186,7 @@ class LogOutHeaderModule extends StatelessWidget {
         const Divider(color: AppColors.greenColor, thickness: 2),
         GestureDetector(
           onTap: () => showDialog(
+              barrierDismissible: false,
               context: context,
               builder: (BuildContext context) {
                 return CustomLogoutAlertDialog(

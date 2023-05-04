@@ -119,7 +119,7 @@ class EditProfileScreen extends StatelessWidget {
                       SizedBox(height: 3.h),
 
                       CustomSubmitButtonModule(
-                        labelText: AppMessage.updateProfile,
+                        labelText: AppMessage.editProfile,
                         onPress: () async {
                           log("11");
                           await editProfileScreenController

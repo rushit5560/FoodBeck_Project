@@ -21,9 +21,6 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log("profileScreenController userName ${profileScreenController.userName}");
-    log("profileScreenController userEmail ${profileScreenController.userEmail}");
-
     return Scaffold(
       appBar: AppBar(
         title: Text(

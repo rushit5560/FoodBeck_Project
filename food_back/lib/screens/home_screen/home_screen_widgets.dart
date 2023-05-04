@@ -25,8 +25,6 @@ import '../../model/home_screen_model/trending_food_model.dart';
 import '../food_details_screen/food_details_screen.dart';
 import '../restaurants_screen/restaurants_screen.dart';
 
-
-
 class BannerModule extends StatelessWidget {
   BannerModule({Key? key}) : super(key: key);
   final screenController = Get.find<HomeScreenController>();
@@ -217,9 +215,10 @@ class PopularRestaurantsModule extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             physics: const BouncingScrollPhysics(),
             itemBuilder: (context, i) {
+              // String imgUrl =
+              // "https://thumbs.dreamstime.com/b/wooden-table-food-top-view-cafe-102532611.jpg";
               String imgUrl =
-                  "https://thumbs.dreamstime.com/b/wooden-table-food-top-view-cafe-102532611.jpg";
-              // String imgUrl = "${ApiUrl.getrRestaurantImagePathUrl}/${screenController.allPopularRestaurantList[i].logo}";
+                  "${ApiUrl.restaurantImagePathUrl}/${screenController.allPopularRestaurantList[i].logo}";
               RestaurantData singleRestaurant =
                   screenController.allPopularRestaurantList[i];
               return GestureDetector(
@@ -396,16 +395,17 @@ class TrendingFoodsModule extends StatelessWidget {
               TrendingFood singleFood = screenController.trendingFoodList[i];
               String imgUrl = ApiUrl.foodImagePathUrl + singleFood.image;
 
-              String discountType = singleFood.discountType == "amount" ? "\$" : "%";
+              String discountType =
+                  singleFood.discountType == "amount" ? "\$" : "%";
 
               // log("TrendingFood imgUrl $imgUrl");
               return GestureDetector(
                 onTap: () async {
                   // await screenController.getFoodDetailsFunction(singleFood.id.toString());
-                  Get.to(()=> FoodDetailsScreen(),
-                  arguments: [singleFood.id.toString()],
+                  Get.to(
+                    () => FoodDetailsScreen(),
+                    arguments: [singleFood.id.toString()],
                   );
-
                 },
                 child: Container(
                   width: Get.width * 0.30,
@@ -586,11 +586,12 @@ class PopularFoodNearByModule extends StatelessWidget {
             itemBuilder: (context, i) {
               PopularFoodData singleFood =
                   screenController.popularFoodNearbyList[i];
-              // String imgUrl = ApiUrl.foodImagePathUrl + singleFood.image;
-              String imgUrl =
-                  "https://thumbs.dreamstime.com/b/wooden-table-food-top-view-cafe-102532611.jpg";
+              String imgUrl = ApiUrl.foodImagePathUrl + singleFood.image;
+              // String imgUrl =
+              //     "https://thumbs.dreamstime.com/b/wooden-table-food-top-view-cafe-102532611.jpg";
 
-              String discountType = singleFood.discountType == "amount" ? "\$" : "%";
+              String discountType =
+                  singleFood.discountType == "amount" ? "\$" : "%";
               return Container(
                 width: Get.size.width * 0.65,
                 margin: const EdgeInsets.symmetric(vertical: 10),
@@ -609,7 +610,8 @@ class PopularFoodNearByModule extends StatelessWidget {
                     Row(
                       children: [
                         Stack(
-                          children: [//todo
+                          children: [
+                            //todo
                             Container(
                               height: 80,
                               width: 80,
@@ -762,9 +764,10 @@ class NewRestaurantModule extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             physics: const BouncingScrollPhysics(),
             itemBuilder: (context, i) {
+              // String imgUrl =
+              //     "https://thumbs.dreamstime.com/b/wooden-table-food-top-view-cafe-102532611.jpg";
               String imgUrl =
-                  "https://thumbs.dreamstime.com/b/wooden-table-food-top-view-cafe-102532611.jpg";
-              // String imgUrl = "${ApiUrl.getrRestaurantImagePathUrl}/${screenController.allPopularRestaurantList[i].logo}";
+                  "${ApiUrl.restaurantImagePathUrl}/${screenController.allPopularRestaurantList[i].logo}";
               NewRestaurantData singleRestaurant =
                   screenController.newRestaurantList[i];
               return Container(
@@ -933,11 +936,12 @@ class BestReviewedFoodModule extends StatelessWidget {
             itemBuilder: (context, i) {
               BestReviewedFood singleFood =
                   screenController.bestReviewedFoodList[i];
-              // String imgUrl = ApiUrl.foodImagePathUrl + singleFood.image;
-              String imgUrl =
-                  "https://thumbs.dreamstime.com/b/wooden-table-food-top-view-cafe-102532611.jpg";
+              String imgUrl = ApiUrl.foodImagePathUrl + singleFood.image;
+              // String imgUrl =
+              //     "https://thumbs.dreamstime.com/b/wooden-table-food-top-view-cafe-102532611.jpg";
 
-              String discountType = singleFood.discountType == "amount" ? "\$" : "%";
+              String discountType =
+                  singleFood.discountType == "amount" ? "\$" : "%";
 
               return Container(
                 width: Get.size.width * 0.65,
@@ -1113,9 +1117,10 @@ class AllRestaurantsModule extends StatelessWidget {
           itemBuilder: (context, i) {
             RestaurantDetails restaurantDetails =
                 screenController.allRestaurantList[i];
-            // String imgUrl = ApiUrl.restaurantImagePathUrl + restaurantDetails.coverPhoto;
             String imgUrl =
-                "https://thumbs.dreamstime.com/b/wooden-table-food-top-view-cafe-102532611.jpg";
+                ApiUrl.restaurantImagePathUrl + restaurantDetails.coverPhoto;
+            // String imgUrl =
+            // "https://thumbs.dreamstime.com/b/wooden-table-food-top-view-cafe-102532611.jpg";
             return Row(
               children: [
                 Stack(
@@ -1257,7 +1262,6 @@ class CuisineListModule extends StatelessWidget {
             mainAxisSpacing: 10,
             childAspectRatio: 0.85,
           ),
-
           itemBuilder: (context, i) {
             CuisineDetails cuisineDetails = screenController.cuisinesList[i];
             return cuisineGridTile(cuisineDetails);
@@ -1266,14 +1270,14 @@ class CuisineListModule extends StatelessWidget {
       ],
     ).commonSymmetricPadding(vertical: 5);
   }
-  
+
   Widget cuisineGridTile(CuisineDetails cuisineDetails) {
     String imgUrl = ApiUrl.cuisineImageUrl + cuisineDetails.image;
     // log('Cuisine imgUrl : $imgUrl');
     return GestureDetector(
       onTap: () {
         Get.to(
-              () => RestaurantsScreen(),
+          () => RestaurantsScreen(),
           arguments: [
             cuisineDetails.id.toString(),
             cuisineDetails.name,
@@ -1285,15 +1289,15 @@ class CuisineListModule extends StatelessWidget {
         children: [
           Expanded(
             flex: 75,
-            child:
-            ClipRRect(
+            child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Image.network(
                 width: Get.width,
                 imgUrl,
                 fit: BoxFit.cover,
                 errorBuilder: (context, obj, st) {
-                  return Image.asset(AppImages.AppLogo,
+                  return Image.asset(
+                    AppImages.AppLogo,
                     fit: BoxFit.cover,
                   );
                 },
@@ -1302,8 +1306,7 @@ class CuisineListModule extends StatelessWidget {
           ),
           Expanded(
             flex: 25,
-            child:
-            Center(
+            child: Center(
               child: Text(
                 cuisineDetails.name,
                 textAlign: TextAlign.center,
@@ -1317,7 +1320,6 @@ class CuisineListModule extends StatelessWidget {
       ),
     );
   }
-  
 }
 
 
