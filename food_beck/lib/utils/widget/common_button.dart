@@ -40,7 +40,7 @@ class CustomButton extends StatelessWidget {
                 ? BorderRadius.circular(defaultRadius - 6)
                 : BorderRadius.circular(defaultRadius),
           )),
-          backgroundColor: MaterialStateProperty.all(containerColor),
+          backgroundColor: MaterialStateProperty.all(AppColors.greenColor),
           // shadowColor: MaterialStateProperty.all(Colors.transparent),
         ),
         onPressed: onPressed,

@@ -37,7 +37,7 @@ PreferredSizeWidget customAppBar({
       titleText,
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
-      style: style,
+      style: style ?? const TextStyle(color: AppColors.whiteColor2),
     ),
     actions: [
       actionShow

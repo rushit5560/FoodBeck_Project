@@ -18,7 +18,7 @@ class SplashScreenController extends GetxController {
     bool onboardingValue = prefs.getBool('onboarding') ?? false;
 
     Timer(
-      const Duration(milliseconds: 3000),
+      const Duration(milliseconds: 1500),
       () {
         if (onboardingValue == false) {
           Get.offAll(
