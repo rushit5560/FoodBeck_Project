@@ -15,7 +15,7 @@ class ListviewBuilderModule extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: ListView.builder(
-          itemCount: 15,
+          itemCount: 3,
           itemBuilder: (context, index) {
             return Container(
               decoration: const BoxDecoration(
@@ -38,11 +38,15 @@ class ListviewBuilderModule extends StatelessWidget {
                       Text(
                         "Hot dog",
                         style: TextStyleConfig.textStyle(
-                            fontSize: 13.sp, fontWeight: FontWeight.bold),
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       Text(
                         "\$ 150.00",
-                        style: TextStyleConfig.textStyle(fontSize: 11.sp),
+                        style: TextStyleConfig.textStyle(
+                          fontSize: 11.sp,
+                        ),
                       ),
                     ],
                   ),
