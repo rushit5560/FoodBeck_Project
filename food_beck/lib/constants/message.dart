@@ -82,7 +82,6 @@ class AppMessage {
   static String othersLabel = "Others";
   static String editProfileLabel = "Edit Profile";
   static String manageAddressesLabel = "Manage Addresses";
-  static String yourOrdersLabel = "Your Orders";
   static String favouriteItemsLabel = "Favourite Items";
   static String notificationLabel = "Notification";
   static String chooseOption = 'Choose Address';
@@ -98,4 +97,17 @@ class AppMessage {
   static String pleaseSelectZone = 'Please select zone.';
 
   static String houseIsRequired = "Please enter house no.";
+
+  /// Order Screen Text
+  static String ongoingLabel = "Ongoing";
+  static String yourOrdersLabel = "Your Orders";
+  static String completeLabel = "Complete";
+  static String noOngoingOrdersLabel = "No ongoing order found.";
+  static String noOrdersFoundLabel = "No order found.";
+
+  /// Favourite Screen Text
+  static String restaurantLabel = "Restaurants";
+  static String foodLabel = "Foods";
+  static String noFavoriteRestaurantLabel = "No favourite restaurants found.";
+  static String noFavoriteFoodLabel = "No favourite foods found.";
 }

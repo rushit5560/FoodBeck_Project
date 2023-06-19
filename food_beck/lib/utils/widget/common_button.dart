@@ -15,6 +15,7 @@ class CustomButton extends StatelessWidget {
   final VoidCallback? onLongPress;
   final double? height;
   bool? miniRadius = false;
+  double? fontSize = 14.sp;
 
   CustomButton(
       {Key? key,
@@ -25,13 +26,15 @@ class CustomButton extends StatelessWidget {
       this.miniRadius,
       required this.onPressed,
       this.onLongPress,
-      required this.height})
+      this.height,
+      this.fontSize,
+      })
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: height,
+      // height: height,
       child: ElevatedButton(
         style: ButtonStyle(
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -72,7 +75,7 @@ class CustomButton extends StatelessWidget {
                 fontFamily: FontFamilyText.sFProDisplaySemibold,
                 textColor: AppColors.whiteColor,
                 fontWeight: FontWeight.w500,
-                fontSize: 14.sp,
+                fontSize: fontSize!,
               ),
             ),
           ],

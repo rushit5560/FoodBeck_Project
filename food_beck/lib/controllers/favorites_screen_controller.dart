@@ -12,8 +12,8 @@ class FavoritesScreenController extends GetxController {
   String userId = "";
   UserPreference userPreference = UserPreference();
 
-  List favouriteFoodList = [];
-  List favouriteRestaurantList = [];
+  List favouriteFoodList = [1,2,3,4,5,6,7,8,9,0];
+  List favouriteRestaurantList = [1,2,3,4,5,6,7,8,9,0];
 
 
 
@@ -45,7 +45,7 @@ class FavoritesScreenController extends GetxController {
 
   Future<void> initMethod() async {
     userId = await userPreference.getStringValueFromPrefs(key: UserPreference.userIdKey) ?? "";
-    await getFavouriteFunction();
+    // await getFavouriteFunction();
   }
 
  
