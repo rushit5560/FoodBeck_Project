@@ -21,11 +21,21 @@ class CartScreen extends StatelessWidget {
         leadingShow: false,
         actionShow: false,
       ),
-      body: Column(
-        children: [
-          ListviewBuilderModule(),
-        ],
-      ).paddingSymmetric(horizontal: 10, vertical: 10),
+      body: Obx(
+        () => cartScreenController.isLoading.value
+            ? const CircularProgressIndicator()
+            : SingleChildScrollView(
+                child: Column(
+                  children: [
+                    ListviewBuilderModule(),
+                    const SizedBox(height: 10),
+                    CouponCodeModule(),
+                    const SizedBox(height: 10),
+                    PriceTotalModule(),
+                  ],
+                ).paddingSymmetric(horizontal: 10, vertical: 10),
+              ),
+      ),
       bottomNavigationBar: Container(
         height: 50,
         decoration: const BoxDecoration(
@@ -38,7 +48,7 @@ class CartScreen extends StatelessWidget {
         child: Row(
           children: [
             Text(
-              "\$ 401",
+              "\$ 150",
               style: TextStyleConfig.textStyle(
                   textColor: AppColors.whiteColor2, fontSize: 12.sp),
             ),
