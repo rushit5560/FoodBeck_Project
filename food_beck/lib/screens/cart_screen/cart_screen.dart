@@ -3,13 +3,15 @@ import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import '../../common_modules/common_appbar.dart';
 import '../../constants/color.dart';
+import '../../controllers/cart_screen_controller.dart';
 import '../../utils/style.dart';
 import 'cart_screen_widgets.dart';
 
 class CartScreen extends StatelessWidget {
   final Function(bool)? onPressed;
 
-  const CartScreen({Key? key, this.onPressed}) : super(key: key);
+  CartScreen({Key? key, this.onPressed}) : super(key: key);
+  final cartScreenController = Get.put(CartScreenController());
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +21,11 @@ class CartScreen extends StatelessWidget {
         leadingShow: false,
         actionShow: false,
       ),
-      body:  Column(
+      body: Column(
         children: [
-          ListviewBuilderModule()
+          ListviewBuilderModule(),
         ],
-      ),
+      ).paddingSymmetric(horizontal: 10, vertical: 10),
       bottomNavigationBar: Container(
         height: 50,
         decoration: const BoxDecoration(
@@ -42,14 +44,16 @@ class CartScreen extends StatelessWidget {
             ),
             // const SizedBox(width: 10),
             const Spacer(),
-            Container(
-              decoration: BoxDecoration(
-                color: AppColors.whiteColor,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: const Text("Add to cart").paddingSymmetric(
-                horizontal: 10,
-                vertical: 5,
+            GestureDetector(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppColors.whiteColor,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Text("Add to cart").paddingSymmetric(
+                  horizontal: 10,
+                  vertical: 5,
+                ),
               ),
             )
           ],

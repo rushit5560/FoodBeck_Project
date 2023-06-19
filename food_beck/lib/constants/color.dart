@@ -24,5 +24,7 @@ class AppColors {
   static const Color amberColor = Color(0xfff86716);
   static const Color lightBrownColor = Color(0xff523a12);
   static const Color green800Color = Color(0xff3e6007);
+  static const Color lightGreenColor2 = Color(0xffcfdacf);
+
 
 }
