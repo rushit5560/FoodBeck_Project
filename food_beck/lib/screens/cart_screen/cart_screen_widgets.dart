@@ -117,6 +117,7 @@ class PriceTotalModule extends StatelessWidget {
         border: Border.all(
           color: AppColors.greenColor,
         ),
+        borderRadius: BorderRadius.circular(10)
       ),
       child: Column(
         children: [
