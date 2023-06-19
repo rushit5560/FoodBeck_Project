@@ -96,7 +96,7 @@ class SignUpScreen extends StatelessWidget {
                           hintText: AppMessage.emailOrPhoneNumber,
                           keyboardType: TextInputType.emailAddress,
                           color: AppColors.grey50Color,
-                          maxLength: 10,
+
                         ),
                         SizedBox(height: 2.h),
 
@@ -109,6 +109,7 @@ class SignUpScreen extends StatelessWidget {
                           hintText: AppMessage.enterNumber,
                           keyboardType: TextInputType.phone,
                           color: AppColors.grey50Color,
+                          maxLength: 10,
                         ),
                         SizedBox(height: 2.h),
 
@@ -269,7 +270,7 @@ class SignUpScreen extends StatelessWidget {
                             SizedBox(width: 1.w),
                             InkWell(
                               onTap: () {
-                                Get.to(() => SignInScreen());
+                                Get.off(() => SignInScreen());
                               },
                               child: Text(
                                 AppMessage.signIn,

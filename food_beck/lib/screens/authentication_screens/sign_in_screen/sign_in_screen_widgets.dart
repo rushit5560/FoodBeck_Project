@@ -10,6 +10,7 @@ import '../../../utils/style.dart';
 import '../../../utils/widget/common_button.dart';
 import '../../../utils/widget/common_text_form_field.dart';
 import '../../../utils/validator.dart';
+import '../sign_up_screen/sign_up_screen.dart';
 
 class SignInAllModule extends StatelessWidget {
   SignInAllModule({Key? key}) : super(key: key);
@@ -214,9 +215,9 @@ class SignInAllModule extends StatelessWidget {
             ),
             SizedBox(width: 1.w),
             InkWell(
-              // onTap: () {
-              //   Get.to(() => SignUpScreen());
-              // },
+              onTap: () {
+                Get.to(() => SignUpScreen());
+              },
               child: Text(
                 AppMessage.signUp,
                 textAlign: TextAlign.center,

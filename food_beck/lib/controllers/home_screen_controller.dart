@@ -17,6 +17,7 @@ import '../models/home_screen_model/popular_restaurants_model.dart';
 import '../models/home_screen_model/trending_food_model.dart';
 import '../models/recipes_screen_model/banner_model.dart';
 import '../utils/user_preferences.dart';
+import 'package:dio/dio.dart' as dio;
 
 
 class HomeScreenController extends GetxController {
@@ -28,6 +29,7 @@ class HomeScreenController extends GetxController {
   RxBool isFoodDetailsSuccessStatus = false.obs;
 
   UserPreference userPreference = UserPreference();
+  final dioRequest = dio.Dio();
 
   RxBool isLiked = false.obs;
   List<BannerList> bannerList = [];
@@ -96,7 +98,9 @@ class HomeScreenController extends GetxController {
       log('getCategoryFunction Error :$e');
       rethrow;
     }
-    await getAllPopularRestaurantFunction();
+    isLoading(false);
+
+    // await getAllPopularRestaurantFunction();
   }
 
   /// Get Popular Restaurants

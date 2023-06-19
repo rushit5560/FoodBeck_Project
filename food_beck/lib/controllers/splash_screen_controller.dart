@@ -15,12 +15,14 @@ class SplashScreenController extends GetxController {
   startTimer() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    bool onboardingValue = prefs.getBool('onboarding') ?? false;
+    bool onBoardingValue = prefs.getBool('onBoarding') ?? false;
 
     Timer(
       const Duration(milliseconds: 1500),
       () {
-        if (onboardingValue == false) {
+        log("isUserLoggedInStatus.value 11 ${isUserLoggedInStatus.value}");
+        log("onBoardingValue onBoardingValue 11 : $onBoardingValue");
+        if (onBoardingValue == false) {
           Get.offAll(
             () => OnboardingScreen(),
             transition: Transition.native,
@@ -30,7 +32,7 @@ class SplashScreenController extends GetxController {
             () => IndexScreen(),
             transition: Transition.native,
           );
-          log("isUserLoggedInStatus.value ${isUserLoggedInStatus.value}");
+          log("isUserLoggedInStatus.value 22 ${isUserLoggedInStatus.value}");
         }
 
         // else if (isUserLoggedInStatus.value == false) {

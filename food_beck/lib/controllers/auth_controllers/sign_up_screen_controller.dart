@@ -89,13 +89,16 @@ class SignUpScreenController extends GetxController {
       var response = await request.send();
       log('request.fields: ${request.fields}');
 
-      response.stream.transform(utf8.decoder).listen((value) async {
+      response.stream
+          .transform(const Utf8Decoder())
+          .transform(const LineSplitter())
+          .listen((value) async {
         log('Register value :$value');
         SignUpModel signUpModel = SignUpModel.fromJson(json.decode(value));
         isSuccessStatus.value = signUpModel.success;
 
         if (isSuccessStatus.value) {
-          Fluttertoast.showToast(msg: signUpModel.data.message);
+          Fluttertoast.showToast(msg: signUpModel.message.toString());
           Get.back();
           // Get.to(()=> SignInScreen());
         } else {

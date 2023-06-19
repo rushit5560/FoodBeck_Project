@@ -47,6 +47,7 @@ dependencies:
   fluttertoast: ^8.2.2
   http:
   flutter_super_html_viewer: ^0.1.0
+  dio: ^5.1.2
   image_picker: ^0.8.7+5
   font_awesome_flutter: ^10.2.1
 

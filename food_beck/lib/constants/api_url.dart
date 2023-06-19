@@ -1,9 +1,8 @@
 import '../utils/user_preferences.dart';
 
 class ApiUrl {
-  static String databaseUrl = "http://food.omdemo.co.in/";
+  static String databaseUrl = "https://foodbeck.omtecweb.com/";
   static String baseUrl = "${databaseUrl}api";
-
   // Images url - Dont touch
   static String bannerImagePathUrl =
       "${databaseUrl}public/assests/banner/compress_img";
@@ -29,7 +28,7 @@ class ApiUrl {
   static String contactus = "$baseUrl/contactus";
   //home page api's
   static String bannerApi = "$baseUrl/banner/";
-  static String getCategoryApi = "$baseUrl/get-categorys";
+  static String getCategoryApi = "$baseUrl/get-categories";
   static String allProductsApi = "$baseUrl/all-products/";
   static String filterByCategoryApi = "$baseUrl/filter-by-category/";
   static String getAllPopularRestaurantApi = "$baseUrl/popular-restaurant/";
