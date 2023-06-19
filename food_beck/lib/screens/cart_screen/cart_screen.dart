@@ -17,7 +17,7 @@ class CartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: customAppBar(
-        titleText: "Your basket",
+        titleText: "Your Basket",
         leadingShow: false,
         actionShow: false,
       ),
@@ -50,7 +50,7 @@ class CartScreen extends StatelessWidget {
                   color: AppColors.whiteColor,
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: const Text("Add to cart").paddingSymmetric(
+                child: const Text("Place Order").paddingSymmetric(
                   horizontal: 10,
                   vertical: 5,
                 ),
