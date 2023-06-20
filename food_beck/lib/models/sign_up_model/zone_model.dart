@@ -16,23 +16,24 @@ class ZoneModel {
   String message;
 
   factory ZoneModel.fromJson(Map<String, dynamic> json) => ZoneModel(
-    success: json["success"] ?? false,
-    data: List<ZoneData>.from((json["data"] ?? []).map((x) => ZoneData.fromJson(x ?? {}))),
-    message: json["message"] ?? "",
-  );
+        success: json["success"] ?? false,
+        data: List<ZoneData>.from(
+            (json["data"] ?? []).map((x) => ZoneData.fromJson(x ?? {}))),
+        message: json["message"] ?? "",
+      );
 
   Map<String, dynamic> toJson() => {
-    "success": success,
-    "data": List<dynamic>.from(data.map((x) => x.toJson())),
-    "message": message,
-  };
+        "success": success,
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "message": message,
+      };
 }
 
 class ZoneData {
   ZoneData({
-     this.id,
-     this.name,
-     this.status,
+    this.id,
+    this.name,
+    this.status,
     // required this.restaurantWiseTopic,
     // required this.customerWiseTopic,
     // required this.deliverymanWiseTopic,
@@ -45,9 +46,10 @@ class ZoneData {
     // this.increaseDeliveryChargeMessage,
   });
 
-  int? id;
+  String? id;
   String? name;
   int? status;
+
   // String restaurantWiseTopic;
   // String customerWiseTopic;
   // String deliverymanWiseTopic;
@@ -60,34 +62,34 @@ class ZoneData {
   // dynamic increaseDeliveryChargeMessage;
 
   factory ZoneData.fromJson(Map<String, dynamic> json) => ZoneData(
-    id: json["id"],
-    name: json["name"],
-    status: json["status"],
-    // restaurantWiseTopic: json["restaurant_wise_topic"],
-    // customerWiseTopic: json["customer_wise_topic"],
-    // deliverymanWiseTopic: json["deliveryman_wise_topic"],
-    // minimumShippingCharge: json["minimum_shipping_charge"],
-    // perKmShippingCharge: json["per_km_shipping_charge"],
-    // maximumShippingCharge: json["maximum_shipping_charge"],
-    // maxCodOrderAmount: json["max_cod_order_amount"],
-    // increasedDeliveryFee: json["increased_delivery_fee"],
-    // increasedDeliveryFeeStatus: json["increased_delivery_fee_status"],
-    // increaseDeliveryChargeMessage: json["increase_delivery_charge_message"],
-  );
+        id: (json["id"] ?? 0).toString(),
+        name: json["name"] ?? "",
+        status: json["status"] ?? "",
+        // restaurantWiseTopic: json["restaurant_wise_topic"],
+        // customerWiseTopic: json["customer_wise_topic"],
+        // deliverymanWiseTopic: json["deliveryman_wise_topic"],
+        // minimumShippingCharge: json["minimum_shipping_charge"],
+        // perKmShippingCharge: json["per_km_shipping_charge"],
+        // maximumShippingCharge: json["maximum_shipping_charge"],
+        // maxCodOrderAmount: json["max_cod_order_amount"],
+        // increasedDeliveryFee: json["increased_delivery_fee"],
+        // increasedDeliveryFeeStatus: json["increased_delivery_fee_status"],
+        // increaseDeliveryChargeMessage: json["increase_delivery_charge_message"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-    "status": status,
-    // "restaurant_wise_topic": restaurantWiseTopic,
-    // "customer_wise_topic": customerWiseTopic,
-    // "deliveryman_wise_topic": deliverymanWiseTopic,
-    // "minimum_shipping_charge": minimumShippingCharge,
-    // "per_km_shipping_charge": perKmShippingCharge,
-    // "maximum_shipping_charge": maximumShippingCharge,
-    // "max_cod_order_amount": maxCodOrderAmount,
-    // "increased_delivery_fee": increasedDeliveryFee,
-    // "increased_delivery_fee_status": increasedDeliveryFeeStatus,
-    // "increase_delivery_charge_message": increaseDeliveryChargeMessage,
-  };
+        "id": id,
+        "name": name,
+        "status": status,
+        // "restaurant_wise_topic": restaurantWiseTopic,
+        // "customer_wise_topic": customerWiseTopic,
+        // "deliveryman_wise_topic": deliverymanWiseTopic,
+        // "minimum_shipping_charge": minimumShippingCharge,
+        // "per_km_shipping_charge": perKmShippingCharge,
+        // "maximum_shipping_charge": maximumShippingCharge,
+        // "max_cod_order_amount": maxCodOrderAmount,
+        // "increased_delivery_fee": increasedDeliveryFee,
+        // "increased_delivery_fee_status": increasedDeliveryFeeStatus,
+        // "increase_delivery_charge_message": increaseDeliveryChargeMessage,
+      };
 }

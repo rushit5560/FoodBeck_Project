@@ -9,16 +9,24 @@ SignUpModel signUpModelFromJson(String str) =>
 
 class SignUpModel {
   bool success;
+  // Data data;
+  String token;
+  String message;
   String error;
 
-  String message;
-
-  SignUpModel(
-      {required this.success, required this.error, required this.message});
+  SignUpModel({
+    required this.success,
+    // required this.data,
+    required this.token,
+    required this.message,
+    required this.error,
+  });
 
   factory SignUpModel.fromJson(Map<String, dynamic> json) => SignUpModel(
         success: json["success"] ?? false,
-        error: json["error"] ?? "",
+        // data: Data.fromJson(json["data"]),
+        token: json["token"] ?? "",
         message: json["message"] ?? "",
+        error: json["error"] ?? "",
       );
 }

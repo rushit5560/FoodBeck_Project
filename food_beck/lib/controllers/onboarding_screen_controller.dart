@@ -45,7 +45,7 @@ class OnboardingScreenController extends GetxController {
     onBoardingPages = [
       OnBoardingInfo(
         // logo: "assets/images/foodmet_logo.png",
-        logo: "food BECK",
+        logo: "Food Back",
         imageAsset: AppImages.AppLogo,
 
         title: 'Meet other food parents online',
@@ -54,7 +54,7 @@ class OnboardingScreenController extends GetxController {
       ),
       OnBoardingInfo(
         // logo: "assets/images/foodmet_logo.png",
-        logo: "food BECK",
+        logo: "Food Back",
         imageAsset: AppImages.AppLogo,
 
         title: 'Find food shops, doctors, ngos & trainers on a single tap',
@@ -63,7 +63,7 @@ class OnboardingScreenController extends GetxController {
       ),
       OnBoardingInfo(
         // logo: "assets/images/foodmet_logo.png",
-        logo: "food BECK",
+        logo: "Food Back",
         imageAsset: AppImages.AppLogo,
         title: 'Learn food parenting a better way!!',
         description:

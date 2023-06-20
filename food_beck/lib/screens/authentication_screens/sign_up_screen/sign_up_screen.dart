@@ -81,7 +81,7 @@ class SignUpScreen extends StatelessWidget {
                               signUpScreenController.nameFieldController,
                           validate: (value) =>
                               FieldValidation().validateName(value!),
-                          hintText: AppMessage.userName,
+                          hintText: AppMessage.userFullName,
                           keyboardType: TextInputType.text,
                           color: AppColors.grey50Color,
                         ),
@@ -96,7 +96,6 @@ class SignUpScreen extends StatelessWidget {
                           hintText: AppMessage.emailOrPhoneNumber,
                           keyboardType: TextInputType.emailAddress,
                           color: AppColors.grey50Color,
-
                         ),
                         SizedBox(height: 2.h),
 
@@ -135,34 +134,34 @@ class SignUpScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(height: 2.h),
-
-                        // Confirm Password Field
-                        Obx(
-                          () => CommonTextFormFieldModule(
-                            fieldController:
-                                signUpScreenController.cPasswordFieldController,
-                            validate: (value) =>
-                                FieldValidation().validateConfirmPassword(
-                              value!,
-                              signUpScreenController
-                                  .passwordFieldController.text,
-                            ),
-                            hintText: AppMessage.enterConfirmPassword,
-                            keyboardType: TextInputType.text,
-                            color: AppColors.grey50Color,
-                            obscureText:
-                                signUpScreenController.isCPasswordVisible.value,
-                            suffixIcon: IconButton(
-                              onPressed: () => signUpScreenController
-                                  .changeConfirmPasswordVisibility(),
-                              icon: signUpScreenController
-                                      .isCPasswordVisible.value
-                                  ? const Icon(Icons.visibility_off_rounded)
-                                  : const Icon(Icons.visibility_rounded),
-                            ),
-                          ),
-                        ),
+                        // SizedBox(height: 2.h),
+                        //
+                        // // Confirm Password Field
+                        // Obx(
+                        //   () => CommonTextFormFieldModule(
+                        //     fieldController:
+                        //         signUpScreenController.cPasswordFieldController,
+                        //     validate: (value) =>
+                        //         FieldValidation().validateConfirmPassword(
+                        //       value!,
+                        //       signUpScreenController
+                        //           .passwordFieldController.text,
+                        //     ),
+                        //     hintText: AppMessage.enterConfirmPassword,
+                        //     keyboardType: TextInputType.text,
+                        //     color: AppColors.grey50Color,
+                        //     obscureText:
+                        //         signUpScreenController.isCPasswordVisible.value,
+                        //     suffixIcon: IconButton(
+                        //       onPressed: () => signUpScreenController
+                        //           .changeConfirmPasswordVisibility(),
+                        //       icon: signUpScreenController
+                        //               .isCPasswordVisible.value
+                        //           ? const Icon(Icons.visibility_off_rounded)
+                        //           : const Icon(Icons.visibility_rounded),
+                        //     ),
+                        //   ),
+                        // ),
                         SizedBox(height: 2.h),
 
                         /// Dropdown Module

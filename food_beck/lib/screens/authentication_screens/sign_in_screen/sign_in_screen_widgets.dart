@@ -10,6 +10,7 @@ import '../../../utils/style.dart';
 import '../../../utils/widget/common_button.dart';
 import '../../../utils/widget/common_text_form_field.dart';
 import '../../../utils/validator.dart';
+import '../password/forgot_screen/forgot_screen.dart';
 import '../sign_up_screen/sign_up_screen.dart';
 
 class SignInAllModule extends StatelessWidget {
@@ -103,9 +104,9 @@ class SignInAllModule extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             InkWell(
-              // onTap: () {
-              //   Get.to(() => ForgotPasswordScreen());
-              // },
+              onTap: () {
+                Get.to(() => ForgotPasswordScreen());
+              },
               child: Text(
                 AppMessage.forgotPassword,
                 textAlign: TextAlign.center,

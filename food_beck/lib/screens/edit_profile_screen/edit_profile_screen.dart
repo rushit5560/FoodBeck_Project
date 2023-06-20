@@ -58,7 +58,7 @@ class EditProfileScreen extends StatelessWidget {
                             editProfileScreenController.nameFieldController,
                         validate: (value) =>
                             FieldValidation().validateName(value!),
-                        hintText: AppMessage.userName,
+                        hintText: AppMessage.userFullName,
                         keyboardType: TextInputType.text,
                         color: AppColors.grey50Color,
                       ),

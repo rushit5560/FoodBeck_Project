@@ -44,7 +44,7 @@ class AppMessage {
   static String enterNumber = "Enter Mobile Number";
   static String enterPassword = "Enter Password";
   static String enterConfirmPassword = "Enter Confirm Password";
-  static String userName = "Enter Username";
+  static String userFullName = "Enter full name";
   static String contactNumber = "Contact number";
   static String contactName = "Contact name";
   static String landmark = "Landmark";

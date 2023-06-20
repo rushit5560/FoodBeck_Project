@@ -37,7 +37,7 @@ class SignInScreenController extends GetxController {
         url,
         data: bodyData,
       );
-      log('response response :${response.data}');
+      log('userLoginFunction response :${response.data}');
       SignInModel signInModel = SignInModel.fromJson(response.data);
       isSuccessStatus.value = signInModel.success;
       // var request = http.MultipartRequest('POST', Uri.parse(url));

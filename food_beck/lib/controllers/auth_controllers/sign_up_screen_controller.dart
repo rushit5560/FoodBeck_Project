@@ -8,7 +8,9 @@ import 'package:get/get.dart';
 import '../../constants/api_url.dart';
 import '../../models/sign_up_model/sign_up_model.dart';
 import '../../models/sign_up_model/zone_model.dart';
+import '../../screens/authentication_screens/sign_in_screen/sign_in_screen.dart';
 import '../../utils/user_preferences.dart';
+import 'package:dio/dio.dart' as dio;
 
 class SignUpScreenController extends GetxController {
   RxBool isLoading = false.obs;
@@ -27,6 +29,7 @@ class SignUpScreenController extends GetxController {
   ZoneData? selectedZoneValue;
 
   UserPreference userPreference = UserPreference();
+  final dioRequest = dio.Dio();
 
   changePasswordVisibility() {
     isPasswordVisible.value = !isPasswordVisible.value;
@@ -48,12 +51,9 @@ class SignUpScreenController extends GetxController {
     log('getZoneListFunction Api Url : $url');
 
     try {
-      http.Response response = await http.get(Uri.parse(url));
-      log('getZoneListFunction Response :${response.body}');
-
-      ZoneModel zoneModel = ZoneModel.fromJson(json.decode(response.body));
+      final response = await dioRequest.get(url);
+      ZoneModel zoneModel = ZoneModel.fromJson(response.data);
       isSuccessStatus.value = zoneModel.success;
-
       if (isSuccessStatus.value) {
         zoneList.clear();
         if (zoneModel.data.isNotEmpty) {
@@ -64,6 +64,22 @@ class SignUpScreenController extends GetxController {
       } else {
         log('getZoneListFunction Else');
       }
+      // http.Response response = await http.get(Uri.parse(url));
+      // log('getZoneListFunction Response :${response.body}');
+      //
+      // ZoneModel zoneModel = ZoneModel.fromJson(json.decode(response.body));
+      // isSuccessStatus.value = zoneModel.success;
+      //
+      // if (isSuccessStatus.value) {
+      //   zoneList.clear();
+      //   if (zoneModel.data.isNotEmpty) {
+      //     zoneList.addAll(zoneModel.data);
+      //     selectedZoneValue = zoneList[0];
+      //   }
+      //   log('selectedZoneValue : ${selectedZoneValue!.name}');
+      // } else {
+      //   log('getZoneListFunction Else');
+      // }
     } catch (e) {
       log('getZoneListFunction Error :$e');
       rethrow;
@@ -78,34 +94,29 @@ class SignUpScreenController extends GetxController {
     log('userRegisterFunction Api Url : $url');
 
     try {
-      var request = http.MultipartRequest('POST', Uri.parse(url));
-      request.fields['name'] = nameFieldController.text.trim();
-      request.fields['email'] = emailFieldController.text.trim().toLowerCase();
-      request.fields['phoneno'] = phoneFieldController.text;
-      request.fields['password'] = passwordFieldController.text.trim();
-      request.fields['c_password'] = cPasswordFieldController.text.trim();
-      request.fields['zone_id'] = "${selectedZoneValue!.id}";
-
-      var response = await request.send();
-      log('request.fields: ${request.fields}');
-
-      response.stream
-          .transform(const Utf8Decoder())
-          .transform(const LineSplitter())
-          .listen((value) async {
-        log('Register value :$value');
-        SignUpModel signUpModel = SignUpModel.fromJson(json.decode(value));
-        isSuccessStatus.value = signUpModel.success;
-
-        if (isSuccessStatus.value) {
-          Fluttertoast.showToast(msg: signUpModel.message.toString());
-          Get.back();
-          // Get.to(()=> SignInScreen());
-        } else {
-          log('userRegisterFunction Else');
-          Fluttertoast.showToast(msg: signUpModel.error);
-        }
-      });
+      Map<String, dynamic> bodyData = {
+        "name": nameFieldController.text.trim(),
+        "email": emailFieldController.text.trim().toLowerCase(),
+        "phoneno": phoneFieldController.text,
+        "password": passwordFieldController.text.trim(),
+        "zone_id": "${selectedZoneValue!.id}",
+      };
+      final response = await dioRequest.post(
+        url,
+        data: bodyData,
+      );
+      log('userRegisterFunction response :${response.data}');
+      SignUpModel signUpModel =
+          SignUpModel.fromJson(response.data);
+      isSuccessStatus.value = signUpModel.success;
+      if (isSuccessStatus.value) {
+        Fluttertoast.showToast(msg: signUpModel.message.toString());
+        Get.back();
+        Get.to(() => SignInScreen());
+      } else {
+        log('userRegisterFunction Else');
+        Fluttertoast.showToast(msg: signUpModel.error);
+      }
     } catch (e) {
       log('userRegisterFunction Error :$e');
       rethrow;
