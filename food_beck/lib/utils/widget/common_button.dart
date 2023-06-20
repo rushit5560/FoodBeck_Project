@@ -75,7 +75,7 @@ class CustomButton extends StatelessWidget {
                 fontFamily: FontFamilyText.sFProDisplaySemibold,
                 textColor: AppColors.whiteColor,
                 fontWeight: FontWeight.w500,
-                fontSize: fontSize!,
+                fontSize: fontSize ?? 14.sp,
               ),
             ),
           ],
