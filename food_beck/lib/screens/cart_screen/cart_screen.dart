@@ -31,6 +31,8 @@ class CartScreen extends StatelessWidget {
                     const SizedBox(height: 10),
                     CouponCodeModule(),
                     const SizedBox(height: 10),
+            SelectAddressModule(),
+                    const SizedBox(height: 10),
                     PriceTotalModule(),
                   ],
                 ).paddingSymmetric(horizontal: 10, vertical: 10),

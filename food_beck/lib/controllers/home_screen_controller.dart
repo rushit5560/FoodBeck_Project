@@ -299,33 +299,33 @@ class HomeScreenController extends GetxController {
   }
 
 
-  /// Get Food Details - Click on Food
-  Future<void> getFoodDetailsFunction(String foodId) async {
-    isFoodDetailsLoading(true);
-    String url = "${ApiUrl.getFoodDetailsApi}$foodId";
-    log('getFoodDetailsFunction Api Url : $url');
-
-    try {
-      Map<String, String> header = await ApiHeader().getHeader();
-      http.Response response = await http.get(Uri.parse(url), headers: header);
-      // log('getFoodDetailsFunction Response :${response.body}');
-
-      FoodDetailsModel foodDetailsModel = FoodDetailsModel.fromJson(json.decode(response.body));
-      isFoodDetailsSuccessStatus.value = foodDetailsModel.success;
-
-      if(isFoodDetailsSuccessStatus.value) {
-        selectedFoodData = foodDetailsModel.data[0];
-        // FoodDetailsBottomSheetModule().foodDetailsBottomSheet(foodData: selectedFoodData);
-      } else {
-        log('getFoodDetailsFunction Else');
-      }
-
-    } catch(e) {
-      log('getFoodDetailsFunction Error :$e');
-      rethrow;
-    }
-    isFoodDetailsLoading(false);
-  }
+  //  Get Food Details - Click on Food
+  // Future<void> getFoodDetailsFunction(String foodId) async {
+  //   isFoodDetailsLoading(true);
+  //   String url = "${ApiUrl.getFoodDetailsApi}$foodId";
+  //   log('getFoodDetailsFunction Api Url : $url');
+  //
+  //   try {
+  //     Map<String, String> header = await ApiHeader().getHeader();
+  //     http.Response response = await http.get(Uri.parse(url), headers: header);
+  //     // log('getFoodDetailsFunction Response :${response.body}');
+  //
+  //     FoodDetailsModel foodDetailsModel = FoodDetailsModel.fromJson(json.decode(response.body));
+  //     isFoodDetailsSuccessStatus.value = foodDetailsModel.success;
+  //
+  //     if(isFoodDetailsSuccessStatus.value) {
+  //       selectedFoodData = foodDetailsModel.data[0];
+  //       // FoodDetailsBottomSheetModule().foodDetailsBottomSheet(foodData: selectedFoodData);
+  //     } else {
+  //       log('getFoodDetailsFunction Else');
+  //     }
+  //
+  //   } catch(e) {
+  //     log('getFoodDetailsFunction Error :$e');
+  //     rethrow;
+  //   }
+  //   isFoodDetailsLoading(false);
+  // }
 
 
   @override

@@ -12,6 +12,10 @@ class CartScreenController extends GetxController {
   List offersList = [1,2,3,4,5];
   RxDouble offerAmount = 0.0.obs;
   RxBool appliedOffer = false.obs;
+  List addressList = [1,2,3,4,5];
+
+
+
   void increment() {
     qty.value++;
     subTotalAmount.value = (productPrice * qty.value).toDouble();

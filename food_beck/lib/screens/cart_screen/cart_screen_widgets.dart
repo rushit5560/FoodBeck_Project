@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:food_beck/constants/color.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../constants/app_images.dart';
 import '../../controllers/cart_screen_controller.dart';
 import '../../utils/style.dart';
@@ -114,11 +113,10 @@ class PriceTotalModule extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(
-          color: AppColors.greenColor,
-        ),
-        borderRadius: BorderRadius.circular(10)
-      ),
+          border: Border.all(
+            color: AppColors.greenColor,
+          ),
+          borderRadius: BorderRadius.circular(10)),
       child: Column(
         children: [
           Row(
@@ -136,11 +134,9 @@ class PriceTotalModule extends StatelessWidget {
           const SizedBox(height: 10),
           const Row(
             children: [
-              Text(
-                "Order Total",
-              ),
+              Text("Order Total"),
               Spacer(),
-              Text("₹2032")
+              Text("₹2032"),
             ],
           ),
           const Row(
@@ -175,7 +171,6 @@ class PriceTotalModule extends StatelessWidget {
     );
   }
 }
-
 
 class CouponCodeModule extends StatelessWidget {
   CouponCodeModule({Key? key}) : super(key: key);
@@ -218,7 +213,6 @@ class CouponCodeModule extends StatelessWidget {
               child: Column(
                 // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
                   Row(
                     children: [
                       Expanded(
@@ -232,7 +226,6 @@ class CouponCodeModule extends StatelessWidget {
                                 fontSize: 13.sp,
                               ),
                             ),
-
                             Text(
                               'Save 99\$ with this code',
                               style: TextStyle(
@@ -259,32 +252,31 @@ class CouponCodeModule extends StatelessWidget {
                       ),
                     ],
                   ),
-
-                  const Divider(height: 1,color: AppColors.greyColor),
-
+                  const Divider(height: 1, color: AppColors.greyColor),
                   GestureDetector(
                     onTap: () {
-                      cartScreenController.appliedOffer.value = !cartScreenController.appliedOffer.value;
+                      cartScreenController.appliedOffer.value =
+                          !cartScreenController.appliedOffer.value;
                     },
                     child: Obx(
-                          ()=> Container(
+                      () => Container(
                         child: cartScreenController.appliedOffer.value
                             ? Text(
-                          'APPLIED',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: AppColors.greenColor,
-                            fontSize: 12.sp,
-                          ),
-                        ).paddingOnly(top: 5)
+                                'APPLIED',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: AppColors.greenColor,
+                                  fontSize: 12.sp,
+                                ),
+                              ).paddingOnly(top: 5)
                             : Text(
-                          'TAP TO APPLY',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: AppColors.blackColor,
-                            fontSize: 12.sp,
-                          ),
-                        ).paddingOnly(top: 5),
+                                'TAP TO APPLY',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: AppColors.blackColor,
+                                  fontSize: 12.sp,
+                                ),
+                              ).paddingOnly(top: 5),
                       ),
                     ),
                   ),
@@ -314,5 +306,42 @@ class CouponCodeModule extends StatelessWidget {
         ),
       ],
     ).paddingSymmetric(vertical: 8);*/
+  }
+}
+
+class SelectAddressModule extends StatelessWidget {
+  SelectAddressModule({Key? key}) : super(key: key);
+  final cartScreenController = Get.find<CartScreenController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return ExpansionTile(
+      maintainState: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+        side: BorderSide(color: AppColors.greenColor),
+      ),
+      collapsedShape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+        side: BorderSide(color: AppColors.greenColor),
+      ),
+      title: Text(
+        'Select address',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 14.sp,
+        ),
+      ),
+      children: [
+        ListView.builder(
+          itemCount: cartScreenController.offersList.length,
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (context, i) {
+
+          },
+        ),
+      ],
+    );
   }
 }
