@@ -6,6 +6,7 @@ import 'dart:developer';
 import 'package:http/http.dart' as http;
 
 import '../constants/api_url.dart';
+import '../models/common_models/restaurant_data_model.dart';
 import '../models/home_screen_model/all_restaurant_model.dart';
 import '../models/home_screen_model/best_reviewed_food_model.dart';
 import '../models/home_screen_model/category_model.dart';
@@ -18,7 +19,6 @@ import '../models/home_screen_model/trending_food_model.dart';
 import '../models/recipes_screen_model/banner_model.dart';
 import '../utils/user_preferences.dart';
 import 'package:dio/dio.dart' as dio;
-
 
 class HomeScreenController extends GetxController {
   RxBool isLoading = false.obs;
@@ -45,27 +45,28 @@ class HomeScreenController extends GetxController {
 
   FoodData selectedFoodData = FoodData();
 
-
   RxInt currentIndex = 0.obs;
   TextEditingController searchbarController = TextEditingController();
   final CarouselController carouselController = CarouselController();
 
-  /// Get Banners
+  /// Get Banners - Done
   Future<void> getBannerFunction() async {
     isLoading(true);
     String url = "${ApiUrl.bannerApi}$zoneId";
     log("getBannerFunction url : $url");
     try {
-      http.Response response = await http.get(Uri.parse(url));
-      log('getBannerFunction response :${response.body}');
-      BannerModel cmsPageModel =
-          BannerModel.fromJson(json.decode(response.body));
-      successStatus.value = cmsPageModel.success;
+      final response = await dioRequest.get(url);
+      // log('getBannerFunction response :${jsonEncode(response.data)}');
+
+      BannerModel bannerModel = BannerModel.fromJson(response.data);
+      successStatus.value = bannerModel.success;
+
       if (successStatus.value) {
-        bannerList.addAll(cmsPageModel.data);
+        bannerList.clear();
+        bannerList.addAll(bannerModel.data);
         log('Banner List Length : ${bannerList.length}');
       } else {
-        log("getBannerFunction Error");
+        log("getBannerFunction Else");
       }
     } catch (e) {
       log("getBannerFunction Error $e");
@@ -82,48 +83,58 @@ class HomeScreenController extends GetxController {
     log('getCategoryFunction Api Url : $url');
 
     try {
-      http.Response response = await http.get(Uri.parse(url));
-      CategoryModel categoryModel =
-          CategoryModel.fromJson(json.decode(response.body));
+      final response = await dioRequest.get(url);
+      log('getCategoryFunction response :${jsonEncode(response.data)}');
+
+      CategoryModel categoryModel = CategoryModel.fromJson(response.data);
       successStatus.value = categoryModel.success;
 
       if (successStatus.value) {
-        categoryList.clear();
-        categoryList.addAll(categoryModel.data);
+        if(categoryModel.data.isNotEmpty) {
+          categoryList.clear();
+          categoryList.addAll(categoryModel.data);
+        }
         log('categoryList Length : ${categoryList.length}');
       } else {
-        log('getCategoryFunction');
+        log('getCategoryFunction Else');
       }
+
     } catch (e) {
       log('getCategoryFunction Error :$e');
       rethrow;
     }
-    isLoading(false);
 
-    // await getAllPopularRestaurantFunction();
+    // isLoading(false);
+    await getAllPopularRestaurantFunction();
   }
 
   /// Get Popular Restaurants
   Future<void> getAllPopularRestaurantFunction() async {
     isLoading(true);
     String url = "${ApiUrl.getAllPopularRestaurantApi}$zoneId";
-    log("getAllPopularRestaurantFunctionurl: $url");
+    log("getAllPopularRestaurantFunction Api url: $url");
     try {
-      http.Response response = await http.get(Uri.parse(url));
-      // log("getAllPopularRestaurantFunction response: ${response.body}");
+      final response = await dioRequest.get(url);
+      log("getAllPopularRestaurantFunction response: ${jsonEncode(response.data)}");
+
       AllPopularRestaurantsModel allPopularRestaurantsModel =
-          AllPopularRestaurantsModel.fromJson(json.decode(response.body));
+      AllPopularRestaurantsModel.fromJson(response.data);
       successStatus.value = allPopularRestaurantsModel.success;
+
       if (successStatus.value) {
-        allPopularRestaurantList.addAll(allPopularRestaurantsModel.data);
+        if(allPopularRestaurantsModel.data.isNotEmpty) {
+          allPopularRestaurantList.addAll(allPopularRestaurantsModel.data);
+        }
         log("getAllPopularRestaurantFunction allPopularRestaurantList: $allPopularRestaurantList");
       } else {
-        log("else else");
+        log("getAllPopularRestaurantFunction else");
       }
+
     } catch (e) {
       log("getAllPopularRestaurantFunction catch: $e");
       rethrow;
     }
+    // isLoading(false);
     await getTrendingFoodFunction();
   }
 
@@ -134,25 +145,41 @@ class HomeScreenController extends GetxController {
     log('getTrendingFoodFunction Api Url :$url');
 
     try {
-      http.Response response = await http.get(Uri.parse(url));
-      // log('getTrendingFoodFunction Response : ${response.body}');
-
-      TrendingFoodModel trendingFoodModel = TrendingFoodModel.fromJson(json.decode(response.body));
+      final response = await dioRequest.get(url);
+      log('getTrendingFoodFunction Response : ${jsonEncode(response.data)}');
+      TrendingFoodModel trendingFoodModel = TrendingFoodModel.fromJson(response.data);
       successStatus.value = trendingFoodModel.success;
 
-      if(successStatus.value) {
-        trendingFoodList.clear();
-        trendingFoodList.addAll(trendingFoodModel.data);
+      if (successStatus.value) {
+        if(trendingFoodModel.data.isNotEmpty) {
+          trendingFoodList.clear();
+          trendingFoodList.addAll(trendingFoodModel.data);
+        }
         log('trendingFoodModel Length : ${trendingFoodList.length}');
       } else {
         log('getTrendingFoodFunction Else');
       }
 
-    } catch(e) {
+      /*http.Response response = await http.get(Uri.parse(url));
+      // log('getTrendingFoodFunction Response : ${response.body}');
+
+      TrendingFoodModel trendingFoodModel =
+          TrendingFoodModel.fromJson(json.decode(response.body));
+      successStatus.value = trendingFoodModel.success;
+
+      if (successStatus.value) {
+        trendingFoodList.clear();
+        trendingFoodList.addAll(trendingFoodModel.data);
+        log('trendingFoodModel Length : ${trendingFoodList.length}');
+      } else {
+        log('getTrendingFoodFunction Else');
+      }*/
+    } catch (e) {
       log('getTrendingFoodFunction Error :$e');
       rethrow;
     }
-    await getPopularFoodNearByYouFunction();
+    isLoading(false);
+    // await getPopularFoodNearByYouFunction();
   }
 
   /// Get popular Food Near By You
@@ -165,18 +192,18 @@ class HomeScreenController extends GetxController {
       http.Response response = await http.get(Uri.parse(url));
       // log('getPopularFoodNearByYouFunction Response : ${response.body}');
 
-      PopularFoodNearByModel popularFoodNearByModel = PopularFoodNearByModel.fromJson(json.decode(response.body));
+      PopularFoodNearByModel popularFoodNearByModel =
+          PopularFoodNearByModel.fromJson(json.decode(response.body));
       successStatus.value = popularFoodNearByModel.success;
 
-      if(successStatus.value) {
+      if (successStatus.value) {
         popularFoodNearbyList.clear();
         popularFoodNearbyList.addAll(popularFoodNearByModel.data);
         log('popularFoodNearbyList Length : ${popularFoodNearbyList.length}');
       } else {
         log('getPopularFoodNearByYouFunction Else');
       }
-
-    } catch(e) {
+    } catch (e) {
       log('getPopularFoodNearByYouFunction Error :$e');
       rethrow;
     }
@@ -193,18 +220,18 @@ class HomeScreenController extends GetxController {
       http.Response response = await http.get(Uri.parse(url));
       // log('getNewRestaurantFunction Response : ${response.body}');
 
-      NewRestaurantModel newRestaurantModel = NewRestaurantModel.fromJson(json.decode(response.body));
+      NewRestaurantModel newRestaurantModel =
+          NewRestaurantModel.fromJson(json.decode(response.body));
       successStatus.value = newRestaurantModel.success;
 
-      if(successStatus.value) {
+      if (successStatus.value) {
         newRestaurantList.clear();
         newRestaurantList.addAll(newRestaurantModel.data);
         log('newRestaurantList Length : ${newRestaurantList.length}');
       } else {
         log('getNewRestaurantFunction Else');
       }
-
-    } catch(e) {
+    } catch (e) {
       log('getNewRestaurantFunction Error :$e');
       rethrow;
     }
@@ -222,18 +249,18 @@ class HomeScreenController extends GetxController {
       http.Response response = await http.get(Uri.parse(url));
       // log('getBestReviewedFunction Response : ${response.body}');
 
-      BestReviewedFoodModel bestReviewedFoodModel = BestReviewedFoodModel.fromJson(json.decode(response.body));
+      BestReviewedFoodModel bestReviewedFoodModel =
+          BestReviewedFoodModel.fromJson(json.decode(response.body));
       successStatus.value = bestReviewedFoodModel.success;
 
-      if(successStatus.value) {
+      if (successStatus.value) {
         bestReviewedFoodList.clear();
         bestReviewedFoodList.addAll(bestReviewedFoodModel.data);
         log('bestReviewedFoodList Length : ${bestReviewedFoodList.length}');
       } else {
         log('getBestReviewedFunction Else');
       }
-
-    } catch(e) {
+    } catch (e) {
       log('getBestReviewedFunction Error :$e');
       rethrow;
     }
@@ -251,18 +278,18 @@ class HomeScreenController extends GetxController {
       http.Response response = await http.get(Uri.parse(url));
       // log('getAllRestaurantFunction Response : ${response.body}');
 
-      AllRestaurantModel allRestaurantModel = AllRestaurantModel.fromJson(json.decode(response.body));
+      AllRestaurantModel allRestaurantModel =
+          AllRestaurantModel.fromJson(json.decode(response.body));
       successStatus.value = allRestaurantModel.success;
 
-      if(successStatus.value) {
+      if (successStatus.value) {
         allRestaurantList.clear();
         allRestaurantList.addAll(allRestaurantModel.data);
         log('allRestaurantList Length : ${allRestaurantList.length}');
       } else {
         log('getAllRestaurantFunction Else');
       }
-
-    } catch(e) {
+    } catch (e) {
       log('getAllRestaurantFunction Error :$e');
       rethrow;
     }
@@ -277,27 +304,26 @@ class HomeScreenController extends GetxController {
     log('getAllCuisinesFunction Api Url :$url');
 
     try {
-      http.Response response =await http.get(Uri.parse(url));
+      http.Response response = await http.get(Uri.parse(url));
       // log('getAllCuisinesFunction Response : ${response.body}');
 
-      CuisineModel cuisineModel = CuisineModel.fromJson(json.decode(response.body));
+      CuisineModel cuisineModel =
+          CuisineModel.fromJson(json.decode(response.body));
       successStatus.value = cuisineModel.success;
 
-      if(successStatus.value) {
+      if (successStatus.value) {
         cuisinesList.clear();
         cuisinesList.addAll(cuisineModel.data);
         log('cuisinesList Length : ${cuisinesList.length}');
       } else {
-       log('getAllCuisinesFunction Else');
+        log('getAllCuisinesFunction Else');
       }
-
-    } catch(e) {
+    } catch (e) {
       log('getAllCuisinesFunction Error :$e');
       rethrow;
     }
     isLoading(false);
   }
-
 
   //  Get Food Details - Click on Food
   // Future<void> getFoodDetailsFunction(String foodId) async {
@@ -327,7 +353,6 @@ class HomeScreenController extends GetxController {
   //   isFoodDetailsLoading(false);
   // }
 
-
   @override
   void onInit() {
     initMethod();
@@ -335,7 +360,10 @@ class HomeScreenController extends GetxController {
   }
 
   Future<void> initMethod() async {
-    zoneId = await userPreference.getStringValueFromPrefs(key: UserPreference.userZoneIdKey) ?? "";
+    zoneId = await userPreference.getStringValueFromPrefs(
+            key: UserPreference.userZoneIdKey) ??
+        "1";
+    log('Init zoneId :$zoneId');
     await getBannerFunction();
     // await getAllPopularRestaurantFunction();
   }

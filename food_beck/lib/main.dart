@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_beck/screens/index_screen/index_screen.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import 'constants/color.dart';
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             debugShowMaterialGrid: false,
             title: 'Food Beck',
-            home: SplashScreen(),
+            home: IndexScreen(),
 
             theme: ThemeData(
               useMaterial3: true,

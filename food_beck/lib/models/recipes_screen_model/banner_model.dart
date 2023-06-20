@@ -4,7 +4,8 @@
 
 import 'dart:convert';
 
-BannerModel bannerModelFromJson(String str) => BannerModel.fromJson(json.decode(str));
+BannerModel bannerModelFromJson(String str) =>
+    BannerModel.fromJson(json.decode(str));
 
 String bannerModelToJson(BannerModel data) => json.encode(data.toJson());
 
@@ -20,16 +21,17 @@ class BannerModel {
   final String message;
 
   factory BannerModel.fromJson(Map<String, dynamic> json) => BannerModel(
-    success: json["success"]??"",
-    data: List<BannerList>.from(json["data"].map((x) => BannerList.fromJson(x))??{}),
-    message: json["message"],
-  );
+        success: json["success"] ?? "",
+        data: List<BannerList>.from(
+            json["data"].map((x) => BannerList.fromJson(x)) ?? {}),
+        message: json["message"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "success": success,
-    //"data": List<dynamic>.from(data.map((x) => x.toJson())),
-    "message": message,
-  };
+        "success": success,
+        //"data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "message": message,
+      };
 }
 
 class BannerList {
@@ -41,7 +43,7 @@ class BannerList {
     required this.data,
     required this.image,
     required this.status,
-   // required this.createdAt,
+    // required this.createdAt,
     //required this.updatedAt,
   });
 
@@ -49,23 +51,23 @@ class BannerList {
   final String title;
   final String zone;
   final String type;
-  final int data;
+  final String data;
   final String image;
-  final int status;
+  final String status;
   //final DateTime createdAt;
- // final DateTime updatedAt;
+  // final DateTime updatedAt;
 
   factory BannerList.fromJson(Map<String, dynamic> json) => BannerList(
-    id: json["id"]??0,
-    title: json["title"]??"",
-    zone: json["zone"]??"",
-    type: json["type"] ?? "",
-    data: json["data"]??0,
-    image: json["image"]??"",
-    status: json["status"]??0,
-    //createdAt: DateTime.parse(json["created_at"]),
-    //updatedAt: DateTime.parse(json["updated_at"]),
-  );
+        id: json["id"] ?? 0,
+        title: json["title"] ?? "",
+        zone: json["zone"] ?? "",
+        type: json["type"] ?? "",
+        data: json["data"] ?? "0",
+        image: json["image"] ?? "",
+        status: json["status"] ?? "0",
+        //createdAt: DateTime.parse(json["created_at"]),
+        //updatedAt: DateTime.parse(json["updated_at"]),
+      );
   //
   // Map<String, dynamic> toJson() => {
   //   "id": id,
@@ -79,4 +81,3 @@ class BannerList {
   //   "updated_at": updatedAt.toIso8601String(),
   // };
 }
-

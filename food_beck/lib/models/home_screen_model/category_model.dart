@@ -17,7 +17,7 @@ class CategoryModel {
 
   factory CategoryModel.fromJson(Map<String, dynamic> json) => CategoryModel(
     success: json["success"] ?? false,
-    data: List<CategoryData>.from((json["data"] ?? []).map((x) => CategoryData.fromJson(x ?? {}))),
+    data: json["data"] == [] ? [] : List<CategoryData>.from((json["data"] ?? []).map((x) => CategoryData.fromJson(x ?? {}))),
     message: json["message"] ?? "",
   );
 
@@ -28,6 +28,44 @@ class CategoryModel {
   // };
 }
 
+class CategoryData {
+  int id;
+  String name;
+  String image;
+  String position;
+  String status;
+  String priority;
+  // dynamic slug;
+  // DateTime createdAt;
+  // DateTime updatedAt;
+
+  CategoryData({
+    required this.id,
+    required this.name,
+    required this.image,
+    required this.position,
+    required this.status,
+    required this.priority,
+    // this.slug,
+    // this.createdAt,
+    // this.updatedAt,
+  });
+
+  factory CategoryData.fromJson(Map<String, dynamic> json) => CategoryData(
+    id: json["id"] ?? 0,
+    name: json["name"] ?? "",
+    image: json["image"] ?? "",
+    position: json["position"] ?? "",
+    status: json["status"] ?? "",
+    priority: json["priority"] ?? "",
+    // slug: json["slug"],
+    // createdAt: DateTime.parse(json["created_at"]),
+    // updatedAt: DateTime.parse(json["updated_at"]),
+  );
+
+}
+
+/*
 class CategoryData {
   CategoryData({
     required this.id,
@@ -79,3 +117,4 @@ class CategoryData {
   //   // "updated_at": updatedAt.toIso8601String(),
   // };
 }
+*/

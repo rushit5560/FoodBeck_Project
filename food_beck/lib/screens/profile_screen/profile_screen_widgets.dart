@@ -19,7 +19,7 @@ class ProfileDetailsModule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log(" ApiUrl.profileImage profileScreenController.userImage.value ${ApiUrl.profileImage}${profileScreenController.userImage.value}");
+    // log(" ApiUrl.profileImage profileScreenController.userImage.value ${ApiUrl.profileImage}${profileScreenController.userImage.value}");
     return Padding(
       padding: const EdgeInsets.all(12),
       child: Container(

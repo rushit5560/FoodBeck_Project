@@ -12,13 +12,13 @@ import '../../constants/app_images.dart';
 import '../../constants/color.dart';
 import '../../constants/enums.dart';
 import '../../controllers/home_screen_controller.dart';
+import '../../models/common_models/restaurant_data_model.dart';
 import '../../models/home_screen_model/all_restaurant_model.dart';
 import '../../models/home_screen_model/best_reviewed_food_model.dart';
 import '../../models/home_screen_model/category_model.dart';
 import '../../models/home_screen_model/cuisine_model.dart';
 import '../../models/home_screen_model/new_restaurant_model.dart';
 import '../../models/home_screen_model/popular_food_near_by_you_model.dart';
-import '../../models/home_screen_model/popular_restaurants_model.dart';
 import '../../models/home_screen_model/trending_food_model.dart';
 import '../restaurants_details_screen/restaurants_details_screen.dart';
 import '../restaurants_screen/restaurants_screen.dart';
@@ -41,7 +41,7 @@ class BannerModule extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
                 side:
-                    BorderSide(color: Theme.of(context).primaryColor, width: 2),
+                    const BorderSide(color: AppColors.greenColor, width: 2),
               ),
               elevation: 0,
               child: InkWell(
@@ -121,7 +121,7 @@ class CategoriesModule extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 80,
+      height: 88,
       child: Center(
         child: ListView.builder(
           itemCount: screenController.categoryList.length,
@@ -149,18 +149,20 @@ class CategoriesModule extends StatelessWidget {
                     height: 45,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      // color: AppColors.grey200Color,
                     ),
-                    child: Image.network(
-                      imgUrl,
-                      fit: BoxFit.fill,
-                      errorBuilder: (context, obj, st) {
-                        return Image.asset(
-                          AppImages.AppLogo,
-                          fit: BoxFit.fill,
-                        );
-                      },
-                    ).paddingAll(5),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.network(
+                        imgUrl,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, obj, st) {
+                          return Image.asset(
+                            AppImages.AppLogo,
+                            fit: BoxFit.fill,
+                          );
+                        },
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 3),
                   Text(
@@ -206,19 +208,16 @@ class PopularRestaurantsModule extends StatelessWidget {
           ],
         ).paddingSymmetric(horizontal: 10, vertical: 5),
         SizedBox(
-          height: 185,
+          height: 188,
           child: ListView.builder(
             itemCount: screenController.allPopularRestaurantList.length,
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
             physics: const BouncingScrollPhysics(),
             itemBuilder: (context, i) {
-              // String imgUrl =
-              // "https://thumbs.dreamstime.com/b/wooden-table-food-top-view-cafe-102532611.jpg";
-              String imgUrl =
-                  "${ApiUrl.restaurantImagePathUrl}/${screenController.allPopularRestaurantList[i].logo}";
-              RestaurantData singleRestaurant =
-                  screenController.allPopularRestaurantList[i];
+              // String imgUrl = "https://thumbs.dreamstime.com/b/wooden-table-food-top-view-cafe-102532611.jpg";
+              RestaurantData singleRestaurant = screenController.allPopularRestaurantList[i];
+              String imgUrl = "${ApiUrl.restaurantImagePathUrl}/${singleRestaurant.logo}";
               return GestureDetector(
                 onTap: () {
                   Get.to(() => RestaurantsDetailsScreen(),
@@ -241,6 +240,7 @@ class PopularRestaurantsModule extends StatelessWidget {
                     children: [
                       Column(
                         children: [
+                          // Image Container
                           Container(
                             height: 105,
                             width: Get.width,
