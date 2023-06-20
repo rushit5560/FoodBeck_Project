@@ -134,7 +134,7 @@ class HomeScreenController extends GetxController {
       log("getAllPopularRestaurantFunction catch: $e");
       rethrow;
     }
-    // isLoading(false);
+
     await getTrendingFoodFunction();
   }
 
@@ -160,26 +160,12 @@ class HomeScreenController extends GetxController {
         log('getTrendingFoodFunction Else');
       }
 
-      /*http.Response response = await http.get(Uri.parse(url));
-      // log('getTrendingFoodFunction Response : ${response.body}');
-
-      TrendingFoodModel trendingFoodModel =
-          TrendingFoodModel.fromJson(json.decode(response.body));
-      successStatus.value = trendingFoodModel.success;
-
-      if (successStatus.value) {
-        trendingFoodList.clear();
-        trendingFoodList.addAll(trendingFoodModel.data);
-        log('trendingFoodModel Length : ${trendingFoodList.length}');
-      } else {
-        log('getTrendingFoodFunction Else');
-      }*/
     } catch (e) {
       log('getTrendingFoodFunction Error :$e');
       rethrow;
     }
-    isLoading(false);
-    // await getPopularFoodNearByYouFunction();
+    // isLoading(false);
+    await getPopularFoodNearByYouFunction();
   }
 
   /// Get popular Food Near By You
@@ -189,20 +175,22 @@ class HomeScreenController extends GetxController {
     log('getPopularFoodNearByYouFunction Api Url :$url');
 
     try {
-      http.Response response = await http.get(Uri.parse(url));
-      // log('getPopularFoodNearByYouFunction Response : ${response.body}');
-
+      final response = await dioRequest.get(url);
+      log('getPopularFoodNearByYouFunction Response : ${jsonEncode(response.data)}');
       PopularFoodNearByModel popularFoodNearByModel =
-          PopularFoodNearByModel.fromJson(json.decode(response.body));
+      PopularFoodNearByModel.fromJson(response.data);
       successStatus.value = popularFoodNearByModel.success;
 
       if (successStatus.value) {
-        popularFoodNearbyList.clear();
-        popularFoodNearbyList.addAll(popularFoodNearByModel.data);
+        if(popularFoodNearByModel.data.isNotEmpty) {
+          popularFoodNearbyList.clear();
+          popularFoodNearbyList.addAll(popularFoodNearByModel.data);
+        }
         log('popularFoodNearbyList Length : ${popularFoodNearbyList.length}');
       } else {
         log('getPopularFoodNearByYouFunction Else');
       }
+
     } catch (e) {
       log('getPopularFoodNearByYouFunction Error :$e');
       rethrow;

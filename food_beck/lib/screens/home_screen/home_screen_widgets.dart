@@ -241,29 +241,31 @@ class PopularRestaurantsModule extends StatelessWidget {
                       Column(
                         children: [
                           // Image Container
-                          Container(
-                            height: 105,
-                            width: Get.width,
-                            decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(10),
-                                topLeft: Radius.circular(10),
+                          Expanded(
+                            child: Container(
+                              // height: 105,
+                              width: Get.width,
+                              decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(10),
+                                  topLeft: Radius.circular(10),
+                                ),
                               ),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: const BorderRadius.only(
-                                topRight: Radius.circular(10),
-                                topLeft: Radius.circular(10),
-                              ),
-                              child: Image.network(
-                                imgUrl,
-                                fit: BoxFit.fill,
-                                errorBuilder: (context, obj, st) {
-                                  return Image.asset(
-                                    AppImages.AppLogo,
-                                    fit: BoxFit.contain,
-                                  );
-                                },
+                              child: ClipRRect(
+                                borderRadius: const BorderRadius.only(
+                                  topRight: Radius.circular(10),
+                                  topLeft: Radius.circular(10),
+                                ),
+                                child: Image.network(
+                                  imgUrl,
+                                  fit: BoxFit.fill,
+                                  errorBuilder: (context, obj, st) {
+                                    return Image.asset(
+                                      AppImages.AppLogo,
+                                      fit: BoxFit.contain,
+                                    );
+                                  },
+                                ),
                               ),
                             ),
                           ),
