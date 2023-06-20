@@ -4,25 +4,25 @@
 
 import 'dart:convert';
 
-RemoveFavoriterestaurantModel removeFavoriterestaurantModelFromJson(
+RemoveFavoriteRestaurantModel removeFavoriterestaurantModelFromJson(
         String str) =>
-    RemoveFavoriterestaurantModel.fromJson(json.decode(str));
+    RemoveFavoriteRestaurantModel.fromJson(json.decode(str));
 
 String removeFavoriterestaurantModelToJson(
-        RemoveFavoriterestaurantModel data) =>
+    RemoveFavoriteRestaurantModel data) =>
     json.encode(data.toJson());
 
-class RemoveFavoriterestaurantModel {
+class RemoveFavoriteRestaurantModel {
   bool success;
   String message;
 
-  RemoveFavoriterestaurantModel({
+  RemoveFavoriteRestaurantModel({
     required this.success,
     required this.message,
   });
 
-  factory RemoveFavoriterestaurantModel.fromJson(Map<String, dynamic> json) =>
-      RemoveFavoriterestaurantModel(
+  factory RemoveFavoriteRestaurantModel.fromJson(Map<String, dynamic> json) =>
+      RemoveFavoriteRestaurantModel(
         success: json["success"] ?? false,
         message: json["message"] ?? "",
       );

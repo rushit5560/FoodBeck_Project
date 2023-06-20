@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import '../common_models/food_data_model.dart';
+
 BestReviewedFoodModel bestReviewedFoodModelFromJson(String str) => BestReviewedFoodModel.fromJson(json.decode(str));
 
 String bestReviewedFoodModelToJson(BestReviewedFoodModel data) => json.encode(data.toJson());
@@ -12,23 +14,23 @@ class BestReviewedFoodModel {
   });
 
   bool success;
-  List<BestReviewedFood> data;
+  List<FoodData> data;
   String message;
 
   factory BestReviewedFoodModel.fromJson(Map<String, dynamic> json) => BestReviewedFoodModel(
     success: json["success"] ?? false,
-    data: List<BestReviewedFood>.from((json["data"] ?? []).map((x) => BestReviewedFood.fromJson(x ?? {}))),
+    data: List<FoodData>.from((json["data"] ?? []).map((x) => FoodData.fromJson(x ?? {}))),
     message: json["message"] ?? "",
   );
 
   Map<String, dynamic> toJson() => {
     "success": success,
-    "data": List<dynamic>.from(data.map((x) => x.toJson())),
+    // "data": List<dynamic>.from(data.map((x) => x.toJson())),
     "message": message,
   };
 }
 
-class BestReviewedFood {
+/*class BestReviewedFood {
   BestReviewedFood({
     required this.id,
     required this.name,
@@ -154,4 +156,4 @@ class BestReviewedFood {
     // "created_at": createdAt.toIso8601String(),
     // "updated_at": updatedAt.toIso8601String(),
   };
-}
+}*/

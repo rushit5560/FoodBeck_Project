@@ -89,8 +89,8 @@ class SearchScreenController extends GetxController {
 
       log("removeFavoriteRestaurantFunction response :  ${response.body}");
 
-      RemoveFavoriterestaurantModel removeFavoriteRestaurantModel =
-      RemoveFavoriterestaurantModel.fromJson(json.decode(response.body));
+      RemoveFavoriteRestaurantModel removeFavoriteRestaurantModel =
+      RemoveFavoriteRestaurantModel.fromJson(json.decode(response.body));
 
       successStatus.value = removeFavoriteRestaurantModel.success;
       if (successStatus.value) {

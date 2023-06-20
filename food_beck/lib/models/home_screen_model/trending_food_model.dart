@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import '../common_models/food_data_model.dart';
+
 TrendingFoodModel trendingFoodModelFromJson(String str) => TrendingFoodModel.fromJson(json.decode(str));
 
 String trendingFoodModelToJson(TrendingFoodModel data) => json.encode(data.toJson());
@@ -12,23 +14,23 @@ class TrendingFoodModel {
   });
 
   bool success;
-  List<TrendingFood> data;
+  List<FoodData> data;
   String message;
 
   factory TrendingFoodModel.fromJson(Map<String, dynamic> json) => TrendingFoodModel(
     success: json["success"] ?? false,
-    data: List<TrendingFood>.from((json["data"] ?? []).map((x) => TrendingFood.fromJson(x ?? {}))),
+    data: List<FoodData>.from((json["data"] ?? []).map((x) => FoodData.fromJson(x ?? {}))),
     message: json["message"] ?? "",
   );
 
   Map<String, dynamic> toJson() => {
     "success": success,
-    "data": List<dynamic>.from(data.map((x) => x.toJson())),
+    // "data": List<dynamic>.from(data.map((x) => x.toJson())),
     "message": message,
   };
 }
 
-class TrendingFood {
+/*class TrendingFood {
   TrendingFood({
     required this.id,
     required this.name,
@@ -154,4 +156,4 @@ class TrendingFood {
     // "created_at": createdAt.toIso8601String(),
     // "updated_at": updatedAt.toIso8601String(),
   };
-}
+}*/

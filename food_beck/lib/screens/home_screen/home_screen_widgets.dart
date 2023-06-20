@@ -12,6 +12,7 @@ import '../../constants/app_images.dart';
 import '../../constants/color.dart';
 import '../../constants/enums.dart';
 import '../../controllers/home_screen_controller.dart';
+import '../../models/common_models/food_data_model.dart';
 import '../../models/common_models/restaurant_data_model.dart';
 import '../../models/home_screen_model/all_restaurant_model.dart';
 import '../../models/home_screen_model/best_reviewed_food_model.dart';
@@ -392,7 +393,7 @@ class TrendingFoodsModule extends StatelessWidget {
             physics: const BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, i) {
-              TrendingFood singleFood = screenController.trendingFoodList[i];
+              FoodData singleFood = screenController.trendingFoodList[i];
               String imgUrl = ApiUrl.foodImagePathUrl + singleFood.image;
 
               String discountType =
@@ -584,7 +585,7 @@ class PopularFoodNearByModule extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             physics: const BouncingScrollPhysics(),
             itemBuilder: (context, i) {
-              PopularFoodData singleFood =
+              FoodData singleFood =
                   screenController.popularFoodNearbyList[i];
               String imgUrl = ApiUrl.foodImagePathUrl + singleFood.image;
               // String imgUrl =
@@ -768,7 +769,7 @@ class NewRestaurantModule extends StatelessWidget {
               //     "https://thumbs.dreamstime.com/b/wooden-table-food-top-view-cafe-102532611.jpg";
               String imgUrl =
                   "${ApiUrl.restaurantImagePathUrl}/${screenController.allPopularRestaurantList[i].logo}";
-              NewRestaurantData singleRestaurant =
+              RestaurantData singleRestaurant =
                   screenController.newRestaurantList[i];
               return Container(
                 width: Get.width * 0.60,
@@ -787,29 +788,31 @@ class NewRestaurantModule extends StatelessWidget {
                   children: [
                     Column(
                       children: [
-                        Container(
-                          height: 105,
-                          width: Get.width,
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(10),
-                              topLeft: Radius.circular(10),
+                        Expanded(
+                          child: Container(
+                            // height: 105,
+                            width: Get.width,
+                            decoration: const BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(10),
+                                topLeft: Radius.circular(10),
+                              ),
                             ),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: const BorderRadius.only(
-                              topRight: Radius.circular(10),
-                              topLeft: Radius.circular(10),
-                            ),
-                            child: Image.network(
-                              imgUrl,
-                              fit: BoxFit.fill,
-                              errorBuilder: (context, obj, st) {
-                                return Image.asset(
-                                  AppImages.AppLogo,
-                                  fit: BoxFit.contain,
-                                );
-                              },
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.only(
+                                topRight: Radius.circular(10),
+                                topLeft: Radius.circular(10),
+                              ),
+                              child: Image.network(
+                                imgUrl,
+                                fit: BoxFit.fill,
+                                errorBuilder: (context, obj, st) {
+                                  return Image.asset(
+                                    AppImages.AppLogo,
+                                    fit: BoxFit.contain,
+                                  );
+                                },
+                              ),
                             ),
                           ),
                         ),
@@ -934,7 +937,7 @@ class BestReviewedFoodModule extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             physics: const BouncingScrollPhysics(),
             itemBuilder: (context, i) {
-              BestReviewedFood singleFood =
+              FoodData singleFood =
                   screenController.bestReviewedFoodList[i];
               String imgUrl = ApiUrl.foodImagePathUrl + singleFood.image;
               // String imgUrl =
@@ -1115,7 +1118,7 @@ class AllRestaurantsModule extends StatelessWidget {
             return const Divider(indent: 100, endIndent: 15);
           },
           itemBuilder: (context, i) {
-            RestaurantDetails restaurantDetails =
+            RestaurantData restaurantDetails =
                 screenController.allRestaurantList[i];
             String imgUrl =
                 ApiUrl.restaurantImagePathUrl + restaurantDetails.coverPhoto;

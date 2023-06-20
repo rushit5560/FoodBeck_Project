@@ -32,7 +32,7 @@ class CuisineDetails {
   int id;
   String name;
   String image;
-  int status;
+  String status;
   // dynamic slug;
   // DateTime createdAt;
   // DateTime updatedAt;
@@ -51,7 +51,7 @@ class CuisineDetails {
     id: json["id"] ?? 0,
     name: json["name"] ?? "",
     image: json["image"] ?? "",
-    status: json["status"] ?? 0,
+    status: json["status"] ?? "0",
     // slug: json["slug"],
     // createdAt: DateTime.parse(json["created_at"]),
     // updatedAt: DateTime.parse(json["updated_at"]),

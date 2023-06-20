@@ -21,7 +21,7 @@ class RestaurantData {
   String vendorId;
   String freeDelivery;
   // dynamic rating;
-  // dynamic coverPhoto;
+  String coverPhoto;
   String delivery;
   String takeAway;
   String foodSection;
@@ -48,6 +48,7 @@ class RestaurantData {
   // DateTime createdAt;
   // DateTime updatedAt;
   String ordersCount;
+  bool isFav;
 
   RestaurantData({
     required this.id,
@@ -70,7 +71,7 @@ class RestaurantData {
     required this.vendorId,
     required this.freeDelivery,
     // this.rating,
-    // this.coverPhoto,
+    required this.coverPhoto,
     required this.delivery,
     required this.takeAway,
     required this.foodSection,
@@ -97,6 +98,7 @@ class RestaurantData {
     // this.createdAt,
     // this.updatedAt,
     required this.ordersCount,
+    required this.isFav,
   });
 
   factory RestaurantData.fromJson(Map<String, dynamic> json) => RestaurantData(
@@ -120,7 +122,7 @@ class RestaurantData {
     vendorId: json["vendor_id"] ?? "",
     freeDelivery: json["free_delivery"] ?? "",
     // rating: json["rating"],
-    // coverPhoto: json["cover_photo"],
+    coverPhoto: json["cover_photo"] ?? "",
     delivery: json["delivery"] ?? "",
     takeAway: json["take_away"] ?? "",
     foodSection: json["food_section"] ?? "",
@@ -147,6 +149,7 @@ class RestaurantData {
     // createdAt: DateTime.parse(json["created_at"]),
     // updatedAt: DateTime.parse(json["updated_at"]),
     ordersCount: json["orders_count"] ?? "",
+    isFav: json["IsFav"] ?? false,
   );
 
 }

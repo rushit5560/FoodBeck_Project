@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import '../common_models/food_data_model.dart';
+
 PopularFoodNearByModel popularFoodNearByModelFromJson(String str) => PopularFoodNearByModel.fromJson(json.decode(str));
 
 String popularFoodNearByModelToJson(PopularFoodNearByModel data) => json.encode(data.toJson());
@@ -12,23 +14,23 @@ class PopularFoodNearByModel {
   });
 
   bool success;
-  List<PopularFoodData> data;
+  List<FoodData> data;
   String message;
 
   factory PopularFoodNearByModel.fromJson(Map<String, dynamic> json) => PopularFoodNearByModel(
     success: json["success"] ?? false,
-    data: List<PopularFoodData>.from((json["data"] ?? []).map((x) => PopularFoodData.fromJson(x))),
+    data: List<FoodData>.from((json["data"] ?? []).map((x) => FoodData.fromJson(x))),
     message: json["message"] ?? "",
   );
 
   Map<String, dynamic> toJson() => {
     "success": success,
-    "data": List<dynamic>.from(data.map((x) => x.toJson())),
+    // "data": List<dynamic>.from(data.map((x) => x.toJson())),
     "message": message,
   };
 }
 
-class PopularFoodData {
+/*class PopularFoodData {
   PopularFoodData({
     required this.id,
     required this.name,
@@ -154,4 +156,4 @@ class PopularFoodData {
     // "created_at": createdAt.toIso8601String(),
     // "updated_at": updatedAt.toIso8601String(),
   };
-}
+}*/

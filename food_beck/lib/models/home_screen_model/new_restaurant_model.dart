@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import '../common_models/restaurant_data_model.dart';
+
 NewRestaurantModel newRestaurantModelFromJson(String str) => NewRestaurantModel.fromJson(json.decode(str));
 
 String newRestaurantModelToJson(NewRestaurantModel data) => json.encode(data.toJson());
@@ -12,23 +14,23 @@ class NewRestaurantModel {
   });
 
   bool success;
-  List<NewRestaurantData> data;
+  List<RestaurantData> data;
   String message;
 
   factory NewRestaurantModel.fromJson(Map<String, dynamic> json) => NewRestaurantModel(
     success: json["success"] ?? false,
-    data: List<NewRestaurantData>.from((json["data"] ?? []).map((x) => NewRestaurantData.fromJson(x))),
+    data: List<RestaurantData>.from((json["data"] ?? []).map((x) => RestaurantData.fromJson(x))),
     message: json["message"] ?? "",
   );
 
   Map<String, dynamic> toJson() => {
     "success": success,
-    "data": List<dynamic>.from(data.map((x) => x.toJson())),
+    // "data": List<dynamic>.from(data.map((x) => x.toJson())),
     "message": message,
   };
 }
 
-class NewRestaurantData {
+/*class NewRestaurantData {
   NewRestaurantData({
     required this.id,
     required this.name,
@@ -218,4 +220,4 @@ class NewRestaurantData {
     // "created_at": createdAt.toIso8601String(),
     // "updated_at": updatedAt.toIso8601String(),
   };
-}
+}*/

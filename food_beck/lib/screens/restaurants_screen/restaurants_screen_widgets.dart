@@ -8,11 +8,12 @@ import '../../constants/api_url.dart';
 import '../../constants/app_images.dart';
 import '../../constants/color.dart';
 import '../../controllers/restaurants_screen_controller.dart';
+import '../../models/common_models/restaurant_data_model.dart';
 import '../../models/home_screen_model/all_restaurant_model.dart';
 
 
 class AllRestaurantsShowModule extends StatelessWidget {
-  List<RestaurantDetails> restaurantList;
+  List<RestaurantData> restaurantList;
   AllRestaurantsShowModule({Key? key, required this.restaurantList})
       : super(key: key);
   final screenController = Get.find<RestaurantsScreenController>();
@@ -27,7 +28,7 @@ class AllRestaurantsShowModule extends StatelessWidget {
         return const Divider(indent: 100, endIndent: 15);
       },
       itemBuilder: (context, i) {
-        RestaurantDetails restaurantDetails = restaurantList[i];
+        RestaurantData restaurantDetails = restaurantList[i];
         String imgUrl = ApiUrl.restaurantImagePathUrl + restaurantDetails.coverPhoto;
         // String imgUrl =
             // "https://thumbs.dreamstime.com/b/wooden-table-food-top-view-cafe-102532611.jpg";
