@@ -6,6 +6,8 @@ import 'userdetails.dart';
 
 class UserPreference {
   static String isUserLoggedInKey = "isUserLoggedInKey"; // Bool
+  static String isUserOnBoardingKey = "isUserOnBoardingKey"; // Bool
+
   static String userIdKey = "userIdKey"; // String
   static String userZoneIdKey = "userZoneIdKey"; // String
   static String userTokenKey = "userTokenKey"; // String
@@ -20,6 +22,8 @@ class UserPreference {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     prefs.setBool(isUserLoggedInKey, false);
+    prefs.setBool(isUserOnBoardingKey, false);
+
     prefs.setString(userIdKey, '');
     prefs.setString(userZoneIdKey, '');
     prefs.setString(userTokenKey, '');

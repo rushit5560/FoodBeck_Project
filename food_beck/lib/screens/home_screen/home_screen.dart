@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:food_beck/utils/style.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import '../../common_modules/common_appbar.dart';
 import '../../common_modules/custom_loader.dart';
 import '../../controllers/home_screen_controller.dart';
+import '../location_screen/locatiopn_screen.dart';
 import 'home_screen_widgets.dart';
 
 class HomeScreen extends StatelessWidget {
   final Function(bool)? onPressed;
+
   HomeScreen({Key? key, this.onPressed}) : super(key: key);
   final homeScreenController = Get.put(HomeScreenController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: customAppBar(titleText: "FoodBeck", leadingShow: false, actionShow: false),
+      // appBar: customAppBar(titleText: "FoodBeck", leadingShow: false, actionShow: false),
       body: SafeArea(
         child: Obx(
           () => homeScreenController.isLoading.value
@@ -23,25 +27,60 @@ class HomeScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       // SearchbarModule(),
+                      Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              Get.to(() => LocationScreen());
+                            },
+                            icon: const Icon(Icons.location_on),
+                          ),
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                Get.to(() => LocationScreen());
+                              },
+                              child: Text(
+                                homeScreenController.address.value,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: TextStyleConfig.textStyle(),
+                              ),
+                            ),
+                          ),
+                          // IconButton(
+                          //     onPressed: () {},
+                          //     icon: const Icon(Icons.notifications))
+                        ],
+                      ).paddingSymmetric(horizontal: 10),
                       homeScreenController.bannerList.isEmpty
-                      ? Container() : BannerModule(),
+                          ? Container()
+                          : BannerModule(),
                       homeScreenController.categoryList.isEmpty
-                      ? Container() : CategoriesModule(),
+                          ? Container()
+                          : CategoriesModule(),
                       SizedBox(height: 2.h),
                       homeScreenController.allPopularRestaurantList.isEmpty
-                      ? Container() : PopularRestaurantsModule(),
+                          ? Container()
+                          : PopularRestaurantsModule(),
                       homeScreenController.trendingFoodList.isEmpty
-                      ? Container() : TrendingFoodsModule(),
+                          ? Container()
+                          : TrendingFoodsModule(),
                       homeScreenController.cuisinesList.isEmpty
-                      ? Container() : CuisineListModule(),
+                          ? Container()
+                          : CuisineListModule(),
                       homeScreenController.popularFoodNearbyList.isEmpty
-                      ? Container() : PopularFoodNearByModule(),
+                          ? Container()
+                          : PopularFoodNearByModule(),
                       homeScreenController.newRestaurantList.isEmpty
-                      ? Container() : NewRestaurantModule(),
+                          ? Container()
+                          : NewRestaurantModule(),
                       homeScreenController.bestReviewedFoodList.isEmpty
-                      ? Container() : BestReviewedFoodModule(),
+                          ? Container()
+                          : BestReviewedFoodModule(),
                       homeScreenController.allRestaurantList.isEmpty
-                      ? Container() : AllRestaurantsModule(),
+                          ? Container()
+                          : AllRestaurantsModule(),
 
                       // TakeYourPickModule(),
                       // BreakfastModule(),

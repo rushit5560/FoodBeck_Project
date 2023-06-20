@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constants/app_images.dart';
 import '../screens/authentication_screens/sign_in_screen/sign_in_screen.dart';
+import '../utils/user_preferences.dart';
 
 
 class OnboardingScreenController extends GetxController {
@@ -12,6 +13,7 @@ class OnboardingScreenController extends GetxController {
    var pageController = PageController();
   var selectedPageIndex = 0.obs;
   bool get isLastPage => selectedPageIndex.value == onBoardingPages.length - 1;
+  UserPreference userPreference = UserPreference();
 
   List<OnBoardingInfo> onBoardingPages = [];
     forwardAction() {
@@ -33,10 +35,12 @@ class OnboardingScreenController extends GetxController {
 
   setOnBoardingValue() async {
     log('Call Set Value Method');
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool("setOnBoardingValue", true);
-    prefs.getBool("setOnBoardingValue");
-    log('Set Value : ${prefs.getBool("setOnBoardingValue")}');
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    userPreference.setBoolValueInPrefs(
+        key: UserPreference.isUserOnBoardingKey, value: true);
+    // prefs.setBool("setOnBoardingValue", true);
+    // prefs.getBool("setOnBoardingValue");
+    // log('Set Value : ${prefs.getBool("setOnBoardingValue")}');
   }
   @override
   void onInit() {

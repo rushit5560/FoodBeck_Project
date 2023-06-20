@@ -13,25 +13,23 @@ class SplashScreenController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool isUserLoggedInStatus = false.obs;
   UserPreference userPreference = UserPreference();
-  RxBool getLocationPermission = false.obs;
-  String locationZipCode = "";
-  RxString latitude = ''.obs;
-  RxString longitude = ''.obs;
-  RxString address = ''.obs;
-  String cityName = '';
-  String stateName = '';
+
+  RxBool isOnBoardingValue = false.obs;
+
 
   startTimer() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     bool onBoardingValue = prefs.getBool('onBoarding') ?? false;
+    // log("prefs.getBool 111 ${prefs.getBool("onBoarding")}");
+    log("isOnBoardingValue.value ${isOnBoardingValue.value}");
 
     Timer(
       const Duration(milliseconds: 1500),
       () {
-        log("isUserLoggedInStatus.value 11 ${isUserLoggedInStatus.value}");
-        log("onBoardingValue onBoardingValue 11 : $onBoardingValue");
-        if (onBoardingValue == false) {
+log("isOnBoardingValue.value ${isOnBoardingValue.value}");
+
+        if (isOnBoardingValue.value == false) {
           Get.offAll(
             () => OnboardingScreen(),
             transition: Transition.native,
@@ -60,91 +58,6 @@ class SplashScreenController extends GetxController {
         // }
       },
     );
-    await handleLocationPermission();
-  }
-
-  Future<bool> handleLocationPermission() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      ScaffoldMessenger.of(Get.context!).showSnackBar(
-        const SnackBar(
-          content: Text(
-              'Location services are disabled. Please enable the services'),
-        ),
-      );
-
-      getLocationPermission = false.obs;
-      return getLocationPermission.value;
-    }
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      Geolocator.openAppSettings();
-
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-        Geolocator.openAppSettings();
-
-        ScaffoldMessenger.of(Get.context!).showSnackBar(
-          const SnackBar(content: Text('Location permissions are denied')),
-        );
-
-        getLocationPermission = false.obs;
-        return getLocationPermission.value;
-      }
-    }
-    if (permission == LocationPermission.deniedForever) {
-      permission = await Geolocator.requestPermission();
-
-      ScaffoldMessenger.of(Get.context!).showSnackBar(
-        const SnackBar(
-          content: Text(
-              'Location permissions are permanently denied, we cannot request permissions.'),
-        ),
-      );
-
-      Geolocator.openAppSettings();
-      getLocationPermission = false.obs;
-      return getLocationPermission.value;
-    }
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    await getAddressFromlatLog(position);
-    /*streamSubscription =
-        Geolocator.getPositionStream().listen((Position position) {
-      latitude.value = 'latitude: ${position.latitude}';
-      longitude.value = 'longitude: ${position.longitude}';
-
-      log("latitude.value ${latitude.value}");
-      log("longitude.value ${longitude.value}");
-      getAddressFromlatLog(position);
-    });*/
-    if (permission == LocationPermission.always) {
-      getLocationPermission.value = true;
-    }
-    if (permission == LocationPermission.whileInUse) {
-      getLocationPermission.value = true;
-    }
-
-    return true;
-  }
-
-  Future<void> getAddressFromlatLog(Position position) async {
-    List<Placemark> placemarks =
-        await placemarkFromCoordinates(position.latitude, position.longitude);
-    log("Placemark $placemarks");
-    Placemark place = placemarks[0];
-    address.value =
-        '${place.street}, ${place.subLocality}, ${place.locality},${place.administrativeArea}, ${place.postalCode}, ${place.country}';
-    log("address.value ${address.value}");
-    locationZipCode = place.postalCode.toString();
-    stateName = place.administrativeArea.toString();
-    cityName = place.locality.toString();
-    // await getCityStateDetailsByPinFunction(locationZipCode);
-    // await userPrefsData.getLocationZipCode(locationZipCode);
   }
 
   Future<void> initMethod() async {
@@ -152,6 +65,10 @@ class SplashScreenController extends GetxController {
     isUserLoggedInStatus.value = await userPreference.getBoolFromPrefs(
         key: UserPreference.isUserLoggedInKey);
     log('isUserLoggedInStatus.value : ${isUserLoggedInStatus.value}');
+
+   isOnBoardingValue.value = await userPreference.getBoolFromPrefs(
+        key: UserPreference.isUserOnBoardingKey);
+    log('isUserOnBoardingKey.value : ${isOnBoardingValue.value}');
     await startTimer();
     isLoading(false);
   }
