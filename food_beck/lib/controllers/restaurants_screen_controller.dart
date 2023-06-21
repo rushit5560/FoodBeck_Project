@@ -33,17 +33,14 @@ class RestaurantsScreenController extends GetxController {
 
   Future<void> getRestaurantsFunction() async {
     isLoading(true);
-    String url = restaurantComingFrom == RestaurantComingFrom.category
-        ? "${ApiUrl.getCategoryWiseRestaurantsApi}$zoneId/$categoryId"
-        : "${ApiUrl.getCuisinesRestaurantApi}$zoneId/$categoryId";
+    String url = getRestaurantsApiUrl();
     log('getRestaurantsFunction Api Url : $url');
 
     try {
       final response = await dioRequest.get(url);
       log('getAllRestaurantFunction Response : ${response.data}');
 
-      AllRestaurantModel allRestaurantModel =
-          AllRestaurantModel.fromJson(response.data);
+      AllRestaurantModel allRestaurantModel = AllRestaurantModel.fromJson(response.data);
       successStatus.value = allRestaurantModel.success;
 
       if (successStatus.value) {
@@ -70,9 +67,25 @@ class RestaurantsScreenController extends GetxController {
     isLoading(false);
   }
 
+  // Get Restaurant APi Url using enum
+  String getRestaurantsApiUrl() {
+    String url = restaurantComingFrom == RestaurantComingFrom.category
+        ? "${ApiUrl.getCategoryWiseRestaurantsApi}$zoneId/$categoryId"
+        : restaurantComingFrom == RestaurantComingFrom.cuisines ?
+    "${ApiUrl.getCuisinesRestaurantApi}$zoneId/$categoryId"
+    : restaurantComingFrom == RestaurantComingFrom.popularRestaurants
+    ? "${ApiUrl.getAllPopularRestaurantApi}$zoneId"
+    : restaurantComingFrom == RestaurantComingFrom.newRestaurants
+    ? "${ApiUrl.getNewRestaurantApi}$zoneId"
+    : "";
+
+
+    return url;
+  }
+
   Future<void> addFavoriteRestaurantFunction({
     required String restaurantId,
-    required RestaurantData singlerestaurant,
+    required RestaurantData singleRestaurant,
   }) async {
     String url = "${ApiUrl.addFavoriteRestaurantApi}$userid/$restaurantId";
     log("addFavoriteRestaurantFunction url: $url");
@@ -119,7 +132,7 @@ class RestaurantsScreenController extends GetxController {
 
   Future<void> removeFavoriteRestaurantFunction({
     required String restaurantId,
-    required RestaurantData singlerestaurant,
+    required RestaurantData singleRestaurant,
   }) async {
     String url = "${ApiUrl.removeFavoriteRestaurantApi}$userid/$restaurantId";
     log("removeFavoriteRestaurantFunction url: $url");

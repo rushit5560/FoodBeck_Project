@@ -1,3 +1,5 @@
 enum AddressOption  { edit, add }
 
-enum RestaurantComingFrom {category, cuisines}
+enum RestaurantComingFrom {category, cuisines, popularRestaurants, newRestaurants}
+
+enum FoodsComingFrom {bestReviewedFood}

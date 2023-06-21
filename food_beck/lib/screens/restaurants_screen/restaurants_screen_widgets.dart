@@ -126,11 +126,11 @@ class AllRestaurantsShowModule extends StatelessWidget {
                 restaurantDetails.isFav == true
                     ? await screenController.removeFavoriteRestaurantFunction(
                         restaurantId: restaurantDetails.id.toString(),
-                        singlerestaurant: restaurantDetails,
+                        singleRestaurant: restaurantDetails,
                       )
                     : await screenController.addFavoriteRestaurantFunction(
                         restaurantId: restaurantDetails.id.toString(),
-                        singlerestaurant: restaurantDetails,
+                        singleRestaurant: restaurantDetails,
                       );
               },
               child: Icon(

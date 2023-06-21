@@ -21,6 +21,7 @@ import '../../models/home_screen_model/cuisine_model.dart';
 import '../../models/home_screen_model/new_restaurant_model.dart';
 import '../../models/home_screen_model/popular_food_near_by_you_model.dart';
 import '../../models/home_screen_model/trending_food_model.dart';
+import '../foods_screen/foods_screen.dart';
 import '../restaurants_details_screen/restaurants_details_screen.dart';
 import '../restaurants_screen/restaurants_screen.dart';
 
@@ -192,18 +193,30 @@ class PopularRestaurantsModule extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                "Popular restaurants",
+                "Popular Restaurants",
                 style: TextStyle(
                   fontSize: 11.sp,
                   color: AppColors.blackColor,
                 ),
               ),
             ),
-            Text(
-              "View All",
-              style: TextStyle(
-                fontSize: 10.sp,
-                color: AppColors.greenColor,
+            GestureDetector(
+              onTap: () {
+                Get.to(
+                      () => RestaurantsScreen(),
+                  arguments: [
+                    "",
+                    "Popular Restaurants",
+                    RestaurantComingFrom.popularRestaurants,
+                  ],
+                );
+              },
+              child: Text(
+                "View All",
+                style: TextStyle(
+                  fontSize: 10.sp,
+                  color: AppColors.greenColor,
+                ),
               ),
             ),
           ],
@@ -376,11 +389,14 @@ class TrendingFoodsModule extends StatelessWidget {
                 ),
               ),
             ),
-            Text(
-              "View All",
-              style: TextStyle(
-                fontSize: 10.sp,
-                color: AppColors.greenColor,
+            GestureDetector(
+              onTap: () {},
+              child: Text(
+                "View All",
+                style: TextStyle(
+                  fontSize: 10.sp,
+                  color: AppColors.greenColor,
+                ),
               ),
             ),
           ],
@@ -568,11 +584,21 @@ class PopularFoodNearByModule extends StatelessWidget {
                 ),
               ),
             ),
-            Text(
-              "View All",
-              style: TextStyle(
-                fontSize: 10.sp,
-                color: AppColors.greenColor,
+            GestureDetector(
+              onTap: () {
+                Get.to(()=> FoodsScreen(),
+                  arguments: [
+                    "Popular Foods Nearby",
+                    FoodsComingFrom.bestReviewedFood,
+                  ],
+                );
+              },
+              child: Text(
+                "View All",
+                style: TextStyle(
+                  fontSize: 10.sp,
+                  color: AppColors.greenColor,
+                ),
               ),
             ),
           ],
@@ -612,7 +638,6 @@ class PopularFoodNearByModule extends StatelessWidget {
                       children: [
                         Stack(
                           children: [
-                            //todo
                             Container(
                               height: 80,
                               width: 80,
@@ -748,11 +773,23 @@ class NewRestaurantModule extends StatelessWidget {
                 ),
               ),
             ),
-            Text(
-              "View All",
-              style: TextStyle(
-                fontSize: 10.sp,
-                color: AppColors.greenColor,
+            GestureDetector(
+              onTap: () {
+                Get.to(
+                      () => RestaurantsScreen(),
+                  arguments: [
+                    "",
+                    "New Restaurants",
+                    RestaurantComingFrom.newRestaurants,
+                  ],
+                );
+              },
+              child: Text(
+                "View All",
+                style: TextStyle(
+                  fontSize: 10.sp,
+                  color: AppColors.greenColor,
+                ),
               ),
             ),
           ],
@@ -920,11 +957,21 @@ class BestReviewedFoodModule extends StatelessWidget {
                 ),
               ),
             ),
-            Text(
-              "View All",
-              style: TextStyle(
-                fontSize: 10.sp,
-                color: AppColors.greenColor,
+            GestureDetector(
+              onTap: () {
+                Get.to(()=> FoodsScreen(),
+                  arguments: [
+                    "Best Reviewed Food",
+                    FoodsComingFrom.bestReviewedFood,
+                  ],
+                );
+              },
+              child: Text(
+                "View All",
+                style: TextStyle(
+                  fontSize: 10.sp,
+                  color: AppColors.greenColor,
+                ),
               ),
             ),
           ],

@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             debugShowMaterialGrid: false,
             title: 'Food Beck',
-            home: SplashScreen(),
+            home: IndexScreen(),
             theme: appThemeData,
           );
         },
