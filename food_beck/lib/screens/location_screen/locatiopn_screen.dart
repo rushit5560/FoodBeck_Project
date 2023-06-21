@@ -23,21 +23,7 @@ class LocationScreen extends StatelessWidget {
           SizedBox(height: 5.h),
           GestureDetector(
             onTap: () async {
-              // locationScreenController.locationValue.value?
               locationScreenController.getCurrentLocation();
-              // if (locationScreenController.locationValue.value == false) {
-              //   showDialog(
-              //       context: context,
-              //       barrierDismissible: false,
-              //       builder: (context) {
-              //         return const AlertDialog(
-              //           actions: [
-              //             CircularProgressIndicator(),
-              //           ],
-              //         );
-              //       });
-              // }
-
             },
             child: Container(
               height: 50,
@@ -55,7 +41,27 @@ class LocationScreen extends StatelessWidget {
                 ),
               ),
             ),
-          )
+          ),
+          SizedBox(height: 3.h),
+          GestureDetector(
+            onTap: () async {},
+            child: Container(
+              height: 50,
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                color: AppColors.greenColor,
+              ),
+              child: Center(
+                child: Text(
+                  "Get location using map".toUpperCase(),
+                  style: TextStyleConfig.textStyle(
+                    textColor: AppColors.whiteColor2,
+                    fontSize: 13.sp,
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ).paddingOnly(top: 25.h, right: 10, left: 10),
     );
