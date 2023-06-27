@@ -107,7 +107,7 @@ class SignInScreenController extends GetxController {
   Future initMethod() async {
     isUserLocationStatus.value = await userPreference.getBoolFromPrefs(
         key: UserPreference.isUserLoggedInKey);
-    log('isUserLocationStatus.value : ${isUserLocationStatus.value}');
+    log('isUserLocationStatus.value 222 : ${isUserLocationStatus.value}');
   }
 
   @override

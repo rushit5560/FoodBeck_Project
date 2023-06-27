@@ -82,7 +82,7 @@ class SplashScreenController extends GetxController {
     log('isUserOnBoardingKey.value : ${isOnBoardingValue.value}');
     isUserLocationStatus.value = await userPreference.getBoolFromPrefs(
         key: UserPreference.isUserLocationKey);
-    log('isUserLocationStatus.value : ${isUserLocationStatus.value}');
+    log('isUserLocationStatus.value 11111 : ${isUserLocationStatus.value}');
     await startTimer();
     isLoading(false);
   }

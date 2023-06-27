@@ -130,8 +130,8 @@ class LocationScreenController extends GetxController {
 
   Future initMethod() async {
     isUserLocationStatus.value = await userPreference.getBoolFromPrefs(
-        key: UserPreference.isUserLoggedInKey);
-    log('isUserLocationStatus.value : ${isUserLocationStatus.value}');
+        key: UserPreference.isUserLocationKey);
+    log('isUserLocationStatus.value 33333 : ${isUserLocationStatus.value}');
   }
   @override
   void onInit() {
