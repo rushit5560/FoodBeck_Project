@@ -34,6 +34,7 @@ class HomeScreenController extends GetxController {
   RxBool isLiked = false.obs;
   List<BannerList> bannerList = [];
   List<CategoryData> categoryList = [];
+
   // List<TakeYourPickProduct> allProductsList = [];
   List<RestaurantData> allPopularRestaurantList = [];
   List<FoodData> trendingFoodList = [];
@@ -42,105 +43,13 @@ class HomeScreenController extends GetxController {
   List<FoodData> bestReviewedFoodList = [];
   List<RestaurantData> allRestaurantList = [];
   List<CuisineDetails> cuisinesList = [];
+  RxString address = ''.obs;
 
   // FoodData selectedFoodData = FoodData();
 
   RxInt currentIndex = 0.obs;
   TextEditingController searchbarController = TextEditingController();
   final CarouselController carouselController = CarouselController();
-
-  RxBool getLocationPermission = false.obs;
-  String locationZipCode = "";
-  RxString latitude = ''.obs;
-  RxString longitude = ''.obs;
-  RxString address = ''.obs;
-
-
-  Future<bool> handleLocationPermission() async {
-    isLoading(true);
-    bool serviceEnabled;
-    LocationPermission permission;
-
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      ScaffoldMessenger.of(Get.context!).showSnackBar(
-        const SnackBar(
-          content: Text(
-              'Location services are disabled. Please enable the services'),
-        ),
-      );
-
-      getLocationPermission = false.obs;
-      return getLocationPermission.value;
-    }
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      Geolocator.openAppSettings();
-
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-        Geolocator.openAppSettings();
-
-        ScaffoldMessenger.of(Get.context!).showSnackBar(
-          const SnackBar(content: Text('Location permissions are denied')),
-        );
-
-        getLocationPermission = false.obs;
-        return getLocationPermission.value;
-      }
-    }
-    if (permission == LocationPermission.deniedForever) {
-      permission = await Geolocator.requestPermission();
-
-      ScaffoldMessenger.of(Get.context!).showSnackBar(
-        const SnackBar(
-          content: Text(
-              'Location permissions are permanently denied, we cannot request permissions.'),
-        ),
-      );
-
-      Geolocator.openAppSettings();
-      getLocationPermission = false.obs;
-      return getLocationPermission.value;
-    }
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    await getAddressFromlatLog(position);
-    /*streamSubscription =
-        Geolocator.getPositionStream().listen((Position position) {
-      latitude.value = 'latitude: ${position.latitude}';
-      longitude.value = 'longitude: ${position.longitude}';
-
-      log("latitude.value ${latitude.value}");
-      log("longitude.value ${longitude.value}");
-      getAddressFromlatLog(position);
-    });*/
-    if (permission == LocationPermission.always) {
-      getLocationPermission.value = true;
-    }
-    if (permission == LocationPermission.whileInUse) {
-      getLocationPermission.value = true;
-    }
-    isLoading(false);
-
-    return true;
-
-  }
-
-  Future<void> getAddressFromlatLog(Position position) async {
-    isLoading(true);
-
-    List<Placemark> placemarks =
-    await placemarkFromCoordinates(position.latitude, position.longitude);
-    log("Placemark $placemarks");
-    Placemark place = placemarks[0];
-    address.value =
-    '${place.street},${place.name},${place.subLocality},${place.locality},${place.administrativeArea},${place.postalCode}';
-    log("address.value ${address.value}");
-    await getBannerFunction();
-  }
-
 
   /// Get Banners
   Future<void> getBannerFunction() async {
@@ -183,7 +92,7 @@ class HomeScreenController extends GetxController {
       successStatus.value = categoryModel.success;
 
       if (successStatus.value) {
-        if(categoryModel.data.isNotEmpty) {
+        if (categoryModel.data.isNotEmpty) {
           categoryList.clear();
           categoryList.addAll(categoryModel.data);
         }
@@ -191,7 +100,6 @@ class HomeScreenController extends GetxController {
       } else {
         log('getCategoryFunction Else');
       }
-
     } catch (e) {
       log('getCategoryFunction Error :$e');
       rethrow;
@@ -211,18 +119,17 @@ class HomeScreenController extends GetxController {
       // log("getAllPopularRestaurantFunction response: ${jsonEncode(response.data)}");
 
       AllPopularRestaurantsModel allPopularRestaurantsModel =
-      AllPopularRestaurantsModel.fromJson(response.data);
+          AllPopularRestaurantsModel.fromJson(response.data);
       successStatus.value = allPopularRestaurantsModel.success;
 
       if (successStatus.value) {
-        if(allPopularRestaurantsModel.data.isNotEmpty) {
+        if (allPopularRestaurantsModel.data.isNotEmpty) {
           allPopularRestaurantList.addAll(allPopularRestaurantsModel.data);
         }
         log("getAllPopularRestaurantFunction allPopularRestaurantList: $allPopularRestaurantList");
       } else {
         log("getAllPopularRestaurantFunction else");
       }
-
     } catch (e) {
       log("getAllPopularRestaurantFunction catch: $e");
       rethrow;
@@ -240,11 +147,12 @@ class HomeScreenController extends GetxController {
     try {
       final response = await dioRequest.get(url);
       // log('getTrendingFoodFunction Response : ${jsonEncode(response.data)}');
-      TrendingFoodModel trendingFoodModel = TrendingFoodModel.fromJson(response.data);
+      TrendingFoodModel trendingFoodModel =
+          TrendingFoodModel.fromJson(response.data);
       successStatus.value = trendingFoodModel.success;
 
       if (successStatus.value) {
-        if(trendingFoodModel.data.isNotEmpty) {
+        if (trendingFoodModel.data.isNotEmpty) {
           trendingFoodList.clear();
           trendingFoodList.addAll(trendingFoodModel.data);
         }
@@ -252,7 +160,6 @@ class HomeScreenController extends GetxController {
       } else {
         log('getTrendingFoodFunction Else');
       }
-
     } catch (e) {
       log('getTrendingFoodFunction Error :$e');
       rethrow;
@@ -270,11 +177,12 @@ class HomeScreenController extends GetxController {
     try {
       final response = await dioRequest.get(url);
       // log('getPopularFoodNearByYouFunction Response : ${jsonEncode(response.data)}');
-      PopularFoodNearByModel popularFoodNearByModel = PopularFoodNearByModel.fromJson(response.data);
+      PopularFoodNearByModel popularFoodNearByModel =
+          PopularFoodNearByModel.fromJson(response.data);
       successStatus.value = popularFoodNearByModel.success;
 
       if (successStatus.value) {
-        if(popularFoodNearByModel.data.isNotEmpty) {
+        if (popularFoodNearByModel.data.isNotEmpty) {
           popularFoodNearbyList.clear();
           popularFoodNearbyList.addAll(popularFoodNearByModel.data);
         }
@@ -282,7 +190,6 @@ class HomeScreenController extends GetxController {
       } else {
         log('getPopularFoodNearByYouFunction Else');
       }
-
     } catch (e) {
       log('getPopularFoodNearByYouFunction Error :$e');
       rethrow;
@@ -300,11 +207,12 @@ class HomeScreenController extends GetxController {
       final response = await dioRequest.get(url);
       // log('getNewRestaurantFunction Response : ${jsonEncode(response.data)}');
 
-      NewRestaurantModel newRestaurantModel = NewRestaurantModel.fromJson(response.data);
+      NewRestaurantModel newRestaurantModel =
+          NewRestaurantModel.fromJson(response.data);
       successStatus.value = newRestaurantModel.success;
 
       if (successStatus.value) {
-        if(newRestaurantModel.data.isNotEmpty) {
+        if (newRestaurantModel.data.isNotEmpty) {
           newRestaurantList.clear();
           newRestaurantList.addAll(newRestaurantModel.data);
         }
@@ -330,11 +238,12 @@ class HomeScreenController extends GetxController {
       final response = await dioRequest.get(url);
       // log('getBestReviewedFunction Response : ${jsonEncode(response.data)}');
 
-      BestReviewedFoodModel bestReviewedFoodModel = BestReviewedFoodModel.fromJson(response.data);
+      BestReviewedFoodModel bestReviewedFoodModel =
+          BestReviewedFoodModel.fromJson(response.data);
       successStatus.value = bestReviewedFoodModel.success;
 
       if (successStatus.value) {
-        if(bestReviewedFoodModel.data.isNotEmpty) {
+        if (bestReviewedFoodModel.data.isNotEmpty) {
           bestReviewedFoodList.clear();
           bestReviewedFoodList.addAll(bestReviewedFoodModel.data);
         }
@@ -360,11 +269,12 @@ class HomeScreenController extends GetxController {
       final response = await dioRequest.get(url);
       // log('getAllRestaurantFunction Response : ${jsonEncode(response.data)}');
 
-      AllRestaurantModel allRestaurantModel = AllRestaurantModel.fromJson(response.data);
+      AllRestaurantModel allRestaurantModel =
+          AllRestaurantModel.fromJson(response.data);
       successStatus.value = allRestaurantModel.success;
 
       if (successStatus.value) {
-        if(allRestaurantModel.data.isNotEmpty) {
+        if (allRestaurantModel.data.isNotEmpty) {
           allRestaurantList.clear();
           allRestaurantList.addAll(allRestaurantModel.data);
         }
@@ -394,7 +304,7 @@ class HomeScreenController extends GetxController {
       successStatus.value = cuisineModel.success;
 
       if (successStatus.value) {
-        if(cuisineModel.data.isNotEmpty) {
+        if (cuisineModel.data.isNotEmpty) {
           cuisinesList.clear();
           cuisinesList.addAll(cuisineModel.data);
         }
@@ -409,7 +319,6 @@ class HomeScreenController extends GetxController {
     isLoading(false);
   }
 
-
   @override
   void onInit() {
     initMethod();
@@ -417,8 +326,13 @@ class HomeScreenController extends GetxController {
   }
 
   Future<void> initMethod() async {
-    zoneId = await userPreference.getStringValueFromPrefs(key: UserPreference.userZoneIdKey) ?? "1";
+    zoneId = await userPreference.getStringValueFromPrefs(
+            key: UserPreference.userZoneIdKey) ??
+        "1";
     log('Init zoneId :$zoneId');
-    await handleLocationPermission();
+    address.value = await userPreference.getStringFromPrefs(
+        key: UserPreference.userAddressKey);
+    log("address.value ${address.value}");
+    await getBannerFunction();
   }
 }

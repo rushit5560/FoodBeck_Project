@@ -3,11 +3,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'userdetails.dart';
 
-
 class UserPreference {
   static String isUserLoggedInKey = "isUserLoggedInKey"; // Bool
   static String isUserOnBoardingKey = "isUserOnBoardingKey"; // Bool
-
+  static String isUserLocationKey = "isUserLocationKey";
+  // static String isMobileLocationGetKey = "isMobileLocationGetKey";
   static String userIdKey = "userIdKey"; // String
   static String userZoneIdKey = "userZoneIdKey"; // String
   static String userTokenKey = "userTokenKey"; // String
@@ -15,6 +15,10 @@ class UserPreference {
   static String userNameKey = "userNameKey"; // String
   static String userPhoneKey = "userPhoneKey"; // String
   static String userImageKey = "userImageKey"; // String
+  static String userAddressKey = "userAddressKey"; //String
+  static String latitudeKey = "latitudeKey";
+  static String longitudeKey = "longitudeKey";
+
   // String userProfileImageKey = "userProfileImageKey"; //string
 
 // logout function
@@ -23,7 +27,8 @@ class UserPreference {
 
     prefs.setBool(isUserLoggedInKey, false);
     prefs.setBool(isUserOnBoardingKey, false);
-
+    prefs.setBool(isUserLocationKey, false);
+    // prefs.setBool(isMobileLocationGetKey, false);
     prefs.setString(userIdKey, '');
     prefs.setString(userZoneIdKey, '');
     prefs.setString(userTokenKey, '');
@@ -31,15 +36,19 @@ class UserPreference {
     prefs.setString(userNameKey, '');
     prefs.setString(userPhoneKey, '');
     prefs.setString(userImageKey, '');
+    prefs.setString(userAddressKey, '');
+    prefs.setString(latitudeKey, '');
+
+    prefs.setString(longitudeKey, '');
+
   }
 
   /// Set UserName & Profile Pic
-  setUserProfilePrefs(
-      {required String userProfileImage,
-      required String userName,
-      required String userEmail,
-      required String userPhoneNo,
-      required String userZoneId}) async {
+  setUserProfilePrefs({required String userProfileImage,
+    required String userName,
+    required String userEmail,
+    required String userPhoneNo,
+    required String userZoneId}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     /// Remove Old Data
@@ -79,6 +88,7 @@ class UserPreference {
     return value;
   }
 
+
   // Set Bool Value in Prefs
   Future<void> setBoolValueInPrefs(
       {required String key, required bool value}) async {
@@ -99,6 +109,15 @@ class UserPreference {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? value = prefs.getBool(key);
     return value!;
+  }
+
+// Get double Value From Prefs
+
+  Future<void> getDoubleValueFromPrefs(
+      {required String key, required double value}) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString(key, value.toString());
+    log('Prefs Save Value : ${prefs.getString(key)}');
   }
 
   Future<String> getUserLoggedInFromPrefs({required String key}) async {

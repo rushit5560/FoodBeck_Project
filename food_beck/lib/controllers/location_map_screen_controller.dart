@@ -1,38 +1,31 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:food_beck/screens/index_screen/index_screen.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import '../utils/user_preferences.dart';
 
-class LocationScreenController extends GetxController {
+class LocationMapScreenController extends GetxController {
   RxBool isLoading = false.obs;
   RxString address = ''.obs;
   double latitude = 0.0;
   double longitude = 0.0;
   UserPreference userPreference = UserPreference();
+  String latitude1 = '';
+  String longitude1 = '';
   RxBool getLocationPermission = false.obs;
-  String locationZipCode = "";
 
-  void onLickButtonFunction() {
+  Future<void> onLickButtonFunction() async {
+    log("getLocationPermission.value ${getLocationPermission.value}");
+    // ignore: unrelated_type_equality_checks
     if (UserPreference.isUserLocationKey == false) {
-      handleLocationPermission();
+      await handleLocationPermission();
     } else {
       getCurrentLocation();
     }
-  }
-
-  void getCurrentLocation() async {
-    log("getCurrentLocation");
-    isLoading(true);
-    Position position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.high,
-    );
-    latitude = position.latitude;
-    longitude = position.longitude;
-    // log('Latitude: $latitude, Longitude: $longitude');
-    await getAddressFromlatLog(position);
+    // else{
+    //   getCurrentLocation();
+    // }
   }
 
   Future<bool> handleLocationPermission() async {
@@ -93,15 +86,11 @@ class LocationScreenController extends GetxController {
       getLocationPermission.value = true;
       userPreference.setBoolValueInPrefs(
           key: UserPreference.isUserLocationKey, value: true);
-      // userPreference.setBoolValueInPrefs(
-      //     key: UserPreference.isMobileLocationGetKey, value: true);
     }
     if (permission == LocationPermission.whileInUse) {
       getLocationPermission.value = true;
       userPreference.setBoolValueInPrefs(
           key: UserPreference.isUserLocationKey, value: true);
-      // userPreference.setBoolValueInPrefs(
-      //     key: UserPreference.isMobileLocationGetKey, value: true);
     }
     isLoading(false);
 
@@ -112,7 +101,7 @@ class LocationScreenController extends GetxController {
     isLoading(true);
     List<Placemark> placemarks =
         await placemarkFromCoordinates(position.latitude, position.longitude);
-    // log("Placemark $placemarks");
+    log("Placemark $placemarks");
     Placemark place = placemarks[0];
 
     address.value =
@@ -120,22 +109,54 @@ class LocationScreenController extends GetxController {
     log("address.value ${address.value}");
     userPreference.setStringValueInPrefs(
         key: UserPreference.userAddressKey, value: address.toString());
+    // userPreference.getDoubleValueFromPrefs(
+    //   key: UserPreference.latitudeKey,
+    //   value: position.latitude,
+    // );
+    // userPreference.getDoubleValueFromPrefs(
+    //   key: UserPreference.longitudeKey,
+    //   value: position.longitude,
+    // );
+
+    log("position.latitude ${position.latitude}");
+    log("position.longitude ${position.longitude}");
+    latitude = position.latitude;
+    longitude = position.longitude;
+
     userPreference.setBoolValueInPrefs(
         key: UserPreference.isUserLocationKey, value: true);
+
     isLoading(false);
-    Get.offAll(() => IndexScreen());
   }
 
-  // Future<void> initMethod() async {
-  //   isLoading(true);
-  //
-  //
-  //
-  //   isLoading(false);
-  // }
+  void getCurrentLocation() async {
+    log("getCurrentLocation");
+    isLoading(true);
+    Position position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+    latitude = position.latitude;
+    longitude = position.longitude;
+    log('Latitude: $latitude, Longitude: $longitude');
+    await getAddressFromlatLog(position);
+  }
+
+  Future<void> initMethod() async {
+    isLoading(true);
+    latitude1 = await userPreference.getStringFromPrefs(
+        key: UserPreference.latitudeKey);
+
+    log('latitude1 :$latitude1');
+    longitude1 = await userPreference.getStringFromPrefs(
+        key: UserPreference.longitudeKey);
+
+    log('longitude1 :$longitude1');
+    await onLickButtonFunction();
+  }
+
   @override
   void onInit() {
-    // initMethod();
+    initMethod();
     super.onInit();
   }
 }

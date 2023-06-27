@@ -6,6 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../screens/index_screen/index_screen.dart';
+import '../screens/location_screen/location_screen.dart';
 import '../screens/onboarding_screen/onboarding_screen.dart';
 import '../utils/user_preferences.dart';
 
@@ -13,35 +14,45 @@ class SplashScreenController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool isUserLoggedInStatus = false.obs;
   UserPreference userPreference = UserPreference();
+  RxBool isUserLocationStatus = false.obs;
 
   RxBool isOnBoardingValue = false.obs;
-
 
   startTimer() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     bool onBoardingValue = prefs.getBool('onBoarding') ?? false;
     // log("prefs.getBool 111 ${prefs.getBool("onBoarding")}");
-    log("isOnBoardingValue.value ${isOnBoardingValue.value}");
 
     Timer(
       const Duration(milliseconds: 1500),
       () {
-log("isOnBoardingValue.value ${isOnBoardingValue.value}");
+        log("isOnBoardingValue.value ${isOnBoardingValue.value}");
+        log("isUserLocationStatus.value ${isUserLocationStatus.value}");
+        log("isUserLoggedInStatus.value ${isUserLoggedInStatus.value}");
 
         if (isOnBoardingValue.value == false) {
           Get.offAll(
             () => OnboardingScreen(),
             transition: Transition.native,
           );
-          log("onBoardingValue $onBoardingValue");
+        } else if (isUserLocationStatus.value == false) {
+          Get.to(
+            () => LocationScreen(),
+            transition: Transition.native,
+          );
         } else if (isUserLoggedInStatus.value == true) {
           Get.offAll(
             () => IndexScreen(),
             transition: Transition.native,
           );
-          log("isUserLoggedInStatus.value 22 ${isUserLoggedInStatus.value}");
         }
+        // else {
+        //   Get.offAll(
+        //     () => IndexScreen(),
+        //     transition: Transition.native,
+        //   );
+        // }
 
         // else if (isUserLoggedInStatus.value == false) {
         //   Get.offAll(
@@ -66,9 +77,12 @@ log("isOnBoardingValue.value ${isOnBoardingValue.value}");
         key: UserPreference.isUserLoggedInKey);
     log('isUserLoggedInStatus.value : ${isUserLoggedInStatus.value}');
 
-   isOnBoardingValue.value = await userPreference.getBoolFromPrefs(
+    isOnBoardingValue.value = await userPreference.getBoolFromPrefs(
         key: UserPreference.isUserOnBoardingKey);
     log('isUserOnBoardingKey.value : ${isOnBoardingValue.value}');
+    isUserLocationStatus.value = await userPreference.getBoolFromPrefs(
+        key: UserPreference.isUserLocationKey);
+    log('isUserLocationStatus.value : ${isUserLocationStatus.value}');
     await startTimer();
     isLoading(false);
   }

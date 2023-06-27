@@ -3,10 +3,10 @@ import 'package:food_beck/constants/app_images.dart';
 import 'package:food_beck/utils/style.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../common_modules/common_appbar.dart';
 import '../../constants/color.dart';
 import '../../controllers/location_screen_controller.dart';
+import 'location_map_screen.dart';
 
 class LocationScreen extends StatelessWidget {
   LocationScreen({Key? key}) : super(key: key);
@@ -22,8 +22,8 @@ class LocationScreen extends StatelessWidget {
           Image.asset(AppImages.AppLogo, height: 200),
           SizedBox(height: 5.h),
           GestureDetector(
-            onTap: () async {
-              locationScreenController.getCurrentLocation();
+            onTap: () {
+              locationScreenController.onLickButtonFunction();
             },
             child: Container(
               height: 50,
@@ -44,7 +44,11 @@ class LocationScreen extends StatelessWidget {
           ),
           SizedBox(height: 3.h),
           GestureDetector(
-            onTap: () async {},
+            onTap: () {
+              Get.to(
+                () => MapLocationScreen(),
+              );
+            },
             child: Container(
               height: 50,
               width: double.infinity,

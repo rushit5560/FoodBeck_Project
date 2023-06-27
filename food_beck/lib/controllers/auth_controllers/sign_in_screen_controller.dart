@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:food_beck/screens/location_screen/location_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,6 +22,7 @@ class SignInScreenController extends GetxController {
 
   UserPreference userPreference = UserPreference();
   final dioRequest = dio.Dio();
+  RxBool isUserLocationStatus = false.obs;
 
   /// Login Function
   Future<void> userLoginFunction() async {
@@ -50,7 +52,6 @@ class SignInScreenController extends GetxController {
 
       // response.stream.transform(utf8.decoder).listen((value) async {
       //   SignInModel signInModel = SignInModel.fromJson(json.decode(value));
-
 
       // });
       if (isSuccessStatus.value) {
@@ -83,8 +84,12 @@ class SignInScreenController extends GetxController {
           key: UserPreference.userZoneIdKey,
           value: signInModel.data.zoneId.toString(),
         );
+        if (isUserLocationStatus.value == false) {
+          Get.to(() => LocationScreen());
+        } else {
+          Get.offAll(() => IndexScreen());
+        }
 
-        Get.offAll(() => IndexScreen());
         log("signInModel.token : ${signInModel.token}");
       } else {
         log('userLoginFunction Else');
@@ -98,7 +103,18 @@ class SignInScreenController extends GetxController {
     isLoading(false);
   }
 
-  /*@override
+  Future initMethod() async {
+    isUserLocationStatus.value = await userPreference.getBoolFromPrefs(
+        key: UserPreference.isUserLoggedInKey);
+    log('isUserLocationStatus.value : ${isUserLocationStatus.value}');
+  }
+
+  @override
+  void onInit() {
+    initMethod();
+    super.onInit();
+  }
+/*@override
   void onInit() {
     loginEmailController.clear();
     loginPasswordController.clear();
