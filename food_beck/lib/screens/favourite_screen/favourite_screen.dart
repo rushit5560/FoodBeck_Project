@@ -29,6 +29,7 @@ class FavouriteScreen extends StatelessWidget {
                   Tab(text: AppMessage.restaurantLabel),
                   Tab(text: AppMessage.foodLabel),
                 ],
+                indicatorSize: TabBarIndicatorSize.tab,
               ),
                     Expanded(
                       child: TabBarView(

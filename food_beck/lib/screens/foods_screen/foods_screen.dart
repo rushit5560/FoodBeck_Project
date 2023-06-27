@@ -32,6 +32,7 @@ class FoodsScreen extends StatelessWidget {
                       Tab(text: "Veg"),
                       Tab(text: "Non-Veg"),
                     ],
+                    indicatorSize: TabBarIndicatorSize.tab,
                   ),
 
                   Expanded(

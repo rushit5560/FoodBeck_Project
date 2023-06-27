@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import '../../constants/api_url.dart';
 import '../../constants/app_images.dart';
 import '../../constants/color.dart';
 import '../../controllers/favorites_screen_controller.dart';
+
 
 class FavouriteRestaurantsModule extends StatelessWidget {
   FavouriteRestaurantsModule({Key? key}) : super(key: key);

@@ -29,6 +29,7 @@ class YourOrdersScreen extends StatelessWidget {
                     Tab(text: AppMessage.ongoingLabel),
                     Tab(text: AppMessage.completeLabel),
                   ],
+                  indicatorSize: TabBarIndicatorSize.tab,
                 ),
                     Expanded(
                       child: TabBarView(

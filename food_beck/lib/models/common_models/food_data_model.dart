@@ -30,6 +30,7 @@ class FoodData {
   // DateTime updatedAt;
   String ordersCount;
   Restaurant restaurant;
+  bool isFav;
 
   FoodData({
     required this.id,
@@ -61,6 +62,7 @@ class FoodData {
     // this.updatedAt,
     required this.ordersCount,
     required this.restaurant,
+    required this.isFav,
   });
 
   factory FoodData.fromJson(Map<String, dynamic> json) => FoodData(
@@ -93,6 +95,7 @@ class FoodData {
     // updatedAt: DateTime.parse(json["updated_at"]),
     ordersCount: json["orders_count"] ?? "",
     restaurant: Restaurant.fromJson(json["restaurant"] ?? {}),
+    isFav: false,
   );
 
 }

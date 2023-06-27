@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../common_modules/common_appbar.dart';
 import '../../common_modules/custom_loader.dart';
 import '../../constants/app_images.dart';
 import '../../constants/color.dart';
@@ -19,7 +20,8 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: customAppBar(titleText: AppMessage.profileHeader, leadingShow: false, actionShow: false),
+      /*appBar: AppBar(
         title: Text(
           AppMessage.profileHeader,
           style: const TextStyle(color: AppColors.blackColor),
@@ -31,7 +33,7 @@ class ProfileScreen extends StatelessWidget {
             bottomLeft: Radius.circular(25),
           ),
         ),
-      ),
+      ),*/
       body: SingleChildScrollView(
         child: Column(
           children: [

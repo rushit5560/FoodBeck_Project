@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import '../../common_modules/discount_lable_module.dart';
+import '../../common_modules/discount_label_module.dart';
 import '../../constants/app_images.dart';
 import '../../constants/color.dart';
 import '../../controllers/food_details_screen_controller.dart';

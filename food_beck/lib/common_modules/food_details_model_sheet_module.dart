@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import '../constants/app_images.dart';
 import '../constants/color.dart';
 import '../models/home_screen_model/food_details_model.dart';
-import 'discount_lable_module.dart';
+import 'discount_label_module.dart';
 
 class FoodDetailsBottomSheetModule {
   RxInt qty = 1.obs;

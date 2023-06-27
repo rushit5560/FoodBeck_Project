@@ -1,7 +1,5 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'package:fluttertoast/fluttertoast.dart';
-// import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import '../constants/api_url.dart';
 import '../constants/enums.dart';
@@ -184,7 +182,7 @@ class RestaurantsScreenController extends GetxController {
 
   Future<void> initMethod() async {
     zoneId = await userPreference.getStringValueFromPrefs(key: UserPreference.userZoneIdKey) ?? "1";
-    userid = await userPreference.getStringValueFromPrefs(key: UserPreference.userIdKey) ?? "";
+    userid = await userPreference.getStringValueFromPrefs(key: UserPreference.userIdKey) ?? "1";
     await getRestaurantsFunction();
   }
 }

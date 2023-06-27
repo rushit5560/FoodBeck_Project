@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+import '../../common_modules/common_appbar.dart';
 import '../../common_modules/custom_loader.dart';
 import '../../common_modules/custom_submit_button.dart';
 import '../../constants/color.dart';
@@ -20,7 +21,8 @@ class EditProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       // backgroundColor: AppColors.whiteColor,
-      appBar: AppBar(
+      appBar: customAppBar(titleText: AppMessage.editProfile, leadingShow: false, actionShow: false),
+      /*appBar: AppBar(
         title: Text(
           AppMessage.editProfile,
           style: const TextStyle(color: AppColors.blackColor),
@@ -41,7 +43,7 @@ class EditProfileScreen extends StatelessWidget {
             bottomLeft: Radius.circular(25),
           ),
         ),
-      ),
+      ),*/
       body: Obx(
         () => editProfileScreenController.isLoading.value
             ? const CustomLoader()

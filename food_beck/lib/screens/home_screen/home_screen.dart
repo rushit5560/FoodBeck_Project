@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:food_beck/utils/style.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-import '../../common_modules/common_appbar.dart';
 import '../../common_modules/custom_loader.dart';
 import '../../controllers/home_screen_controller.dart';
 import '../location_screen/locatiopn_screen.dart';

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import '../../common_modules/discount_lable_module.dart';
+import '../../common_modules/discount_label_module.dart';
 import '../../constants/app_images.dart';
 import '../../controllers/restaurants_details_screen_controller.dart';
 import '../../models/restaurants_details_screen_model/restaurant_food_model.dart';

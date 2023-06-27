@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart' as dio;
 import 'package:image_picker/image_picker.dart';
 import '../constants/api_url.dart';
 import '../constants/color.dart';
@@ -23,6 +23,7 @@ class EditProfileScreenController extends GetxController {
   final profileScreenController = Get.find<ProfileScreenController>();
 
   RxBool isLoading = false.obs;
+  final dioRequest = dio.Dio();
 
   RxBool successStatus = false.obs;
   ApiHeader apiHeader = ApiHeader();
@@ -156,10 +157,11 @@ class EditProfileScreenController extends GetxController {
     log('getZoneListFunction Api Url : $url');
 
     try {
-      http.Response response = await http.get(Uri.parse(url));
-      log('getZoneListFunction Response :${response.body}');
+      final response = await dioRequest.get(url);
+      // http.Response response = await http.get(Uri.parse(url));
+      log('getZoneListFunction Response :${jsonEncode(response.data)}');
 
-      ZoneModel zoneModel = ZoneModel.fromJson(json.decode(response.body));
+      ZoneModel zoneModel = ZoneModel.fromJson(response.data);
       isSuccessStatus.value = zoneModel.success;
 
       if (isSuccessStatus.value) {
@@ -195,12 +197,15 @@ class EditProfileScreenController extends GetxController {
       Map<String, String> header = await ApiHeader().getHeader();
 
       log("authorizationToken $authorizationToken");
-      http.Response response = await http.get(Uri.parse(url), headers: header);
-
-      log("getUserProfileFunction response :  ${response.body}");
+      // http.Response response = await http.get(Uri.parse(url), headers: header);
+      final response = await dioRequest.get(
+          url,
+        options: dio.Options(headers: header),
+      );
+      log("getUserProfileFunction response :  ${jsonEncode(response.data)}");
 
       GetProfileModel getProfileModel =
-          GetProfileModel.fromJson(json.decode(response.body));
+          GetProfileModel.fromJson(json.decode(response.data));
 
       successStatus.value = getProfileModel.success;
       log("successStatus.value ${successStatus.value}");
@@ -239,6 +244,18 @@ class EditProfileScreenController extends GetxController {
       String finalToken = "Bearer $authorizationToken";
       // Map<String, String> header = await ApiHeader().getHeader();
 
+      var formData = dio.FormData.fromMap({
+        "id": userId,
+        "name": nameFieldController.text.trim(),
+        "email": emailFieldController.text.trim().toLowerCase(),
+        "phoneno": phoneNoFieldController.text.trim(),
+        "zone_id": "${selectedZoneValue!.id}",
+        ""
+      });
+
+
+
+
       if (userProfilePhoto != null) {
         log("userProfilePhoto != null ${userProfilePhoto != null}");
         var request = http.MultipartRequest('POST', Uri.parse(url));
@@ -250,12 +267,12 @@ class EditProfileScreenController extends GetxController {
             await http.MultipartFile.fromPath("image", userProfilePhoto!.path));
         request.headers['Accept'] = "application/json";
         request.headers['Authorization'] = finalToken;
-        request.fields['id'] = userId;
-        request.fields['name'] = nameFieldController.text;
+        // request.fields['id'] = userId;
+        // request.fields['name'] = nameFieldController.text;
         // request.fields['EmailId'] = emailcontroller.text;
-        request.fields['email'] = emailFieldController.text;
-        request.fields['phoneno'] = phoneNoFieldController.text;
-        request.fields['zone_id'] = "${selectedZoneValue!.id}";
+        // request.fields['email'] = emailFieldController.text;
+        // request.fields['phoneno'] = phoneNoFieldController.text;
+        // request.fields['zone_id'] = "${selectedZoneValue!.id}";
 
         var multiPart = http.MultipartFile('image', stream, length);
         request.files.add(multiPart);

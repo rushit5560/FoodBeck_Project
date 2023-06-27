@@ -42,6 +42,7 @@ class SearchScreen extends StatelessWidget {
                                             Tab(text: "Restaurants"),
                                             Tab(text: "Foods"),
                                           ],
+                                          indicatorSize: TabBarIndicatorSize.tab,
                                         ),
                                         Expanded(
                                           child: TabBarView(

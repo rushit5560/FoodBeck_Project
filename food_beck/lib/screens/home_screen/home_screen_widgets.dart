@@ -6,7 +6,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
-import '../../common_modules/discount_lable_module.dart';
+import '../../common_modules/discount_label_module.dart';
 import '../../constants/api_url.dart';
 import '../../constants/app_images.dart';
 import '../../constants/color.dart';
@@ -14,16 +14,12 @@ import '../../constants/enums.dart';
 import '../../controllers/home_screen_controller.dart';
 import '../../models/common_models/food_data_model.dart';
 import '../../models/common_models/restaurant_data_model.dart';
-import '../../models/home_screen_model/all_restaurant_model.dart';
-import '../../models/home_screen_model/best_reviewed_food_model.dart';
 import '../../models/home_screen_model/category_model.dart';
 import '../../models/home_screen_model/cuisine_model.dart';
-import '../../models/home_screen_model/new_restaurant_model.dart';
-import '../../models/home_screen_model/popular_food_near_by_you_model.dart';
-import '../../models/home_screen_model/trending_food_model.dart';
 import '../foods_screen/foods_screen.dart';
 import '../restaurants_details_screen/restaurants_details_screen.dart';
 import '../restaurants_screen/restaurants_screen.dart';
+
 
 class BannerModule extends StatelessWidget {
   BannerModule({Key? key}) : super(key: key);

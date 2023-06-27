@@ -1,12 +1,8 @@
 import 'dart:convert';
 import 'dart:developer';
-
-import 'package:food_beck/models/common_models/food_data_model.dart';
-import 'package:food_beck/models/common_models/food_data_model.dart';
 import 'package:food_beck/models/common_models/food_data_model.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dio;
-
 import '../constants/api_url.dart';
 import '../constants/enums.dart';
 import '../models/foods_screen_model/all_foods_model.dart';
