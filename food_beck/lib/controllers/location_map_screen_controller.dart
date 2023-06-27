@@ -138,8 +138,8 @@ class LocationMapScreenController extends GetxController {
   Future<void> initMethod() async {
     isLoading(true);
     isUserLocationStatus.value = await userPreference.getBoolFromPrefs(
-        key: UserPreference.isUserLoggedInKey);
-    log('isUserLocationStatus.value : ${isUserLocationStatus.value}');
+        key: UserPreference.isUserLocationKey);
+    log('isUserLocationStatus.value 33333 : ${isUserLocationStatus.value}');
     latitude1 = await userPreference.getStringFromPrefs(
         key: UserPreference.latitudeKey);
 
