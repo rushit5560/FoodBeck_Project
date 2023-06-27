@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 import '../../common_modules/custom_loader.dart';
 import '../../controllers/home_screen_controller.dart';
-import '../location_screen/locatiopn_screen.dart';
+import '../location_screen/location_screen.dart';
 import 'home_screen_widgets.dart';
 
 class HomeScreen extends StatelessWidget {

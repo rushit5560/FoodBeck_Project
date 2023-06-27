@@ -12,6 +12,7 @@ import '../models/profile_screen_model/get_profile_model.dart';
 import '../models/profile_screen_model/update_profile_model.dart';
 import '../models/sign_up_model/zone_model.dart';
 import '../utils/user_preferences.dart';
+import 'package:http/http.dart' as http;
 import 'profile_screen_controller.dart';
 
 class EditProfileScreenController extends GetxController {
@@ -250,7 +251,7 @@ class EditProfileScreenController extends GetxController {
         "email": emailFieldController.text.trim().toLowerCase(),
         "phoneno": phoneNoFieldController.text.trim(),
         "zone_id": "${selectedZoneValue!.id}",
-        ""
+        // ""
       });
 
 
