@@ -28,7 +28,7 @@ class SplashScreenController extends GetxController {
       const Duration(milliseconds: 1500),
       () {
         log("isOnBoardingValue.value ${isOnBoardingValue.value}");
-        log("isUserLocationStatus.value ${isUserLocationStatus.value}");
+        // log("isUserLocationStatus.value ${isUserLocationStatus.value}");
         log("isUserLoggedInStatus.value ${isUserLoggedInStatus.value}");
 
         if (isOnBoardingValue.value == false) {
@@ -36,12 +36,14 @@ class SplashScreenController extends GetxController {
             () => OnboardingScreen(),
             transition: Transition.native,
           );
-        } else if (isUserLocationStatus.value == false) {
-          Get.to(
-            () => LocationScreen(),
-            transition: Transition.native,
-          );
-        } else if (isUserLoggedInStatus.value == true) {
+        }
+        // else if (isUserLocationStatus.value == false) {
+        //   Get.to(
+        //     () => LocationScreen(),
+        //     transition: Transition.native,
+        //   );
+        // }
+        else if (isUserLoggedInStatus.value == true) {
           Get.offAll(
             () => IndexScreen(),
             transition: Transition.native,
@@ -80,9 +82,9 @@ class SplashScreenController extends GetxController {
     isOnBoardingValue.value = await userPreference.getBoolFromPrefs(
         key: UserPreference.isUserOnBoardingKey);
     log('isUserOnBoardingKey.value : ${isOnBoardingValue.value}');
-    isUserLocationStatus.value = await userPreference.getBoolFromPrefs(
-        key: UserPreference.isUserLocationKey);
-    log('isUserLocationStatus.value 11111 : ${isUserLocationStatus.value}');
+    // isUserLocationStatus.value = await userPreference.getBoolFromPrefs(
+    //     key: UserPreference.isUserLocationKey);
+    // log('isUserLocationStatus.value 11111 : ${isUserLocationStatus.value}');
     await startTimer();
     isLoading(false);
   }

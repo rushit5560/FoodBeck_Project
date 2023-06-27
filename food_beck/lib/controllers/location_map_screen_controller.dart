@@ -64,7 +64,7 @@ class LocationMapScreenController extends GetxController {
     }
     if (permission == LocationPermission.deniedForever) {
       permission = await Geolocator.requestPermission();
-
+      // Geolocator.openAppSettings();
       ScaffoldMessenger.of(Get.context!).showSnackBar(
         const SnackBar(
           content: Text(
