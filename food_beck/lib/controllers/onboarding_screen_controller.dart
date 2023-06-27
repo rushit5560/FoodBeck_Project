@@ -19,6 +19,7 @@ class OnboardingScreenController extends GetxController {
     if (isLastPage) {
       setOnBoardingValue();
       //Get.off(() => LoginScreen());
+
       Get.off(() =>  SignInScreen(),
           transition: Transition.native,
           duration: const Duration(milliseconds: 500)

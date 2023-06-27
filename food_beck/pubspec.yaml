@@ -39,6 +39,8 @@ dependencies:
   overlay_builder: ^1.1.0
 #  map_location_picker: ^1.2.0
   open_street_map_search_and_pick: ^0.0.17
+  firebase_auth: ^4.6.3
+  firebase_core: ^2.14.0
   get: ^4.6.5
   shared_preferences: ^2.1.0
   geolocator: ^9.0.2
@@ -47,6 +49,7 @@ dependencies:
   loading_animation_widget: ^1.2.0+4
   like_button: ^2.0.5
   flutter_rating_bar: ^4.0.1
+  google_sign_in: ^6.1.4
   bottom_sheet: ^3.1.2
   carousel_slider: ^4.2.1
   fluttertoast: ^8.2.2

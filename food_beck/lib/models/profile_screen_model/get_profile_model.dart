@@ -7,19 +7,16 @@ import 'dart:convert';
 GetProfileModel getProfileModelFromJson(String str) =>
     GetProfileModel.fromJson(json.decode(str));
 
-String getProfileModelToJson(GetProfileModel data) =>
-    json.encode(data.toJson());
-
 class GetProfileModel {
+  bool success;
+  ProfileData data;
+  String message;
+
   GetProfileModel({
     required this.success,
     required this.data,
     required this.message,
   });
-
-  bool success;
-  ProfileData data;
-  String message;
 
   factory GetProfileModel.fromJson(Map<String, dynamic> json) =>
       GetProfileModel(
@@ -27,15 +24,22 @@ class GetProfileModel {
         data: ProfileData.fromJson(json["data"] ?? {}),
         message: json["message"] ?? "",
       );
-
-  Map<String, dynamic> toJson() => {
-        "success": success,
-        "data": data.toJson(),
-        "message": message,
-      };
 }
 
 class ProfileData {
+  int id;
+  String name;
+  String email;
+  String phoneno;
+  String zoneId;
+  String image;
+  // dynamic socialMediaId;
+  // dynamic emailVerifiedAt;
+  // dynamic orderCount;
+  String status;
+  // DateTime createdAt;
+  // DateTime updatedAt;
+
   ProfileData({
     required this.id,
     required this.name,
@@ -43,42 +47,26 @@ class ProfileData {
     required this.phoneno,
     required this.zoneId,
     required this.image,
-    required this.emailVerifiedAt,
-    required this.createdAt,
-    required this.updatedAt,
+    // this.socialMediaId,
+    // this.emailVerifiedAt,
+    // this.orderCount,
+    required this.status,
+    // required this.createdAt,
+    // required this.updatedAt,
   });
 
-  int id;
-  String name;
-  String email;
-  String phoneno;
-  int zoneId;
-  String image;
-  String emailVerifiedAt;
-  String createdAt;
-  String updatedAt;
-
   factory ProfileData.fromJson(Map<String, dynamic> json) => ProfileData(
-        id: json["id"] ?? 0,
-        name: json["name"] ?? "",
-        email: json["email"] ?? "",
-        phoneno: json["phoneno"] ?? "",
-        zoneId: json["zone_id"] ?? 0,
-        image: json["image"] ?? "",
-        emailVerifiedAt: json["email_verified_at"] ?? "",
-        createdAt: json["created_at"] ?? "",
-        updatedAt: json["updated_at"] ?? "",
+        id: json["id"]??0,
+        name: json["name"]??"",
+        email: json["email"]??"",
+        phoneno: json["phoneno"]??"",
+        zoneId: json["zone_id"]??"",
+        image: json["image"]??"",
+        // socialMediaId: json["social_media_id"],
+        // emailVerifiedAt: json["email_verified_at"],
+        // orderCount: json["order_count"],
+        status: json["status"]??"",
+        // createdAt: DateTime.parse(json["created_at"]),
+        // updatedAt: DateTime.parse(json["updated_at"]),
       );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "email": email,
-        "phoneno": phoneno,
-        "zone_id": zoneId,
-        "image": image,
-        "email_verified_at": emailVerifiedAt,
-        "created_at": createdAt,
-        "updated_at": updatedAt,
-      };
 }

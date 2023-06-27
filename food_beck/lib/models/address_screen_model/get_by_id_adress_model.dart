@@ -41,9 +41,9 @@ class GetByIdAddress {
   String address;
   String latitude;
   String longitude;
-  int userId;
+  String userId;
   String contactPersonName;
-  int zoneId;
+  String zoneId;
   String floor;
   String landmark;
   String houseNo;
@@ -74,9 +74,9 @@ class GetByIdAddress {
         address: json["address"] ?? "",
         latitude: json["latitude"] ?? "",
         longitude: json["longitude"] ?? "",
-        userId: json["user_id"] ?? 0,
+        userId: json["user_id"] ?? "",
         contactPersonName: json["contact_person_name"] ?? "",
-        zoneId: json["zone_id"] ?? 0,
+        zoneId: json["zone_id"] ?? "",
         floor: json["floor"] ?? "",
         landmark: json["landmark"] ?? "",
         houseNo: json["house_no"] ?? "",

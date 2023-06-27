@@ -43,18 +43,18 @@ class SplashScreenController extends GetxController {
         //     transition: Transition.native,
         //   );
         // }
-        else if (isUserLoggedInStatus.value == true) {
-          Get.offAll(
-            () => IndexScreen(),
-            transition: Transition.native,
-          );
-        }
-        // else {
+        // else if (isUserLoggedInStatus.value == true) {
         //   Get.offAll(
         //     () => IndexScreen(),
         //     transition: Transition.native,
         //   );
         // }
+        else {
+          Get.offAll(
+            () => IndexScreen(),
+            transition: Transition.native,
+          );
+        }
 
         // else if (isUserLoggedInStatus.value == false) {
         //   Get.offAll(
@@ -75,9 +75,9 @@ class SplashScreenController extends GetxController {
 
   Future<void> initMethod() async {
     isLoading(true);
-    isUserLoggedInStatus.value = await userPreference.getBoolFromPrefs(
-        key: UserPreference.isUserLoggedInKey);
-    log('isUserLoggedInStatus.value : ${isUserLoggedInStatus.value}');
+    // isUserLoggedInStatus.value = await userPreference.getBoolFromPrefs(
+    //     key: UserPreference.isUserLoggedInKey);
+    // log('isUserLoggedInStatus.value : ${isUserLoggedInStatus.value}');
 
     isOnBoardingValue.value = await userPreference.getBoolFromPrefs(
         key: UserPreference.isUserOnBoardingKey);

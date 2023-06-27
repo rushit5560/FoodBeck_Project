@@ -22,10 +22,8 @@ class EditProfileScreenController extends GetxController {
   // String userPhoneNo = Get.arguments[3];
   // String userImage = Get.arguments[4];
   final profileScreenController = Get.find<ProfileScreenController>();
-
   RxBool isLoading = false.obs;
   final dioRequest = dio.Dio();
-
   RxBool successStatus = false.obs;
   ApiHeader apiHeader = ApiHeader();
   RxBool isSuccessStatus = false.obs;
@@ -38,7 +36,6 @@ class EditProfileScreenController extends GetxController {
   String userProfileImage = "";
   ProfileData? profileData;
   RxList<String> selectedZoneIdList = RxList<String>([]);
-
   UserPreference userPreference = UserPreference();
   GlobalKey<FormState> updateProfileKey = GlobalKey<FormState>();
   TextEditingController nameFieldController = TextEditingController();
@@ -145,6 +142,7 @@ class EditProfileScreenController extends GetxController {
       },
     );
   }
+
 //update profile button function
 
   updateProfileButtonOntap() async {
@@ -200,13 +198,12 @@ class EditProfileScreenController extends GetxController {
       log("authorizationToken $authorizationToken");
       // http.Response response = await http.get(Uri.parse(url), headers: header);
       final response = await dioRequest.get(
-          url,
+        url,
         options: dio.Options(headers: header),
       );
       log("getUserProfileFunction response :  ${jsonEncode(response.data)}");
 
-      GetProfileModel getProfileModel =
-          GetProfileModel.fromJson(json.decode(response.data));
+      GetProfileModel getProfileModel = GetProfileModel.fromJson(response.data);
 
       successStatus.value = getProfileModel.success;
       log("successStatus.value ${successStatus.value}");
@@ -253,9 +250,6 @@ class EditProfileScreenController extends GetxController {
         "zone_id": "${selectedZoneValue!.id}",
         // ""
       });
-
-
-
 
       if (userProfilePhoto != null) {
         log("userProfilePhoto != null ${userProfilePhoto != null}");
@@ -320,6 +314,7 @@ class EditProfileScreenController extends GetxController {
             userPreference.setStringValueInPrefs(
                 key: UserPreference.userImageKey,
                 value: updateProfileModel.data.image);
+            log("updateProfileModel.data.image ${updateProfileModel.data.image}");
             Get.back();
             // await profileScreenController.getUserAccount();
           } else {
@@ -401,6 +396,7 @@ class EditProfileScreenController extends GetxController {
     // log("getUserLoggedInFromPrefs authorizationToken $authorizationToken");
 
     await getZoneListFunction();
+    // await getUserProfileFunction();
   }
 
   @override

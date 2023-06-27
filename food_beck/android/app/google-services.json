@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "902174839095",
+    "project_id": "food-back-29f2b",
+    "storage_bucket": "food-back-29f2b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:902174839095:android:4de8116edbc0511d868ab2",
+        "android_client_info": {
+          "package_name": "com.example.food_beck"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "902174839095-thkkdu44b3k26qnreqr7qbi46o8a3ef6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.food_beck",
+            "certificate_hash": "63ac6bc040b75912ce629331db25a2e8cd62bbee"
+          }
+        },
+        {
+          "client_id": "902174839095-pv8lk2aioo7undmhf2lvfht5fv23c0mq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQIFUIW1zvKIvh6M1lph2RjEiKfrUPu9c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "902174839095-pv8lk2aioo7undmhf2lvfht5fv23c0mq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

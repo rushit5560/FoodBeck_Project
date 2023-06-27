@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:food_beck/screens/authentication_screens/sign_in_screen/sign_in_screen.dart';
 import 'package:get/get.dart';
 
 import '../constants/app_images.dart';
@@ -55,6 +56,7 @@ class ProfileScreenController extends GetxController {
 
   logOutButtonFunction() async {
     await userPreference.removeuserDetails();
+    Get.to(()=>SignInScreen());
   }
 
   loadUI() {

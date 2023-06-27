@@ -7,15 +7,15 @@ import '../constants/api_url.dart';
 import '../models/address_screen_model/delete_user_address_model.dart';
 import '../models/address_screen_model/user_address_model.dart';
 import '../utils/user_preferences.dart';
+import 'package:dio/dio.dart' as dio;
 
 class AddressListScreenController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool isSuccessStatus = false.obs;
-
+  final dioRequest = dio.Dio();
+  String authorizationToken = "";
   String userId = "";
-
   List<AddressData> userAddressList = [];
-
   UserPreference userPreference = UserPreference();
 
   // Get User Address
@@ -26,11 +26,15 @@ class AddressListScreenController extends GetxController {
 
     try {
       Map<String, String> header = await ApiHeader().getHeader();
-      http.Response response = await http.get(Uri.parse(url), headers: header);
-      log('getUserAddressFUnction Response : ${response.body}');
-
+      log("authorizationToken $authorizationToken");
+      final response = await dioRequest.get(
+        url,
+        options: dio.Options(headers: header),
+      );
+      log("getUserProfileFunction response :  ${jsonEncode(response.data)}");
       UserAddressModel userAddressModel =
-          UserAddressModel.fromJson(json.decode(response.body));
+          UserAddressModel.fromJson(response.data);
+
       isSuccessStatus.value = userAddressModel.success;
 
       if (isSuccessStatus.value) {
@@ -64,9 +68,9 @@ class AddressListScreenController extends GetxController {
       isSuccessStatus.value = deleteAddressModel.success;
 
       if (isSuccessStatus.value) {
+        Get.back();
         Fluttertoast.showToast(msg: deleteAddressModel.message);
         userAddressList.removeAt(index);
-        Get.back();
         // await getUserAddressFUnction();
       } else {
         log('deleteUserAddressFunction Else');
@@ -86,6 +90,8 @@ class AddressListScreenController extends GetxController {
   }
 
   Future<void> initMethod() async {
+    authorizationToken = await userPreference.getAuthorizationToken(
+        key: UserPreference.userTokenKey);
     userId = await userPreference.getStringValueFromPrefs(
             key: UserPreference.userIdKey) ??
         "";

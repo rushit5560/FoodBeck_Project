@@ -7,7 +7,7 @@ class UserPreference {
   static String isUserLoggedInKey = "isUserLoggedInKey"; // Bool
   static String isUserOnBoardingKey = "isUserOnBoardingKey"; // Bool
   static String isUserLocationKey = "isUserLocationKey";
-  // static String isMobileLocationGetKey = "isMobileLocationGetKey";
+
   static String userIdKey = "userIdKey"; // String
   static String userZoneIdKey = "userZoneIdKey"; // String
   static String userTokenKey = "userTokenKey"; // String
@@ -28,7 +28,6 @@ class UserPreference {
     prefs.setBool(isUserLoggedInKey, false);
     prefs.setBool(isUserOnBoardingKey, false);
     prefs.setBool(isUserLocationKey, false);
-    // prefs.setBool(isMobileLocationGetKey, false);
     prefs.setString(userIdKey, '');
     prefs.setString(userZoneIdKey, '');
     prefs.setString(userTokenKey, '');
@@ -38,7 +37,6 @@ class UserPreference {
     prefs.setString(userImageKey, '');
     prefs.setString(userAddressKey, '');
     prefs.setString(latitudeKey, '');
-
     prefs.setString(longitudeKey, '');
 
   }

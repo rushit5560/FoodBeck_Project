@@ -100,7 +100,6 @@ class AddressListScreen extends StatelessWidget {
                                               onYesTap: () async =>
                                                   addressManageScreenController
                                                       .deleteUserAddressFunction(
-                                                         
                                                               singleAddress.id
                                                                   .toString(),
                                                            i),
