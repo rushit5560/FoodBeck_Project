@@ -18,34 +18,32 @@ class MapLocationScreen extends StatelessWidget {
     log("locationMapScreenController.longitude ${locationMapScreenController.longitude1}");
     log("locationMapScreenController.address.value ${locationMapScreenController.address.value}");
     return Scaffold(
-      body:
-          // Obx(
-          //   () => locationMapScreenController.isLoading.value
-          //       ? const CustomLoader()
-          //       :
+      body: Obx(
+        () => locationMapScreenController.isLoading.value
+            ? const CustomLoader()
+            : OpenStreetMapSearchAndPick(
+                buttonColor: AppColors.greenColor,
+                buttonText: "Set Location",
+                center: LatLong(21.1858641, 72.7942157),
+                onPicked: (pickedData) {
+                  locationMapScreenController.isLoading(true);
+                  locationMapScreenController.address.value =
+                      pickedData.address;
 
-          OpenStreetMapSearchAndPick(
-        buttonColor: AppColors.greenColor,
-        buttonText: "Set Location",
-        center: LatLong(12.74349654761492,
-            0.351313167233327),
-        onPicked: (pickedData) {
-          locationMapScreenController.isLoading(true);
-          locationMapScreenController.address.value = pickedData.address;
+                  log("locationMapScreenController.address.value ${locationMapScreenController.address.value}");
+                  locationMapScreenController.userPreference
+                      .setStringValueInPrefs(
+                          key: UserPreference.userAddressKey,
+                          value: locationMapScreenController.address.value);
+                  locationMapScreenController.isLoading(false);
 
-          log("locationMapScreenController.address.value ${locationMapScreenController.address.value}");
-          locationMapScreenController.userPreference.setStringValueInPrefs(
-              key: UserPreference.userAddressKey,
-              value: locationMapScreenController.address.value);
-          locationMapScreenController.isLoading(false);
-
-          log(pickedData.latLong.latitude.toString());
-          log(pickedData.latLong.longitude.toString());
-          log("pickedData.address : ${pickedData.address}");
-          Get.to(() => IndexScreen());
-        },
+                  log(pickedData.latLong.latitude.toString());
+                  log(pickedData.latLong.longitude.toString());
+                  log("pickedData.address : ${pickedData.address}");
+                  Get.to(() => IndexScreen());
+                },
+              ),
       ),
-
     );
   }
 }

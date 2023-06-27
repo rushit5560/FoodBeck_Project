@@ -14,18 +14,16 @@ class LocationMapScreenController extends GetxController {
   String latitude1 = '';
   String longitude1 = '';
   RxBool getLocationPermission = false.obs;
+  RxBool isUserLocationStatus = false.obs;
 
   Future<void> onLickButtonFunction() async {
     log("getLocationPermission.value ${getLocationPermission.value}");
     // ignore: unrelated_type_equality_checks
-    if (UserPreference.isUserLocationKey == false) {
+    if (isUserLocationStatus.value == false) {
       await handleLocationPermission();
     } else {
       getCurrentLocation();
     }
-    // else{
-    //   getCurrentLocation();
-    // }
   }
 
   Future<bool> handleLocationPermission() async {
@@ -103,7 +101,6 @@ class LocationMapScreenController extends GetxController {
         await placemarkFromCoordinates(position.latitude, position.longitude);
     log("Placemark $placemarks");
     Placemark place = placemarks[0];
-
     address.value =
         '${place.street},${place.name},${place.subLocality},${place.locality},${place.administrativeArea},${place.postalCode}';
     log("address.value ${address.value}");
@@ -117,15 +114,12 @@ class LocationMapScreenController extends GetxController {
     //   key: UserPreference.longitudeKey,
     //   value: position.longitude,
     // );
-
     log("position.latitude ${position.latitude}");
     log("position.longitude ${position.longitude}");
     latitude = position.latitude;
     longitude = position.longitude;
-
     userPreference.setBoolValueInPrefs(
         key: UserPreference.isUserLocationKey, value: true);
-
     isLoading(false);
   }
 
@@ -143,6 +137,9 @@ class LocationMapScreenController extends GetxController {
 
   Future<void> initMethod() async {
     isLoading(true);
+    isUserLocationStatus.value = await userPreference.getBoolFromPrefs(
+        key: UserPreference.isUserLoggedInKey);
+    log('isUserLocationStatus.value : ${isUserLocationStatus.value}');
     latitude1 = await userPreference.getStringFromPrefs(
         key: UserPreference.latitudeKey);
 
@@ -151,6 +148,7 @@ class LocationMapScreenController extends GetxController {
         key: UserPreference.longitudeKey);
 
     log('longitude1 :$longitude1');
+
     await onLickButtonFunction();
   }
 

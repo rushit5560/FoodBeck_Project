@@ -14,9 +14,11 @@ class LocationScreenController extends GetxController {
   UserPreference userPreference = UserPreference();
   RxBool getLocationPermission = false.obs;
   String locationZipCode = "";
+  RxBool isUserLocationStatus = false.obs;
 
   void onLickButtonFunction() {
-    if (UserPreference.isUserLocationKey == false) {
+    log("isUserLocationStatus.value 111 ${isUserLocationStatus.value}");
+    if (isUserLocationStatus.value == false) {
       handleLocationPermission();
     } else {
       getCurrentLocation();
@@ -126,15 +128,16 @@ class LocationScreenController extends GetxController {
     Get.offAll(() => IndexScreen());
   }
 
-  // Future<void> initMethod() async {
-  //   isLoading(true);
-  //
-  //
-  //
-  //   isLoading(false);
-  // }
+  Future initMethod() async {
+    isUserLocationStatus.value = await userPreference.getBoolFromPrefs(
+        key: UserPreference.isUserLoggedInKey);
+    log('isUserLocationStatus.value : ${isUserLocationStatus.value}');
+  }
   @override
   void onInit() {
+
+    initMethod();
+
     // initMethod();
     super.onInit();
   }

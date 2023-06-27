@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:food_beck/screens/index_screen/index_screen.dart';
 import 'package:food_beck/screens/splash_screen/splash_screen.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
@@ -16,16 +15,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Sizer(
-        builder: (context, orientation, deviceType) {
-          return GetMaterialApp(
-            debugShowCheckedModeBanner: false,
-            debugShowMaterialGrid: false,
-            title: 'Food Beck',
-            home: SplashScreen(),
-            theme: appThemeData,
-          );
-        },
+      builder: (context, orientation, deviceType) {
+        return GetMaterialApp(
+          debugShowCheckedModeBanner: false,
+          debugShowMaterialGrid: false,
+          title: 'Food Beck',
+          home: SplashScreen(),
+          theme: appThemeData,
+        );
+      },
     );
   }
 }
-

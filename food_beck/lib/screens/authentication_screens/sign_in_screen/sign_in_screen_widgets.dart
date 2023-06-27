@@ -161,43 +161,43 @@ class SignInAllModule extends StatelessWidget {
         SizedBox(height: 2.h),
 
         /// three icon
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            /*CircleAvatar(
-                radius: 18,
-                backgroundColor: AppColors.blueColor,
-                child: IconButton(
-                  icon: const FaIcon(
-                    FontAwesomeIcons.facebookF,
-                    color: AppColors.whiteColor,
-                    size: 20,
-                  ),
-                  onPressed: () {},
-                ),
-              ),
-              CircleAvatar(
-                  radius: 18,
-                  backgroundColor: AppColors.skyColor,
-                  child: IconButton(
-                    icon: const FaIcon(
-                      FontAwesomeIcons.twitter,
-                      color: AppColors.whiteColor,
-                      size: 20,
-                    ),
-                    onPressed: () {},
-                  ),
-              ),*/
-            // CircleAvatar(
-            //     radius: 18,
-            //     backgroundColor: AppColors.redColor,
-            //     child: IconButton(
-            //       icon: const FaIcon(FontAwesomeIcons.googlePlusG,
-            //           color: AppColors.whiteColor, size: 20),
-            //       onPressed: () {},
-            //     )),
-          ],
-        ).paddingSymmetric(horizontal: 60),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //   children: [
+        //     /*CircleAvatar(
+        //         radius: 18,
+        //         backgroundColor: AppColors.blueColor,
+        //         child: IconButton(
+        //           icon: const FaIcon(
+        //             FontAwesomeIcons.facebookF,
+        //             color: AppColors.whiteColor,
+        //             size: 20,
+        //           ),
+        //           onPressed: () {},
+        //         ),
+        //       ),
+        //       CircleAvatar(
+        //           radius: 18,
+        //           backgroundColor: AppColors.skyColor,
+        //           child: IconButton(
+        //             icon: const FaIcon(
+        //               FontAwesomeIcons.twitter,
+        //               color: AppColors.whiteColor,
+        //               size: 20,
+        //             ),
+        //             onPressed: () {},
+        //           ),
+        //       ),*/
+        //     // CircleAvatar(
+        //     //     radius: 18,
+        //     //     backgroundColor: AppColors.redColor,
+        //     //     child: IconButton(
+        //     //       icon: const FaIcon(FontAwesomeIcons.googlePlusG,
+        //     //           color: AppColors.whiteColor, size: 20),
+        //     //       onPressed: () {},
+        //     //     )),
+        //   ],
+        // ).paddingSymmetric(horizontal: 60),
         SizedBox(height: 2.5.h),
 
         /// sign up text

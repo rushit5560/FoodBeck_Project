@@ -89,8 +89,9 @@ class SignInScreenController extends GetxController {
         } else {
           Get.offAll(() => IndexScreen());
         }
-
         log("signInModel.token : ${signInModel.token}");
+        loginEmailController.clear();
+        loginPasswordController.clear();
       } else {
         log('userLoginFunction Else');
         Fluttertoast.showToast(msg: signInModel.error);
