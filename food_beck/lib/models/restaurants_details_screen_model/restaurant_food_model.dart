@@ -65,8 +65,8 @@ class FoodDetails {
   String name;
   String description;
   String image;
-  int categoryId;
-  int subcategoryId;
+  String categoryId;
+  String subcategoryId;
   String variations;
   String addOns;
   String attributes;
@@ -76,17 +76,17 @@ class FoodDetails {
   String discountType;
   String availableTimeStarts;
   String availableTimeEnds;
-  int veg;
+  String veg;
   String calories;
   String minimumorderquantity;
   String totalallowedquantity;
-  int status;
-  int restaurantId;
-  int orderCount;
-  int avgRating;
-  int ratingCount;
+  String status;
+  String restaurantId;
+  String orderCount;
+  String avgRating;
+  String ratingCount;
   String rating;
-  int recommended;
+  String recommended;
   String slug;
   // DateTime createdAt;
   // DateTime updatedAt;
@@ -96,8 +96,8 @@ class FoodDetails {
     name: json["name"] ?? "",
     description: json["description"] ?? "",
     image: json["image"] ?? "",
-    categoryId: json["category_id"] ?? 0,
-    subcategoryId: json["subcategory_id"] ?? 0,
+    categoryId: json["category_id"] ?? "0",
+    subcategoryId: json["subcategory_id"] ?? "0",
     variations: json["variations"] ?? "",
     addOns: json["add_ons"] ?? "",
     attributes: json["attributes"] ?? "",
@@ -107,17 +107,17 @@ class FoodDetails {
     discountType: json["discount_type"] ?? "",
     availableTimeStarts: json["available_time_starts"] ?? "",
     availableTimeEnds: json["available_time_ends"] ?? "",
-    veg: json["veg"] ?? 0,
+    veg: json["veg"] ?? "0",
     calories: json["calories"] ?? "",
     minimumorderquantity: json["minimumorderquantity"] ?? "",
     totalallowedquantity: json["totalallowedquantity"] ?? "",
-    status: json["status"] ?? 0,
-    restaurantId: json["restaurant_id"] ?? 0,
-    orderCount: json["order_count"] ?? 0,
-    avgRating: json["avg_rating"] ?? 0,
-    ratingCount: json["rating_count"] ?? 0,
+    status: json["status"] ?? "0",
+    restaurantId: json["restaurant_id"] ?? "0",
+    orderCount: json["order_count"] ?? "0",
+    avgRating: json["avg_rating"] ?? "0",
+    ratingCount: json["rating_count"] ?? "0",
     rating: json["rating"] ?? "",
-    recommended: json["recommended"] ?? 0,
+    recommended: json["recommended"] ?? "0",
     slug: json["slug"] ?? "",
     // createdAt: DateTime.parse(json["created_at"]),
     // updatedAt: DateTime.parse(json["updated_at"]),

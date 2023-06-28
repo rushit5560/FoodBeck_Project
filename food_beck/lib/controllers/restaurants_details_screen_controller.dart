@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'dart:developer';
-import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import '../constants/api_url.dart';
 import '../models/restaurants_details_screen_model/restaurant_food_model.dart';
 import '../models/restaurants_details_screen_model/restaurants_details_model.dart';
+import 'package:dio/dio.dart' as dio;
+
 
 class RestaurantsDetailsScreenController extends GetxController {
   String restaurantId = Get.arguments;
@@ -22,9 +23,11 @@ class RestaurantsDetailsScreenController extends GetxController {
   String overallRating = "";
   String deliveryTime = "";
 
+  final dioRequest = dio.Dio();
+
   List<FoodDetails> allFoodList = [];
-  List<FoodDetails> vegFoodList = [];
-  List<FoodDetails> nonVegFoodList = [];
+  // List<FoodDetails> vegFoodList = [];
+  // List<FoodDetails> nonVegFoodList = [];
 
 
 
@@ -37,11 +40,12 @@ class RestaurantsDetailsScreenController extends GetxController {
     log("getRestaurantsDetailsFunction restaurantId $restaurantId");
 
     try {
-      http.Response response = await http.get(Uri.parse(url));
-      log("getRestaurantsDetailsFunction response :  ${response.body}");
+      // http.Response response = await http.get(Uri.parse(url));
+      final response = await dioRequest.get(url);
+      log("getRestaurantsDetailsFunction response :  ${response.data}");
 
       GetRestaurantDetailsModel getRestaurantDetailsModel =
-          GetRestaurantDetailsModel.fromJson(json.decode(response.body));
+          GetRestaurantDetailsModel.fromJson(response.data);
       successStatus.value = getRestaurantDetailsModel.success;
 
       log("successStatus.value ${successStatus.value}");
@@ -73,18 +77,19 @@ class RestaurantsDetailsScreenController extends GetxController {
     log('getRestaurantFoodFunction Api Url :$url');
 
     try {
-      http.Response response = await http.get(Uri.parse(url));
-      log("getRestaurantFoodFunction  response : ${response.body}");
-      RestaurantFoodModel restaurantFoodModel = RestaurantFoodModel.fromJson(json.decode(response.body));
+      // http.Response response = await http.get(Uri.parse(url));
+      final response = await dioRequest.get(url);
+      log("getRestaurantFoodFunction  response : ${jsonEncode(response.data)}");
+      RestaurantFoodModel restaurantFoodModel = RestaurantFoodModel.fromJson(response.data);
       successStatus.value = restaurantFoodModel.success;
 
       if(successStatus.value) {
         allFoodList.clear();
-        vegFoodList.clear();
-        nonVegFoodList.clear();
+        // vegFoodList.clear();
+        // nonVegFoodList.clear();
 
         allFoodList.addAll(restaurantFoodModel.data);
-        for(var element in allFoodList) {
+        /*for(var element in allFoodList) {
           // If Food Veg category then add in vegFoodList
           if(element.veg == 1) {
             vegFoodList.add(element);
@@ -93,7 +98,7 @@ class RestaurantsDetailsScreenController extends GetxController {
           if(element.veg == 0) {
             nonVegFoodList.add(element);
           }
-        }
+        }*/
       } else {
         log('getRestaurantFoodFunction Else');
       }
