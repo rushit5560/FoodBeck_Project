@@ -23,6 +23,8 @@ class RestaurantsDetailsScreenController extends GetxController {
   String overallRating = "";
   String deliveryTime = "";
 
+  RxInt itemCount = 1.obs;
+
   final dioRequest = dio.Dio();
 
   List<FoodDetails> allFoodList = [];
@@ -32,7 +34,7 @@ class RestaurantsDetailsScreenController extends GetxController {
 
 
 
-  // Get Restaurant details function
+  /// Get Restaurant details function
   Future<void> getRestaurantsDetailsFunction() async {
     isLoading(true);
     String url = "${ApiUrl.getPRestaurantDetailsApi}$restaurantId";
@@ -71,6 +73,7 @@ class RestaurantsDetailsScreenController extends GetxController {
     await getRestaurantFoodFunction();
   }
 
+  /// Get Restaurant Food Details
   Future<void> getRestaurantFoodFunction() async {
     isLoading(true);
     String url = "${ApiUrl.allProductsApi}$restaurantId";
@@ -107,6 +110,20 @@ class RestaurantsDetailsScreenController extends GetxController {
     } catch(e) {
       log('getRestaurantFoodFunction Error :$e');
       rethrow;
+    }
+    isLoading(false);
+  }
+
+  /// Product add in cart function
+  Future<void> productAddInCartFunction() async {
+    isLoading(true);
+    String url = ApiUrl.addToCartApi;
+    log('Add to cart api url :$url');
+
+    try {
+
+    } catch(e) {
+      log('productAddInCartFunction Error :$e');
     }
     isLoading(false);
   }

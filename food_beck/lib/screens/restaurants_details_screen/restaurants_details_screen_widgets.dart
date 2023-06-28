@@ -479,7 +479,7 @@ class AllFoodShowModule extends StatelessWidget {
 
                       CustomButton(
                         text: 'Add',
-                        onPressed: () {},
+                        onPressed: () => openFoodAddonsBottomSheetModule(foodDetails),
                       ),
 
                     ],
@@ -508,6 +508,7 @@ class AllFoodShowModule extends StatelessWidget {
   void openFoodAddonsBottomSheetModule(FoodDetails foodDetails) {
     showFlexibleBottomSheet(
       context: Get.context!,
+      isDismissible: false,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(topLeft: Radius.circular(25),
           topRight: Radius.circular(25),),
@@ -523,6 +524,9 @@ class AllFoodShowModule extends StatelessWidget {
           ScrollController scrollController,
           double bottomSheetOffset,
       ) {
+
+        RxDouble finalPrice = (double.parse(foodDetails.price) * screenController.itemCount.value).obs;
+
         return ListView(
           shrinkWrap: true,
           children: [
@@ -542,27 +546,84 @@ class AllFoodShowModule extends StatelessWidget {
                 ),
 
                 // Close button
-                Positioned(
-                  right: 10,
-                  top: 10,
-                  child: GestureDetector(
-                    onTap: () => Get.back(),
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: AppColors.whiteColor2,
-                      ),
-                      child: const Icon(
-                        Icons.close_rounded,
-                        color: AppColors.blackColor,
-                      ).paddingAll(5),
+                GestureDetector(
+                  onTap: () {
+                    Get.back();
+                    screenController.itemCount.value = 1;
+                  },
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppColors.whiteColor2,
                     ),
+                    child: const Icon(
+                      Icons.close_rounded,
+                      color: AppColors.blackColor,
+                    ).paddingAll(5),
                   ),
                 ),
               ],
             ),
 
             const Divider(indent: 10, endIndent: 10),
+
+            // const Spacer(),
+
+            Row(
+              // mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+
+                Expanded(
+                  flex: 35,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            if(screenController.itemCount.value > 1) {
+                              screenController.itemCount.value--;
+                              finalPrice.value = double.parse(foodDetails.price) * screenController.itemCount.value;
+                            }
+                          },
+                            child: const Icon(Icons.remove_rounded)),
+                        Obx(
+                          ()=> Text(
+                            "${screenController.itemCount.value}",
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        GestureDetector(
+                            onTap: () {
+                              screenController.itemCount.value++;
+                              finalPrice.value = double.parse(foodDetails.price) * screenController.itemCount.value;
+                            },
+                            child: const Icon(Icons.add_rounded)),
+                      ],
+                    ).paddingSymmetric(vertical: 5),
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  flex: 65,
+                  child: Obx(
+                      ()=> CustomButton(
+                      text: "Add Item (\$$finalPrice)",
+                      onPressed: () {
+                        ///add to cart api calling
+                      },
+                    ),
+                  ),
+                ),
+
+              ],
+            ),
 
           ],
         ).paddingAll(8);
