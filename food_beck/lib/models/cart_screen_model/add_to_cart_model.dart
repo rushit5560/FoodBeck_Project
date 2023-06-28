@@ -9,32 +9,35 @@ AddToCartModel addToCartModelFromJson(String str) =>
 
 class AddToCartModel {
   bool success;
-  CartData data;
+  AddCartData data;
   String message;
+  String error;
 
   AddToCartModel({
     required this.success,
     required this.data,
     required this.message,
+    required this.error,
   });
 
   factory AddToCartModel.fromJson(Map<String, dynamic> json) => AddToCartModel(
         success: json["success"] ?? false,
-        data: CartData.fromJson(json["data"] ?? {}),
+        data: AddCartData.fromJson(json["data"] ?? {}),
         message: json["message"] ?? "",
+        error: json["error"] ?? "",
       );
 }
 
-class CartData {
+class AddCartData {
   Cart cart;
   CartDetails cartDetails;
 
-  CartData({
+  AddCartData({
     required this.cart,
     required this.cartDetails,
   });
 
-  factory CartData.fromJson(Map<String, dynamic> json) => CartData(
+  factory AddCartData.fromJson(Map<String, dynamic> json) => AddCartData(
         cart: Cart.fromJson(json["cart"] ?? {}),
         cartDetails: CartDetails.fromJson(json["cart_details"] ?? {}),
       );

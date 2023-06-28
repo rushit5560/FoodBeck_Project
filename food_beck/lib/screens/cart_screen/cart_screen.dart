@@ -58,7 +58,7 @@ class CartScreen extends StatelessWidget {
             const Spacer(),
             GestureDetector(
               onTap: () async{
-                await cartScreenController.addToCartFunction();
+                await cartScreenController.cartUpdateFunction();
               },
               child: Container(
                 decoration: BoxDecoration(

@@ -21,8 +21,8 @@ class ApiUrl {
   static String googleLoginApi = "$baseUrl/login-with-google";
   static String cmsApi = "$baseUrl/cms/";
 
-  static String cartApi = "$baseUrl/cart/";
-  static String updateCartApi = "$baseUrl/updatecart";
+  // static String cartApi = "$baseUrl/cart/";
+  // static String updateCartApi = "$baseUrl/updatecart";
   static String zoneApi = "$baseUrl/zone";
   static String getProfileApi = "$baseUrl/profile/";
   static String updateProfileApi = "$baseUrl/update-profile/";

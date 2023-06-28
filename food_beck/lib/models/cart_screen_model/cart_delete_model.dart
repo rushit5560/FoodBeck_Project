@@ -10,9 +10,13 @@ CartDeleteModel cartDeleteModelFromJson(String str) =>
 class CartDeleteModel {
   bool success;
   String error;
+  String message;
+
 
   CartDeleteModel({
     required this.success,
+    required this.message,
+
     required this.error,
   });
 
@@ -20,5 +24,7 @@ class CartDeleteModel {
       CartDeleteModel(
         success: json["success"] ?? false,
         error: json["error"] ?? "",
+        message: json["message"] ?? "",
+
       );
 }

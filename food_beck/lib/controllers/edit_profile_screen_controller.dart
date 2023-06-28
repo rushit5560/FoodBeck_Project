@@ -242,14 +242,14 @@ class EditProfileScreenController extends GetxController {
       String finalToken = "Bearer $authorizationToken";
       // Map<String, String> header = await ApiHeader().getHeader();
 
-      var formData = dio.FormData.fromMap({
-        "id": userId,
-        "name": nameFieldController.text.trim(),
-        "email": emailFieldController.text.trim().toLowerCase(),
-        "phoneno": phoneNoFieldController.text.trim(),
-        "zone_id": "${selectedZoneValue!.id}",
-        // ""
-      });
+      // var formData = dio.FormData.fromMap({
+      //   "id": userId,
+      //   "name": nameFieldController.text.trim(),
+      //   "email": emailFieldController.text.trim().toLowerCase(),
+      //   "phoneno": phoneNoFieldController.text.trim(),
+      //   "zone_id": "${selectedZoneValue!.id}",
+      //   // ""
+      // });
 
       if (userProfilePhoto != null) {
         log("userProfilePhoto != null ${userProfilePhoto != null}");
