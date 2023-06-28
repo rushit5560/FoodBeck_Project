@@ -222,7 +222,7 @@ class AllFoodShowModule extends StatelessWidget {
         String imgUrl = ApiUrl.foodImagePathUrl + foodDetails.image;
         // String imgUrl = "https://thumbs.dreamstime.com/b/wooden-table-food-top-view-cafe-102532611.jpg";
         return GestureDetector(
-          onTap: () => openFoodBottomSheetModule(foodDetails),
+          onTap: () => openFoodDetailsBottomSheetModule(foodDetails),
           child: Row(
             children: [
               Stack(
@@ -273,7 +273,7 @@ class AllFoodShowModule extends StatelessWidget {
                     ),
                     const SizedBox(height: 3),
                     Text(
-                      foodDetails.description,
+                      "\$${foodDetails.price}",
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: const TextStyle(fontSize: 10),
@@ -320,10 +320,20 @@ class AllFoodShowModule extends StatelessWidget {
                       child: const Icon(CupertinoIcons.heart)),
                   const SizedBox(height: 20),
                   GestureDetector(
-                      onTap: () {
-                        Fluttertoast.showToast(msg: "Clicked On add!");
-                      },
-                      child: const Icon(CupertinoIcons.add)),
+                      onTap: () => openFoodAddonsBottomSheetModule(foodDetails),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.greenColor,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: const Text(
+                          'Add',
+                          style: TextStyle(
+                            color: AppColors.whiteColor2,
+                          ),
+                        ).paddingSymmetric(horizontal: 15, vertical: 4),
+                      ),
+                  ),
                 ],
               ),
             ],
@@ -333,13 +343,7 @@ class AllFoodShowModule extends StatelessWidget {
     );
   }
 
-  void openFoodBottomSheetModule(FoodDetails foodDetails) {
-    /*showModalBottomSheet(
-      context: Get.context!,
-      builder: (BuildContext context) {
-        return
-      },
-    );*/
+  void openFoodDetailsBottomSheetModule(FoodDetails foodDetails) {
     showFlexibleBottomSheet(
       bottomSheetColor: Colors.transparent,
       context: Get.context!,
@@ -497,6 +501,71 @@ class AllFoodShowModule extends StatelessWidget {
             ),
           ],
         );
+      },
+    );
+  }
+
+  void openFoodAddonsBottomSheetModule(FoodDetails foodDetails) {
+    showFlexibleBottomSheet(
+      context: Get.context!,
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(25),
+          topRight: Radius.circular(25),),
+        color: AppColors.whiteColor2,
+      ),
+      minHeight: 0,
+      initHeight: 0.7,
+      maxHeight: 0.7,
+      duration: const Duration(milliseconds: 500),
+      isExpand: false,
+      bottomSheetColor: Colors.transparent,
+      builder: (BuildContext context,
+          ScrollController scrollController,
+          double bottomSheetOffset,
+      ) {
+        return ListView(
+          shrinkWrap: true,
+          children: [
+
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    foodDetails.name,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+
+                // Close button
+                Positioned(
+                  right: 10,
+                  top: 10,
+                  child: GestureDetector(
+                    onTap: () => Get.back(),
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors.whiteColor2,
+                      ),
+                      child: const Icon(
+                        Icons.close_rounded,
+                        color: AppColors.blackColor,
+                      ).paddingAll(5),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            const Divider(indent: 10, endIndent: 10),
+
+          ],
+        ).paddingAll(8);
       },
     );
   }
