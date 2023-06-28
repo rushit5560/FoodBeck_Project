@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:food_beck/screens/index_screen/index_screen.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
@@ -205,6 +206,22 @@ class SignInAllModule extends StatelessWidget {
           //   ],
           // ).paddingSymmetric(horizontal: 60),
           SizedBox(height: 2.5.h),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              CircleAvatar(
+                  radius: 18,
+                  backgroundColor: AppColors.redColor,
+                  child: IconButton(
+                    icon: const FaIcon(FontAwesomeIcons.googlePlusG,
+                        color: AppColors.whiteColor, size: 20),
+                    onPressed: () {
+                      loginScreenController.signInWithGoogle();
+                    },
+                  )),
+            ],
+          ).paddingSymmetric(horizontal: 60),
+          SizedBox(height: 2.5.h),
 
           /// sign up text
           Row(
@@ -254,7 +271,7 @@ class SignInAllModule extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  Get.to(()=>IndexScreen());
+                  Get.to(() => IndexScreen());
                 },
                 child: Text(
                   "Guest",

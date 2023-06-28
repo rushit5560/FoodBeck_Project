@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:food_beck/screens/location_screen/location_screen.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,7 @@ import '../../models/sign_in_model/sign_in_model.dart';
 import '../../screens/index_screen/index_screen.dart';
 import '../../utils/user_preferences.dart';
 import 'package:dio/dio.dart' as dio;
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignInScreenController extends GetxController {
   RxBool isLoading = false.obs;
@@ -24,6 +26,14 @@ class SignInScreenController extends GetxController {
   GlobalKey<FormState> signInformKey = GlobalKey<FormState>();
   TextEditingController loginEmailController = TextEditingController();
   TextEditingController loginPasswordController = TextEditingController();
+
+  // FirebaseAuth auth = FirebaseAuth.instance;
+  var googleSignIn = GoogleSignIn();
+  var googleAccount = Rx<GoogleSignInAccount?>(null);
+  var isSignIn = false.obs;
+  var displayName = "";
+  var email = "";
+  var userId = "";
 
   UserPreference userPreference = UserPreference();
   final dioRequest = dio.Dio();
@@ -80,7 +90,7 @@ class SignInScreenController extends GetxController {
         // if (isUserLocationStatus.value == false) {
         //   Get.to(() => LocationScreen());
         // } else {
-          Get.offAll(() => IndexScreen());
+        Get.offAll(() => IndexScreen());
         // }
         log("signInModel.token : ${signInModel.token}");
         loginEmailController.clear();
@@ -169,11 +179,11 @@ class SignInScreenController extends GetxController {
   Future<void> getAddressFromlatLog(Position position) async {
     isLoading(true);
     List<Placemark> placemarks =
-    await placemarkFromCoordinates(position.latitude, position.longitude);
+        await placemarkFromCoordinates(position.latitude, position.longitude);
     log("Placemark $placemarks");
     Placemark place = placemarks[0];
     address.value =
-    '${place.street},${place.name},${place.subLocality},${place.locality},${place.administrativeArea},${place.postalCode}';
+        '${place.street},${place.name},${place.subLocality},${place.locality},${place.administrativeArea},${place.postalCode}';
     log("address.value ${address.value}");
     userPreference.setStringValueInPrefs(
         key: UserPreference.userAddressKey, value: address.toString());
@@ -206,14 +216,124 @@ class SignInScreenController extends GetxController {
     await getAddressFromlatLog(position);
   }
 
+  void signInWithGoogle() async {
+    isLoading(true);
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+    googleSignIn.signOut();
+    final GoogleSignInAccount? googleSignInAccount =
+    await googleSignIn.signIn();
+    if (googleSignInAccount != null){
+      final GoogleSignInAuthentication googleSignInAuthentication =
+      await googleSignInAccount.authentication;
+      final AuthCredential authCredential = GoogleAuthProvider.credential(
+          idToken: googleSignInAuthentication.idToken,
+          accessToken: googleSignInAuthentication.accessToken);
+      UserCredential result = await auth.signInWithCredential(authCredential);
+      if (result != null){
+        googleAccount.value = await googleSignIn.signIn();
+        displayName = googleAccount.value!.displayName!;
+        email = googleAccount.value!.email;
+        userId = googleAccount.value!.id;
+        // String image=googleAccount.value!.photoUrl.toString();
+        await socialMediaApiLoginFunction(email, displayName, userId);
+        isSignIn.value = true;
+      }
+    }
+
+
+    //   try {
+    //   googleAccount.value = await googleSignIn.signIn();
+    //   displayName = googleAccount.value!.displayName!;
+    //   email = googleAccount.value!.email;
+    //   userId = googleAccount.value!.id;
+    //   await socialMediaApiLoginFunction(email, displayName, userId);
+    //   isSignIn.value = true;
+    // } catch (e) {
+    //   log("error : $e");
+    // }
+    isLoading(false);
+  }
+
+  Future<void> socialMediaApiLoginFunction(
+    String email,
+    String userName,
+    String userId,
+  ) async {
+    isLoading(true);
+    String url = ApiUrl.googleLoginApi;
+    log("doodle login url: $url");
+    try {
+      Map<String, dynamic> bodyData = {
+        "name": userName,
+        "email": email,
+        "social_media_id": userId
+      };
+
+      final response = await dioRequest.post(
+        url,
+        data: bodyData,
+      );
+      log('userLoginFunction response :${response.data}');
+      SignInModel signInModel = SignInModel.fromJson(response.data);
+      isSuccessStatus.value = signInModel.success;
+      if (isSuccessStatus.value) {
+        userPreference.setBoolValueInPrefs(
+            key: UserPreference.isUserLoggedInKey, value: true);
+        userPreference.setStringValueInPrefs(
+            key: UserPreference.userIdKey,
+            value: signInModel.data.id.toString());
+        userPreference.setStringValueInPrefs(
+          key: UserPreference.userTokenKey,
+          value: signInModel.token,
+        );
+        userPreference.setStringValueInPrefs(
+          key: UserPreference.userEmailKey,
+          value: signInModel.data.email,
+        );
+        userPreference.setStringValueInPrefs(
+          key: UserPreference.userNameKey,
+          value: signInModel.data.name,
+        );
+        userPreference.setStringValueInPrefs(
+          key: UserPreference.userPhoneKey,
+          value: signInModel.data.phoneno,
+        );
+        userPreference.setStringValueInPrefs(
+          key: UserPreference.userImageKey,
+          value: signInModel.data.image,
+        );
+        // userPreference.setStringValueInPrefs(
+        //   key: UserPreference.userZoneIdKey,
+        //   value: signInModel.data.zoneId.toString(),
+        // );
+        log("signInModel.data.zoneId.toString() ${signInModel.data.zoneId.toString()}");
+        // if (isUserLocationStatus.value == false) {
+        //   Get.to(() => LocationScreen());
+        // } else {
+        Get.offAll(() => IndexScreen());
+        // }
+        log("signInModel.token : ${signInModel.token}");
+        loginEmailController.clear();
+        loginPasswordController.clear();
+      } else {
+        log('userLoginFunction Else');
+        Fluttertoast.showToast(msg: signInModel.error);
+        log("signInModel.error ${signInModel.error}");
+      }
+    } catch (e) {
+      log('userLoginFunction Error :$e');
+      rethrow;
+    }
+  }
+
   Future initMethod() async {
     isUserLocationStatus.value = await userPreference.getBoolFromPrefs(
         key: UserPreference.isUserLocationKey);
     log('isUserLocationStatus.value 33333 : ${isUserLocationStatus.value}');
-    if(isUserLocationStatus.value == false){
+    if (isUserLocationStatus.value == false) {
       handleLocationPermission();
-    }
-    else{
+    } else {
       getCurrentLocation();
     }
   }

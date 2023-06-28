@@ -5,25 +5,26 @@ import '../constants/app_images.dart';
 import '../screens/authentication_screens/sign_in_screen/sign_in_screen.dart';
 import '../utils/user_preferences.dart';
 
-
 class OnboardingScreenController extends GetxController {
   RxBool isLoading = false.obs;
   final size = Get.size;
-   var pageController = PageController();
+  var pageController = PageController();
   var selectedPageIndex = 0.obs;
+
   bool get isLastPage => selectedPageIndex.value == onBoardingPages.length - 1;
   UserPreference userPreference = UserPreference();
 
   List<OnBoardingInfo> onBoardingPages = [];
-    forwardAction() {
-    if (isLastPage) {
-      setOnBoardingValue();
-      //Get.off(() => LoginScreen());
 
-      Get.off(() =>  SignInScreen(),
+  forwardAction() {
+    if (isLastPage) {
+      // setOnBoardingValue();
+      //Get.off(() => LoginScreen());
+      userPreference.setBoolValueInPrefs(
+          key: UserPreference.isUserOnBoardingKey, value: true);
+      Get.off(() => SignInScreen(),
           transition: Transition.native,
-          duration: const Duration(milliseconds: 500)
-      );
+          duration: const Duration(milliseconds: 500));
     } else {
       pageController.nextPage(
         duration: 300.milliseconds,
@@ -31,6 +32,7 @@ class OnboardingScreenController extends GetxController {
       );
     }
   }
+
   goToLoginScreen() => Get.offAll(() => SignInScreen());
 
   setOnBoardingValue() async {
@@ -42,6 +44,7 @@ class OnboardingScreenController extends GetxController {
     // prefs.getBool("setOnBoardingValue");
     // log('Set Value : ${prefs.getBool("setOnBoardingValue")}');
   }
+
   @override
   void onInit() {
     super.onInit();

@@ -1,47 +1,40 @@
 // To parse this JSON data, do
 //
-//     final addFavoriterestaurantModel = addFavoriterestaurantModelFromJson(jsonString);
+//     final addFavoriteRestaurantModel = addFavoriteRestaurantModelFromJson(jsonString);
 
 import 'dart:convert';
 
-AddFavoriterestaurantModel addFavoriterestaurantModelFromJson(String str) =>
-    AddFavoriterestaurantModel.fromJson(json.decode(str));
+AddFavoriteRestaurantModel addFavoriteRestaurantModelFromJson(String str) =>
+    AddFavoriteRestaurantModel.fromJson(json.decode(str));
 
-// String addFavoriterestaurantModelToJson(AddFavoriterestaurantModel data) => json.encode(data.toJson());
-
-class AddFavoriterestaurantModel {
+class AddFavoriteRestaurantModel {
   bool success;
-  AddFavoriterestaurant data;
+  AddFavoriteRestaurant data;
   String message;
 
-  AddFavoriterestaurantModel({
+  AddFavoriteRestaurantModel({
     required this.success,
     required this.data,
     required this.message,
   });
 
-  factory AddFavoriterestaurantModel.fromJson(Map<String, dynamic> json) =>
-      AddFavoriterestaurantModel(
+  factory AddFavoriteRestaurantModel.fromJson(Map<String, dynamic> json) =>
+      AddFavoriteRestaurantModel(
         success: json["success"] ?? false,
-        data: AddFavoriterestaurant.fromJson(json["data"] ?? {}),
+        data: AddFavoriteRestaurant.fromJson(json["data"] ?? {}),
         message: json["message"] ?? "",
       );
-
-  // Map<String, dynamic> toJson() => {
-  //     "success": success,
-  //     "data": data.toJson(),
-  //     "message": message,
-  // };
 }
 
-class AddFavoriterestaurant {
+class AddFavoriteRestaurant {
   String userId;
   String restaurantId;
+
   // DateTime updatedAt;
   // DateTime createdAt;
   int id;
 
-  AddFavoriterestaurant({
+  AddFavoriteRestaurant({
     required this.userId,
     required this.restaurantId,
     // required this.updatedAt,
@@ -49,20 +42,12 @@ class AddFavoriterestaurant {
     required this.id,
   });
 
-  factory AddFavoriterestaurant.fromJson(Map<String, dynamic> json) =>
-      AddFavoriterestaurant(
+  factory AddFavoriteRestaurant.fromJson(Map<String, dynamic> json) =>
+      AddFavoriteRestaurant(
         userId: json["user_id"] ?? "",
         restaurantId: json["restaurant_id"] ?? "",
         // updatedAt: DateTime.parse(json["updated_at"]),
         // createdAt: DateTime.parse(json["created_at"]),
         id: json["id"] ?? 0,
       );
-
-  // Map<String, dynamic> toJson() => {
-  //     "user_id": userId,
-  //     "restaurant_id": restaurantId,
-  //     "updated_at": updatedAt.toIso8601String(),
-  //     "created_at": createdAt.toIso8601String(),
-  //     "id": id,
-  // };
 }

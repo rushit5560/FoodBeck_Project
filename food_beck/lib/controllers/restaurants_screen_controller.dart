@@ -13,13 +13,16 @@ import 'package:dio/dio.dart' as dio;
 class RestaurantsScreenController extends GetxController {
   // Category Id & Cuisine Id same here
   String categoryId = Get.arguments[0] ?? "";
+
   // Category Name & Cuisine Name same here
   String categoryName = Get.arguments[1] ?? "";
-  RestaurantComingFrom restaurantComingFrom = Get.arguments[2] ?? RestaurantComingFrom.category;
+  RestaurantComingFrom restaurantComingFrom =
+      Get.arguments[2] ?? RestaurantComingFrom.category;
 
   RxBool isLoading = false.obs;
   RxBool successStatus = false.obs;
   final dioRequest = dio.Dio();
+  String authorizationToken = "";
 
   List<RestaurantData> allRestaurantList = [];
   List<RestaurantData> vegRestaurantList = [];
@@ -38,11 +41,12 @@ class RestaurantsScreenController extends GetxController {
       final response = await dioRequest.get(url);
       log('getAllRestaurantFunction Response : ${response.data}');
 
-      AllRestaurantModel allRestaurantModel = AllRestaurantModel.fromJson(response.data);
+      AllRestaurantModel allRestaurantModel =
+          AllRestaurantModel.fromJson(response.data);
       successStatus.value = allRestaurantModel.success;
 
       if (successStatus.value) {
-        if(allRestaurantModel.data.isNotEmpty) {
+        if (allRestaurantModel.data.isNotEmpty) {
           allRestaurantList.clear();
           allRestaurantList.addAll(allRestaurantModel.data);
           for (var restaurant in allRestaurantList) {
@@ -69,14 +73,13 @@ class RestaurantsScreenController extends GetxController {
   String getRestaurantsApiUrl() {
     String url = restaurantComingFrom == RestaurantComingFrom.category
         ? "${ApiUrl.getCategoryWiseRestaurantsApi}$zoneId/$categoryId"
-        : restaurantComingFrom == RestaurantComingFrom.cuisines ?
-    "${ApiUrl.getCuisinesRestaurantApi}$zoneId/$categoryId"
-    : restaurantComingFrom == RestaurantComingFrom.popularRestaurants
-    ? "${ApiUrl.getAllPopularRestaurantApi}$zoneId"
-    : restaurantComingFrom == RestaurantComingFrom.newRestaurants
-    ? "${ApiUrl.getNewRestaurantApi}$zoneId"
-    : "";
-
+        : restaurantComingFrom == RestaurantComingFrom.cuisines
+            ? "${ApiUrl.getCuisinesRestaurantApi}$zoneId/$categoryId"
+            : restaurantComingFrom == RestaurantComingFrom.popularRestaurants
+                ? "${ApiUrl.getAllPopularRestaurantApi}$zoneId"
+                : restaurantComingFrom == RestaurantComingFrom.newRestaurants
+                    ? "${ApiUrl.getNewRestaurantApi}$zoneId"
+                    : "";
 
     return url;
   }
@@ -93,7 +96,7 @@ class RestaurantsScreenController extends GetxController {
 
       String finalToken = "Bearer $authorizationToken";
       final response = await dioRequest.post(
-          url,
+        url,
         options: dio.Options(
           headers: {
             "Accept": "application/json",
@@ -101,24 +104,18 @@ class RestaurantsScreenController extends GetxController {
           },
         ),
       );
-      // http.Response response = await http.post(
-      //   Uri.parse(url),
-      //   headers: {
-      //     "Accept": "application/json",
-      //     "Authorization": finalToken,
-      //   },
-      // );
+      log("finalToken $finalToken");
 
       log('addFavoriteRestaurantFunction response : ${response.data}');
-      AddFavoriterestaurantModel addFavoriterestaurantModel =
-          AddFavoriterestaurantModel.fromJson(response.data);
+      AddFavoriteRestaurantModel addFavoriteRestaurantModel =
+      AddFavoriteRestaurantModel.fromJson(response.data);
 
-      successStatus.value = addFavoriterestaurantModel.success;
+      successStatus.value = addFavoriteRestaurantModel.success;
       if (successStatus.value) {
-        Fluttertoast.showToast(msg: addFavoriterestaurantModel.message);
-        // singlerestaurant.isFav = true;
+        Fluttertoast.showToast(msg: addFavoriteRestaurantModel.message);
+        singleRestaurant.isFav = true;
       } else {
-        Fluttertoast.showToast(msg: addFavoriterestaurantModel.message);
+        Fluttertoast.showToast(msg: addFavoriteRestaurantModel.message);
       }
     } catch (e) {
       log("addFavoriteRestaurantFunction catch: $e");
@@ -134,12 +131,42 @@ class RestaurantsScreenController extends GetxController {
   }) async {
     String url = "${ApiUrl.removeFavoriteRestaurantApi}$userid/$restaurantId";
     log("removeFavoriteRestaurantFunction url: $url");
+    // try {
+    //   String finalToken = "Bearer $authorizationToken";
+    //   log("finalToken $finalToken");
+    //   final response = await dioRequest.post(
+    //     url,
+    //     options: dio.Options(
+    //       headers: {
+    //         "Accept": "application/json",
+    //         "Authorization": finalToken,
+    //       },
+    //     ),
+    //   );
+    //
+    //   log("removeFavoriteRestaurantFunction response :  ${response.data}");
+    //
+    //   RemoveFavoriteRestaurantModel removeFavoriterestaurantModel =
+    //       RemoveFavoriteRestaurantModel.fromJson(response.data);
+    //
+    //   successStatus.value = removeFavoriterestaurantModel.success;
+    //   if (successStatus.value) {
+    //     Fluttertoast.showToast(msg: removeFavoriterestaurantModel.message);
+    //     singleRestaurant.isFav = false;
+    //   } else {
+    //     Fluttertoast.showToast(msg: removeFavoriterestaurantModel.message);
+    //   }
+    // } catch (e) {
+    //   log("removeFavoriteRestaurantFunction catch: $e");
+    //   rethrow;
+    // }
+    // isLoading(true);
+    // isLoading(false);
     try {
       String authorizationToken = await userPreference.getAuthorizationToken(
           key: UserPreference.userTokenKey);
-
+log("authorizationToken Bearer $authorizationToken");
       String finalToken = "Bearer $authorizationToken";
-
       final response = await dioRequest.post(
         url,
         options: dio.Options(
@@ -149,25 +176,20 @@ class RestaurantsScreenController extends GetxController {
           },
         ),
       );
-      /*http.Response response = await http.get(Uri.parse(url), headers: {
-        "Accept": "application/json",
-        "Authorization": finalToken,
-      });*/
+      log("finalToken 111 $finalToken");
 
-      log("removeFavoriteRestaurantFunction response :  ${response.data}");
-
-      RemoveFavoriteRestaurantModel removeFavoriterestaurantModel =
-      RemoveFavoriteRestaurantModel.fromJson(response.data);
-
-      successStatus.value = removeFavoriterestaurantModel.success;
-      if (successStatus.value) {
-        Fluttertoast.showToast(msg: removeFavoriterestaurantModel.message);
-        // singlerestaurant.isFav = false;
-      } else {
-        Fluttertoast.showToast(msg: removeFavoriterestaurantModel.message);
-      }
+      // log('addFavoriteRestaurantFunction response : ${response.data}');
+      // RemoveFavoriteRestaurantModel removeFavoriteRestaurantModel =
+      // RemoveFavoriteRestaurantModel.fromJson(response.data);
+      // successStatus.value = removeFavoriteRestaurantModel.success;
+      // if (successStatus.value) {
+      //   Fluttertoast.showToast(msg: removeFavoriteRestaurantModel.message);
+      //   singleRestaurant.isFav = false;
+      // } else {
+      //   Fluttertoast.showToast(msg: removeFavoriteRestaurantModel.message);
+      // }
     } catch (e) {
-      log("removeFavoriteRestaurantFunction catch: $e");
+      log("addFavoriteRestaurantFunction catch: $e");
       rethrow;
     }
     isLoading(true);
@@ -181,8 +203,14 @@ class RestaurantsScreenController extends GetxController {
   }
 
   Future<void> initMethod() async {
-    zoneId = await userPreference.getStringValueFromPrefs(key: UserPreference.userZoneIdKey) ?? "1";
-    userid = await userPreference.getStringValueFromPrefs(key: UserPreference.userIdKey) ?? "1";
+    // authorizationToken = await userPreference.getAuthorizationToken(
+    //     key: UserPreference.userTokenKey);
+    zoneId = await userPreference.getStringValueFromPrefs(
+            key: UserPreference.userZoneIdKey) ??
+        "1";
+    userid = await userPreference.getStringValueFromPrefs(
+            key: UserPreference.userIdKey) ??
+        "1";
     await getRestaurantsFunction();
   }
 }

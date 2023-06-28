@@ -127,8 +127,8 @@ class SearchScreenController extends GetxController {
       );
 
       log('addFavoriteRestaurantFunction response : ${response.body}');
-      AddFavoriterestaurantModel addFavoriteRestaurantModel =
-      AddFavoriterestaurantModel.fromJson(json.decode(response.body));
+      AddFavoriteRestaurantModel addFavoriteRestaurantModel =
+      AddFavoriteRestaurantModel.fromJson(json.decode(response.body));
 
       successStatus.value = addFavoriteRestaurantModel.success;
       if (successStatus.value) {

@@ -3,10 +3,11 @@ import '../utils/user_preferences.dart';
 class ApiUrl {
   static String databaseUrl = "https://foodbeck.omtecweb.com/";
   static String baseUrl = "${databaseUrl}api";
+
   // Images url - Dont touch
   static String bannerImagePathUrl =
       "${databaseUrl}public/assests/banner/compress_img";
-  static String foodImagePathUrl = "${databaseUrl}public/assests/food";
+  static String foodImagePathUrl = "${databaseUrl}public/assests/food/";
   static String categoryImagePathUrl = "${databaseUrl}public/assests/category/";
   static String restaurantImagePathUrl =
       "${databaseUrl}public/assests/restaurant/";
@@ -17,7 +18,7 @@ class ApiUrl {
   static String registerApi = "$baseUrl/register_user";
   static String loginApi = "$baseUrl/login";
   static String profileApi = "$baseUrl/profile/";
-
+  static String googleLoginApi = "$baseUrl/login-with-google";
   static String cmsApi = "$baseUrl/cms/";
 
   static String cartApi = "$baseUrl/cart/";
@@ -26,6 +27,7 @@ class ApiUrl {
   static String getProfileApi = "$baseUrl/profile/";
   static String updateProfileApi = "$baseUrl/update-profile/";
   static String contactus = "$baseUrl/contactus";
+
   //home page api's
   static String bannerApi = "$baseUrl/banner/";
   static String getCategoryApi = "$baseUrl/get-categories";
@@ -59,11 +61,12 @@ class ApiUrl {
 
   //favorite-food
   static String addFavoriteFoodApi = "$baseUrl/add-favorite-food/";
+
   //favorite-Restauran
 
   static String addFavoriteRestaurantApi = "$baseUrl/add-favorite-restaurant/";
-  static String removeFavoriteRestaurantApi = "$baseUrl/remove-favorite-restaurant/";
-
+  static String removeFavoriteRestaurantApi =
+      "$baseUrl/remove-favorite-restaurant/";
 }
 
 UserPreference userPreference = UserPreference();

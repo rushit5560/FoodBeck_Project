@@ -334,5 +334,6 @@ class HomeScreenController extends GetxController {
         key: UserPreference.userAddressKey);
     log("address.value ${address.value}");
     await getBannerFunction();
+    // await getCategoryFunction();
   }
 }

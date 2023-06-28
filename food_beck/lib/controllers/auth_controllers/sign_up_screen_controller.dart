@@ -64,22 +64,6 @@ class SignUpScreenController extends GetxController {
       } else {
         log('getZoneListFunction Else');
       }
-      // http.Response response = await http.get(Uri.parse(url));
-      // log('getZoneListFunction Response :${response.body}');
-      //
-      // ZoneModel zoneModel = ZoneModel.fromJson(json.decode(response.body));
-      // isSuccessStatus.value = zoneModel.success;
-      //
-      // if (isSuccessStatus.value) {
-      //   zoneList.clear();
-      //   if (zoneModel.data.isNotEmpty) {
-      //     zoneList.addAll(zoneModel.data);
-      //     selectedZoneValue = zoneList[0];
-      //   }
-      //   log('selectedZoneValue : ${selectedZoneValue!.name}');
-      // } else {
-      //   log('getZoneListFunction Else');
-      // }
     } catch (e) {
       log('getZoneListFunction Error :$e');
       rethrow;
