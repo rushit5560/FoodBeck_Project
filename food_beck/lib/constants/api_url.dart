@@ -28,6 +28,13 @@ class ApiUrl {
   static String updateProfileApi = "$baseUrl/update-profile/";
   static String contactus = "$baseUrl/contactus";
 
+//Cart
+  static String addToCartApi = "$baseUrl/add-to-cart";
+  static String getCartApi = "$baseUrl/cart/";
+  static String cartUpdate = "$baseUrl/cart-update/";
+  static String deleteWholeCartApi = "$baseUrl/whole-cart-delete";
+  static String deleteItemApi = "$baseUrl/delete-cart-item/";
+
   //home page api's
   static String bannerApi = "$baseUrl/banner/";
   static String getCategoryApi = "$baseUrl/get-categories";

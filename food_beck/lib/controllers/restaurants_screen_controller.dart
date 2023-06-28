@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -9,6 +10,7 @@ import '../models/favorite_screen_model/remove_favorite_restaurant_model.dart';
 import '../models/home_screen_model/all_restaurant_model.dart';
 import '../utils/user_preferences.dart';
 import 'package:dio/dio.dart' as dio;
+import 'package:http/http.dart' as http;
 
 class RestaurantsScreenController extends GetxController {
   // Category Id & Cuisine Id same here
@@ -90,25 +92,23 @@ class RestaurantsScreenController extends GetxController {
   }) async {
     String url = "${ApiUrl.addFavoriteRestaurantApi}$userid/$restaurantId";
     log("addFavoriteRestaurantFunction url: $url");
+    String authorizationToken = await userPreference.getAuthorizationToken(
+        key: UserPreference.userTokenKey);
+
+    String finalToken = "Bearer $authorizationToken";
+    log("finalToken $finalToken");
     try {
-      String authorizationToken = await userPreference.getAuthorizationToken(
-          key: UserPreference.userTokenKey);
-
-      String finalToken = "Bearer $authorizationToken";
-      final response = await dioRequest.post(
-        url,
-        options: dio.Options(
-          headers: {
-            "Accept": "application/json",
-            "Authorization": finalToken,
-          },
-        ),
+      http.Response response = await http.post(
+        Uri.parse(url),
+        headers: {
+          "Accept": "application/json",
+          "Authorization": finalToken,
+        },
       );
-      log("finalToken $finalToken");
-
-      log('addFavoriteRestaurantFunction response : ${response.data}');
+      log('addFavoriteRestaurantFunction response : ${response.body}');
+      var resBody = jsonDecode(response.body);
       AddFavoriteRestaurantModel addFavoriteRestaurantModel =
-      AddFavoriteRestaurantModel.fromJson(response.data);
+          AddFavoriteRestaurantModel.fromJson(resBody);
 
       successStatus.value = addFavoriteRestaurantModel.success;
       if (successStatus.value) {
@@ -117,6 +117,28 @@ class RestaurantsScreenController extends GetxController {
       } else {
         Fluttertoast.showToast(msg: addFavoriteRestaurantModel.message);
       }
+
+      // final response = await dioRequest.post(
+      //   url,
+      //   options: dio.Options(
+      //     headers: {
+      //       "Accept": "application/json",
+      //       "Authorization": finalToken,
+      //     },
+      //   ),
+      // );
+      //
+      // log('addFavoriteRestaurantFunction response : ${response.data}');
+      // AddFavoriteRestaurantModel addFavoriteRestaurantModel =
+      // AddFavoriteRestaurantModel.fromJson(response.data);
+      //
+      // successStatus.value = addFavoriteRestaurantModel.success;
+      // if (successStatus.value) {
+      //   Fluttertoast.showToast(msg: addFavoriteRestaurantModel.message);
+      //   singleRestaurant.isFav = true;
+      // } else {
+      //   Fluttertoast.showToast(msg: addFavoriteRestaurantModel.message);
+      // }
     } catch (e) {
       log("addFavoriteRestaurantFunction catch: $e");
       rethrow;
@@ -131,53 +153,41 @@ class RestaurantsScreenController extends GetxController {
   }) async {
     String url = "${ApiUrl.removeFavoriteRestaurantApi}$userid/$restaurantId";
     log("removeFavoriteRestaurantFunction url: $url");
-    // try {
-    //   String finalToken = "Bearer $authorizationToken";
-    //   log("finalToken $finalToken");
-    //   final response = await dioRequest.post(
-    //     url,
-    //     options: dio.Options(
-    //       headers: {
-    //         "Accept": "application/json",
-    //         "Authorization": finalToken,
-    //       },
-    //     ),
-    //   );
-    //
-    //   log("removeFavoriteRestaurantFunction response :  ${response.data}");
-    //
-    //   RemoveFavoriteRestaurantModel removeFavoriterestaurantModel =
-    //       RemoveFavoriteRestaurantModel.fromJson(response.data);
-    //
-    //   successStatus.value = removeFavoriterestaurantModel.success;
-    //   if (successStatus.value) {
-    //     Fluttertoast.showToast(msg: removeFavoriterestaurantModel.message);
-    //     singleRestaurant.isFav = false;
-    //   } else {
-    //     Fluttertoast.showToast(msg: removeFavoriterestaurantModel.message);
-    //   }
-    // } catch (e) {
-    //   log("removeFavoriteRestaurantFunction catch: $e");
-    //   rethrow;
-    // }
-    // isLoading(true);
-    // isLoading(false);
-    try {
-      String authorizationToken = await userPreference.getAuthorizationToken(
-          key: UserPreference.userTokenKey);
-log("authorizationToken Bearer $authorizationToken");
-      String finalToken = "Bearer $authorizationToken";
-      final response = await dioRequest.post(
-        url,
-        options: dio.Options(
-          headers: {
-            "Accept": "application/json",
-            "Authorization": finalToken,
-          },
-        ),
-      );
-      log("finalToken 111 $finalToken");
+    String authorizationToken = await userPreference.getAuthorizationToken(
+        key: UserPreference.userTokenKey);
 
+    String finalToken = "Bearer $authorizationToken";
+    log("Bearer $authorizationToken");
+    try {
+      http.Response response = await http.get(
+        Uri.parse(url),
+        headers: {
+          "Accept": "application/json",
+          "Authorization": finalToken,
+        },
+      );
+      log('removeFavouriteProductFunction response : ${response.body}');
+      var resBody = jsonDecode(response.body);
+      RemoveFavoriteRestaurantModel removeFavoriteRestaurantModel =
+          RemoveFavoriteRestaurantModel.fromJson(resBody);
+      successStatus.value = removeFavoriteRestaurantModel.success;
+      if (successStatus.value) {
+        Fluttertoast.showToast(msg: removeFavoriteRestaurantModel.message);
+        singleRestaurant.isFav = false;
+      } else {
+        Fluttertoast.showToast(msg: removeFavoriteRestaurantModel.message);
+      }
+      // log("finalToken $finalToken");
+      // final response = await dioRequest.post(
+      //   url,
+      //   options: dio.Options(
+      //     headers: {
+      //       "Accept": "application/json",
+      //       "Authorization": finalToken,
+      //     },
+      //   ),
+      // );
+      //
       // log('addFavoriteRestaurantFunction response : ${response.data}');
       // RemoveFavoriteRestaurantModel removeFavoriteRestaurantModel =
       // RemoveFavoriteRestaurantModel.fromJson(response.data);
@@ -203,8 +213,8 @@ log("authorizationToken Bearer $authorizationToken");
   }
 
   Future<void> initMethod() async {
-    // authorizationToken = await userPreference.getAuthorizationToken(
-    //     key: UserPreference.userTokenKey);
+    authorizationToken = await userPreference.getAuthorizationToken(
+        key: UserPreference.userTokenKey);
     zoneId = await userPreference.getStringValueFromPrefs(
             key: UserPreference.userZoneIdKey) ??
         "1";

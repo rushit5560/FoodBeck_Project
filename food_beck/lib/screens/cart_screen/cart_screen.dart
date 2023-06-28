@@ -8,9 +8,9 @@ import '../../utils/style.dart';
 import 'cart_screen_widgets.dart';
 
 class CartScreen extends StatelessWidget {
-  final Function(bool)? onPressed;
+  // final Function(bool)? onPressed;
 
-  CartScreen({Key? key, this.onPressed}) : super(key: key);
+  CartScreen({Key? key}) : super(key: key);
   final cartScreenController = Get.put(CartScreenController());
 
   @override
@@ -57,6 +57,9 @@ class CartScreen extends StatelessWidget {
             // const SizedBox(width: 10),
             const Spacer(),
             GestureDetector(
+              onTap: () async{
+                await cartScreenController.addToCartFunction();
+              },
               child: Container(
                 decoration: BoxDecoration(
                   color: AppColors.whiteColor,
