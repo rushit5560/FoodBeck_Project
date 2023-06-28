@@ -29,7 +29,7 @@ class SearchbarModule extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(13),
-                    color: Theme.of(context).dividerColor,
+                    color: AppColors.grey100Color,
                   ),
                   child: TextFormField(
                     controller: screenController.searchFieldController,
@@ -41,7 +41,7 @@ class SearchbarModule extends StatelessWidget {
                     decoration: const InputDecoration(
                       contentPadding: EdgeInsets.only(left: 10),
                       border: InputBorder.none,
-                      hintText: 'Find something...',
+                      hintText: 'Search something...',
                     ),
                   ),
                 ).paddingOnly(right: 12),
@@ -50,7 +50,7 @@ class SearchbarModule extends StatelessWidget {
                 //padding: const EdgeInsets.all(1),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
-                  color: Theme.of(context).primaryColor,
+                  color: AppColors.greenColor,
                 ),
                 child: IconButton(
                   onPressed: () {

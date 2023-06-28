@@ -1,5 +1,5 @@
 import 'dart:developer';
-
+import 'package:bottom_sheet/bottom_sheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -11,6 +11,7 @@ import '../../constants/api_url.dart';
 import '../../constants/app_images.dart';
 import '../../controllers/restaurants_details_screen_controller.dart';
 import '../../models/restaurants_details_screen_model/restaurant_food_model.dart';
+import '../../utils/widget/common_button.dart';
 
 class RestaurantLogoAndNameModule extends StatelessWidget {
   RestaurantLogoAndNameModule({Key? key}) : super(key: key);
@@ -210,7 +211,7 @@ class AllFoodShowModule extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      itemCount: /*foodList.length*/15,
+      itemCount: /*foodList.length*/ 15,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       separatorBuilder: (BuildContext context, int index) {
@@ -221,8 +222,7 @@ class AllFoodShowModule extends StatelessWidget {
         String imgUrl = ApiUrl.foodImagePathUrl + foodDetails.image;
         // String imgUrl = "https://thumbs.dreamstime.com/b/wooden-table-food-top-view-cafe-102532611.jpg";
         return GestureDetector(
-          onTap: () {
-          },
+          onTap: () => openFoodBottomSheetModule(foodDetails),
           child: Row(
             children: [
               Stack(
@@ -333,6 +333,171 @@ class AllFoodShowModule extends StatelessWidget {
     );
   }
 
+  void openFoodBottomSheetModule(FoodDetails foodDetails) {
+    /*showModalBottomSheet(
+      context: Get.context!,
+      builder: (BuildContext context) {
+        return
+      },
+    );*/
+    showFlexibleBottomSheet(
+      bottomSheetColor: Colors.transparent,
+      context: Get.context!,
+      duration: const Duration(milliseconds: 500),
+      isExpand: false,
+      minHeight: 0,
+      initHeight: 0.6,
+      maxHeight: 0.6,
+      // decoration: const BoxDecoration(
+      //   // color: Colors.transparent,
+      //   /*borderRadius: BorderRadius.only(
+      //     topRight: Radius.circular(50),
+      //     topLeft: Radius.circular(50),
+      //   ),*/
+      // ),
+      builder: (
+        BuildContext context,
+        ScrollController scrollController,
+        double bottomSheetOffset,
+      ) {
+        String imgUrl = ApiUrl.foodImagePathUrl + foodDetails.image;
+        return ListView(
+          // crossAxisAlignment: CrossAxisAlignment.stretch,
+          shrinkWrap: true,
+          children: [
+            Stack(
+              // alignment: Alignment.center,
+              children: [
+                // Image Module
+                ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(20),
+                      topLeft: Radius.circular(20),
+                  ),
+                  child: Image.network(
+                    imgUrl,
+                    fit: BoxFit.fill,
+                    height: Get.height * 0.30,
+                    width: Get.width,
+                    errorBuilder: (context, obj, st) {
+                      return Image.asset(
+                        AppImages.AppLogo,
+                        fit: BoxFit.cover,
+                      );
+                    },
+                  ),
+                ),
 
+                // Close button
+                Positioned(
+                  right: 10,
+                  top: 10,
+                  child: GestureDetector(
+                    onTap: () => Get.back(),
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors.whiteColor2,
+                      ),
+                      child: const Icon(
+                        Icons.close_rounded,
+                      color: AppColors.blackColor,
+                      ).paddingAll(5),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            // Food Description
+            Container(
+              decoration: const BoxDecoration(color: Colors.white),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Food name
+                            Text(
+                              foodDetails.name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
 
+                            // Food price
+                            Text(
+                              "\$${foodDetails.price}",
+                              maxLines: 4,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontSize: 15,
+                                // fontWeight: FontWeight.bold,
+                              ),
+                            ),
+
+                            Row(
+                              children: [
+                                RatingBar.builder(
+                                  initialRating: 3.5,
+                                  minRating: 1,
+                                  direction: Axis.horizontal,
+                                  allowHalfRating: true,
+                                  ignoreGestures: true,
+                                  itemSize: 12,
+                                  itemCount: 5,
+                                  itemPadding:
+                                  const EdgeInsets.symmetric(horizontal: 1.0),
+                                  itemBuilder: (context, _) => const Icon(
+                                    Icons.star,
+                                    color: Colors.orange,
+                                  ),
+                                  onRatingUpdate: (rating) {
+                                    log("$rating");
+                                  },
+                                ),
+                                const SizedBox(width: 5),
+                                const Text(
+                                  "(3.5)",
+                                  style: TextStyle(fontSize: 10),
+                                ),
+                              ],
+                            ).paddingSymmetric(vertical: 3),
+                          ],
+                        ),
+                      ),
+
+                      CustomButton(
+                        text: 'Add',
+                        onPressed: () {},
+                      ),
+
+                    ],
+                  ),
+                  const SizedBox(height: 5),
+
+                  // Food Description
+                 Text(
+                   foodDetails.description,
+                    maxLines: 6,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 15,
+                      // fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ).paddingSymmetric(horizontal: 5, vertical: 5),
+            ),
+          ],
+        );
+      },
+    );
+  }
 }

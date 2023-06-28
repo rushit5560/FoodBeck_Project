@@ -9,6 +9,7 @@ import '../constants/api_url.dart';
 import '../models/favorite_screen_model/add_favotite_restaurant_model.dart';
 import '../models/favorite_screen_model/remove_favorite_restaurant_model.dart';
 import '../models/search_screen_model/search_model.dart';
+import '../utils/custom_functions.dart';
 import '../utils/user_preferences.dart';
 
 class SearchScreenController extends GetxController {
@@ -24,14 +25,14 @@ class SearchScreenController extends GetxController {
 
   /// Search Button Click
   Future<void> searchButtonClickFunction() async {
-    FocusManager.instance.primaryFocus?.unfocus();
+    hideKeyBoard();
     if (searchFieldController.text.trim().isNotEmpty) {
       await searchFunction();
     }
   }
 
   clearAllList() {
-    FocusManager.instance.primaryFocus?.unfocus();
+    hideKeyBoard();
     foodList.clear();
     restaurantList.clear();
     loadUI();

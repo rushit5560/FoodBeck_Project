@@ -5,3 +5,4 @@ Dart : 3.0.2
 
 Login Details :
 rushit@gmail.com / 12345678
+flutterdemo@gmail.com /  12345678

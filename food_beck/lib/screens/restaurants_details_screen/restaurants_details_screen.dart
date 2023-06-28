@@ -52,7 +52,7 @@ class RestaurantsDetailsScreen extends StatelessWidget {
                         ),
                       ),
                     ).paddingOnly(left: 10),
-                    actions: [
+                    /*actions: [
                       Container(
                         height: 40,
                         width: 40,
@@ -67,7 +67,7 @@ class RestaurantsDetailsScreen extends StatelessWidget {
                           ),
                         ),
                       ).paddingOnly(right: 10),
-                    ],
+                    ],*/
 
                     // bottom: const PreferredSize(
                     //   preferredSize: Size.fromHeight(50.0),
@@ -114,7 +114,9 @@ class RestaurantsDetailsScreen extends StatelessWidget {
                     ),
 
                     Expanded(
-                      child: AllFoodShowModule(
+                      child: restaurantsDetailsScreenController.allFoodList.isEmpty
+                          ? const Center(child: Text('Food not available'))
+                          : AllFoodShowModule(
                         foodList: restaurantsDetailsScreenController.allFoodList,
                       ),
                     ),

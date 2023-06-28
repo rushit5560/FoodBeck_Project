@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../constants/color.dart';
+import '../custom_functions.dart';
 
 
 PreferredSizeWidget commonAppBarModule(
@@ -15,7 +16,7 @@ PreferredSizeWidget commonAppBarModule(
       builder: (BuildContext context) {
         return IconButton(
           onPressed: () {
-            FocusManager.instance.primaryFocus?.unfocus();
+            hideKeyBoard();
             Get.back();
           },
           icon: Icon(
