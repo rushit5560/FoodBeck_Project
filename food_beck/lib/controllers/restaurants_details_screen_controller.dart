@@ -44,7 +44,7 @@ class RestaurantsDetailsScreenController extends GetxController {
   final dioRequest = dio.Dio();
 
   List<FoodData> allFoodList = [];
-  FoodDetails? foodDetails;
+  // FoodDetails? foodDetails;
 
   // List<FoodDetails> vegFoodList = [];
   // List<FoodDetails> nonVegFoodList = [];
