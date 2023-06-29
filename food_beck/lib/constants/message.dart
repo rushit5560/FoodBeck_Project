@@ -32,6 +32,7 @@ class AppMessage {
   static String password = "Enter password";
   static String newPassword = "New Password";
   static String resetPassword = "Reset Password";
+  static String changePassword = "Change Password";
   static String confirmNewPassword = " Confirm New Password";
   static String signUp = "Sign Up";
   static String signUpText = "Please type your information below";
@@ -43,6 +44,9 @@ class AppMessage {
   static String emailOrPhoneNumber = "Enter Email Address";
   static String enterNumber = "Enter Mobile Number";
   static String enterPassword = "Enter Password";
+  static String enterOldPassword = "Enter Old Password";
+  static String enterNewPassword = "Enter New Password";
+  // static String enterConfirmPassword = "Enter New Password";
   static String enterConfirmPassword = "Enter Confirm Password";
   static String userFullName = "Enter full name";
   static String contactNumber = "Contact number";
@@ -69,7 +73,7 @@ class AppMessage {
   static String logOut = "Logout";
   static String yes = "Yes";
   static String no = "No";
-  static String addressHeader = "Addresses.";
+  static String addressHeader = "Address";
   static String addNewAddressHeader = "+ Add New Address";
 
   static String termsAndConditionLabel = "Terms & Condition";
@@ -81,7 +85,7 @@ class AppMessage {
   static String accountInfoLabel = "Account Information";
   static String othersLabel = "Others";
   static String editProfileLabel = "Edit Profile";
-  static String manageAddressesLabel = "Manage Addresses";
+  static String manageAddressesLabel = "Manage Address";
   static String favouriteItemsLabel = "Favourite Items";
   static String notificationLabel = "Notification";
   static String chooseOption = 'Choose Address';
@@ -101,7 +105,7 @@ class AppMessage {
   /// Order Screen Text
   static String ongoingLabel = "Ongoing";
   static String yourOrdersLabel = "Your Orders";
-  static String completeLabel = "Complete";
+  static String completeLabel = "Completed";
   static String noOngoingOrdersLabel = "No ongoing order found.";
   static String noOrdersFoundLabel = "No order found.";
 

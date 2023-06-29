@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:food_beck/screens/your_orders_screen/your_orders_screen.dart';
 import 'package:get/get.dart';
 import '../../common_modules/common_appbar.dart';
 import '../../common_modules/custom_loader.dart';
@@ -7,6 +8,7 @@ import '../../constants/color.dart';
 import '../../constants/message.dart';
 import '../../controllers/profile_screen_controller.dart';
 import '../address_manage_screens/list_address_screen/address_list_screen.dart';
+import '../change_password_screen/change_password_screen.dart';
 import '../cms_page_screen/cms_page_screen.dart';
 import '../favourite_screen/favourite_screen.dart';
 import 'profile_screen_widgets.dart';
@@ -61,9 +63,16 @@ class ProfileScreen extends StatelessWidget {
               title: AppMessage.manageAddressesLabel,
             ).paddingSymmetric(vertical: 5),
 
+            // Change password
+            SettingListTileModule(
+              onTap: () => Get.to(() => ChangePasswordScreen()),
+              leadingImage: AppImages.addresses,
+              title: AppMessage.changePassword,
+            ).paddingSymmetric(vertical: 5),
+
             // Your Orders
             SettingListTileModule(
-              onTap: () {},
+              onTap: () => Get.to(() => YourOrdersScreen()),
               leadingImage: AppImages.orders,
               title: AppMessage.yourOrdersLabel,
             ).paddingSymmetric(vertical: 5),
@@ -78,11 +87,11 @@ class ProfileScreen extends StatelessWidget {
             ).paddingSymmetric(vertical: 5),
 
             // Notification
-            SettingListTileModule(
+            /*SettingListTileModule(
               onTap: () {},
               leadingImage: AppImages.notification,
               title: AppMessage.notificationLabel,
-            ).paddingSymmetric(vertical: 5),
+            ).paddingSymmetric(vertical: 5),*/
 
             // Other Header
             HeaderModule(

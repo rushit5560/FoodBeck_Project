@@ -436,7 +436,7 @@ class TrendingFoodsModule extends StatelessWidget {
                   child: Stack(
                     children: [
                       Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        // mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Container(
                             height: 80,
@@ -480,7 +480,7 @@ class TrendingFoodsModule extends StatelessWidget {
                                 const SizedBox(height: 1),
                                 Text(
                                   singleFood.description,
-                                  maxLines: 2,
+                                  maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(fontSize: 10),
                                 ),

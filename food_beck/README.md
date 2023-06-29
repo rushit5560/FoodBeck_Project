@@ -4,5 +4,5 @@ Flutter : 3.10.2
 Dart : 3.0.2
 
 Login Details :
-rushit@gmail.com / 12345678
-flutterdemo@gmail.com /  12345678
+fdemo@gmail.com / 12345678
+demotest@gmail.com / 12345678

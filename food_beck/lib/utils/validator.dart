@@ -98,18 +98,43 @@ class FieldValidation {
     // String pattern = AppMessage.patternRegX;
     // RegExp regExp = RegExp(pattern);
     if (value.isEmpty) {
-      return AppMessage.pleaseEnterValidPassword;
+      // return AppMessage.pleaseEnterValidPassword;
+      return "Password is required.";
     } else if (value.length < 8) {
       return AppMessage.pleaseEnterValidPasswordLength;
     }
     return null;
   }
 
+  String? validateOldPassword(String value) {
+    // String pattern = AppMessage.patternRegX;
+    // RegExp regExp = RegExp(pattern);
+    if (value.isEmpty) {
+      return "Old password is required.";
+    } else if (value.length < 8) {
+      return AppMessage.pleaseEnterValidPasswordLength;
+    }
+    return null;
+  }
+
+  String? validateNewPassword(String value, String value2) {
+    // String pattern = AppMessage.patternRegX;
+    // RegExp regExp = RegExp(pattern);
+    if (value.isEmpty) {
+      return "New password is required.";
+    } else if (value.length < 8) {
+      return AppMessage.pleaseEnterValidPasswordLength;
+    } else if(value == value2) {
+      return "Old & new password must be different.";
+    }
+    return null;
+  }
+
   String? validateConfirmPassword(String value, String value2) {
     if (value.isEmpty) {
-      return "Confirm password is required";
+      return "Confirm password is required.";
     } else if (value != value2) {
-      return "Password and confirm password both not match";
+      return "Password and confirm password both not match.";
     } else {
       return null;
     }

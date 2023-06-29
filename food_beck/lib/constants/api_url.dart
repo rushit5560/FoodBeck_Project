@@ -32,7 +32,7 @@ class ApiUrl {
   static String addToCartApi = "$baseUrl/add-to-cart";
   static String getCartApi = "$baseUrl/cart/";
   static String cartUpdate = "$baseUrl/cart-update/";
-  static String deleteWholeCartApi = "$baseUrl/whole-cart-delete";
+  static String deleteWholeCartApi = "$baseUrl/whole-cart-delete/";
   static String deleteItemApi = "$baseUrl/delete-cart-item/";
 
   //home page api's
@@ -69,11 +69,16 @@ class ApiUrl {
   //favorite-food
   static String addFavoriteFoodApi = "$baseUrl/add-favorite-food/";
 
-  //favorite-Restauran
-
+  //favorite-Restaurant
   static String addFavoriteRestaurantApi = "$baseUrl/add-favorite-restaurant/";
-  static String removeFavoriteRestaurantApi =
-      "$baseUrl/remove-favorite-restaurant/";
+  static String removeFavoriteRestaurantApi = "$baseUrl/remove-favorite-restaurant/";
+
+  // Change Password & Forgot Password
+  static String changePasswordApi = "$baseUrl/update-password";
+  static String forgotPasswordApi = "$baseUrl/";
+
+  // User Orders
+  static String getUserOrdersApi = "$baseUrl/";
 }
 
 UserPreference userPreference = UserPreference();
