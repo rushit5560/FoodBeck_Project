@@ -26,9 +26,10 @@ class CartScreenController extends GetxController {
   List addressList = [1, 2, 3, 4, 5];
   final dioRequest = dio.Dio();
   RxBool successStatus = false.obs;
-  List<CartData> getCartList = [];
+  List<CartDetail> getCartList = [];
   String authorizationToken = "";
 
+  // CartData? cartData;
   /// get cart
   Future<void> getCartListFunction() async {
     log("getCartFunction");
@@ -56,61 +57,12 @@ class CartScreenController extends GetxController {
       if (successStatus.value) {
         log("successStatus.value ${successStatus.value}");
         getCartList.clear();
-        getCartList.addAll(cartModel.data);
+
+        getCartList.addAll(cartModel.data[0].cartDetails);
       }
       log("getCartList.length ${getCartList.length}");
     } catch (e) {
       log("getCartFunction catch: $e");
-    }
-    isLoading(false);
-  }
-
-  /// add to cart
-  Future<void> addToCartFunction() async {
-    isLoading(true);
-    String url = ApiUrl.addToCartApi;
-    log("addToCartFunction url: $url");
-    String authorizationToken = await userPreference.getAuthorizationToken(
-        key: UserPreference.userTokenKey);
-
-    String finalToken = "Bearer $authorizationToken";
-
-    var request = http.MultipartRequest('POST', Uri.parse(url));
-    try {
-      request.headers['Accept'] = "application/json";
-      request.headers['Authorization'] = finalToken;
-      request.fields['user_id'] = userId;
-      request.fields['restaurant_id'] = "6";
-      request.fields['food_id'] = "1";
-      request.fields['quantity'] = "2";
-      request.fields['subtotal'] = "120";
-      log("request.fields ${request.fields}");
-      var response = await request.send();
-      response.stream
-          .transform(const Utf8Decoder())
-          .transform(const LineSplitter())
-          .listen(
-        (value) async {
-          AddToCartModel addToCartModel =
-              AddToCartModel.fromJson(json.decode(value));
-          successStatus.value = addToCartModel.success;
-          if (successStatus.value) {
-            log("successStatus.value ${successStatus.value}");
-            Fluttertoast.showToast(
-              msg: addToCartModel.message,
-              toastLength: Toast.LENGTH_SHORT,
-            );
-            Get.back();
-          } else {
-            Fluttertoast.showToast(
-              msg: addToCartModel.error,
-              toastLength: Toast.LENGTH_SHORT,
-            );
-          }
-        },
-      );
-    } catch (e) {
-      log("addToCartFunction catch $e");
     }
     isLoading(false);
   }
@@ -163,9 +115,12 @@ class CartScreenController extends GetxController {
   }
 
   /// Delete cart item
-  Future<void> deleteCartItemFunction(String itemId, int index) async {
+  Future<void> deleteCartItemFunction(
+      {required String cartId,
+      required String itemId,
+      required int index}) async {
     isLoading(true);
-    String url = "${ApiUrl.deleteItemApi}$itemId";
+    String url = "${ApiUrl.deleteItemApi}$cartId/$itemId";
     log('deleteCartItemFunction Api Url : $url');
     String authorizationToken = await userPreference.getAuthorizationToken(
         key: UserPreference.userTokenKey);
@@ -205,10 +160,10 @@ class CartScreenController extends GetxController {
   }
 
   /// Delete cart
-  Future<void> deleteCartFunction(String cartId, int index) async {
+  Future<void> deleteWholeCartFunction({required int index}) async {
     isLoading(true);
-    String url = "${ApiUrl.deleteWholeCartApi}$cartId";
-    log('deleteCartFunction Api Url : $url');
+    String url = "${ApiUrl.deleteWholeCartApi}$userId";
+    log('deleteWholeCartFunction Api Url : $url');
     String authorizationToken = await userPreference.getAuthorizationToken(
         key: UserPreference.userTokenKey);
     log("Bearer $authorizationToken");
@@ -224,7 +179,7 @@ class CartScreenController extends GetxController {
           },
         ),
       );
-      log("getCartFunction response.data ${response.data}");
+      log("deleteWholeCartFunction response.data ${response.data}");
 
       CartDeleteModel cartDeleteModel = CartDeleteModel.fromJson(response.data);
       successStatus.value = cartDeleteModel.success;
@@ -235,30 +190,74 @@ class CartScreenController extends GetxController {
         getCartList.removeAt(index);
         // await getUserAddressFUnction();
       } else {
-        log('deleteCartFunction Else');
+        log('deleteWholeCartFunction Else');
+        Fluttertoast.showToast(msg: cartDeleteModel.error);
+
       }
     } catch (e) {
-      log('deleteCartFunction Error :$e');
+      log('deleteWholeCartFunction Error :$e');
       rethrow;
     }
 
     isLoading(false);
   }
 
-  void increment() {
-    qty.value++;
-    subTotalAmount.value = (productPrice * qty.value).toDouble();
-    itemTotalPrice = subTotalAmount.value + itemAddonPrice.value;
-    log("itemTotalPrice $itemTotalPrice");
+  void increment(CartDetail food, int index) {
+    int itemQty = int.parse(food.quantity);
+    itemQty++;
+    food.quantity = itemQty.toString();
+    // qty.value++;
+    // subTotalAmount.value = (productPrice * qty.value).toDouble();
+    // itemTotalPrice = subTotalAmount.value + itemAddonPrice.value;
+    // log("itemTotalPrice $itemTotalPrice");
     loadUI();
   }
 
-  void decrement() {
-    if (qty > 1) {
-      qty.value--;
-      subTotalAmount.value = (productPrice * qty.value).toDouble();
-      itemTotalPrice = subTotalAmount.value + itemAddonPrice.value;
+  Future<void> decrement(CartDetail food, int index) async {
+
+    // If Cart item list length 1 & item qty also 1 that time delete whole cart
+    if(getCartList.length == 1) {
+      if(int.parse(food.quantity) > 1) {
+        // here cart item qty decrement function
+        int itemQty = int.parse(food.quantity);
+        itemQty--;
+        food.quantity = itemQty.toString();
+      } else {
+        await deleteWholeCartFunction(index: index);
+      }
+
     }
+    // if Cart item list length more then 1
+    else {
+      if (int.parse(food.quantity) > 1) {
+        // here cart item qty decrement function
+        int itemQty = int.parse(food.quantity);
+        itemQty--;
+        food.quantity = itemQty.toString();
+      }
+
+      else if (int.parse(food.quantity) < 2) {
+        /// here cart item delete api
+        log("here cart item delete api");
+        await deleteCartItemFunction(
+          index: index,
+          cartId: food.cartId,
+          itemId: food.foodId.toString(),
+        );
+      }
+    }
+
+
+    // else if (getCartList.length == 1 && int.parse(food.quantity) == 1) {
+    //   /// whole cart delete api
+    //   log("whole cart delete api");
+    //   await deleteWholeCartFunction(index: index);
+    // }
+    // if (qty > 1) {
+    //   qty.value--;
+    //   subTotalAmount.value = (productPrice * qty.value).toDouble();
+    //   itemTotalPrice = subTotalAmount.value + itemAddonPrice.value;
+    // }
     loadUI();
   }
 
@@ -274,7 +273,7 @@ class CartScreenController extends GetxController {
     log("userId $userId");
     authorizationToken = await userPreference.getAuthorizationToken(
         key: UserPreference.userTokenKey);
-    // await getCartFunction();
+    await getCartListFunction();
   }
 
   @override

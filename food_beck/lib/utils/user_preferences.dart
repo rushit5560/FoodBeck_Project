@@ -16,8 +16,12 @@ class UserPreference {
   static String userPhoneKey = "userPhoneKey"; // String
   static String userImageKey = "userImageKey"; // String
   static String userAddressKey = "userAddressKey"; //String
+  static String cartRestaurantIdKey = "cartRestaurantIdKey"; //String
+  static String cartIdKey = "cartIdKey"; //String
+
   static String latitudeKey = "latitudeKey";
   static String longitudeKey = "longitudeKey";
+  static String cartIsEmptyKey="cartIsEmptyKey";
 
   // String userProfileImageKey = "userProfileImageKey"; //string
 
@@ -28,7 +32,12 @@ class UserPreference {
     prefs.setBool(isUserLoggedInKey, false);
     prefs.setBool(isUserOnBoardingKey, false);
     prefs.setBool(isUserLocationKey, false);
+    prefs.setBool(cartIsEmptyKey, true);
+
     prefs.setString(userIdKey, '');
+    prefs.setString(cartRestaurantIdKey, '');
+    prefs.setString(cartIdKey, '');
+
     prefs.setString(userZoneIdKey, '');
     prefs.setString(userTokenKey, '');
     prefs.setString(userEmailKey, '');
@@ -76,7 +85,7 @@ class UserPreference {
       {required String key, required String value}) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(key, value);
-    log('Prefs Save Value : ${prefs.getString(key)}');
+    log('Prefs Save Value String: ${prefs.getString(key)}');
   }
 
   // Get String Value From Prefs

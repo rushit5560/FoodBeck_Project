@@ -5,11 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:food_beck/constants/color.dart';
+import 'package:food_beck/screens/authentication_screens/sign_in_screen/sign_in_screen.dart';
 import 'package:get/get.dart';
+import '../../common_modules/custom_alert_dialog.dart';
 import '../../common_modules/discount_label_module.dart';
 import '../../constants/api_url.dart';
 import '../../constants/app_images.dart';
 import '../../controllers/restaurants_details_screen_controller.dart';
+import '../../models/common_models/food_data_model.dart';
 import '../../models/restaurants_details_screen_model/restaurant_food_model.dart';
 import '../../utils/widget/common_button.dart';
 
@@ -203,7 +206,7 @@ class RestaurantRatingModule extends StatelessWidget {
 }
 
 class AllFoodShowModule extends StatelessWidget {
-  List<FoodDetails> foodList;
+  List<FoodData> foodList;
 
   AllFoodShowModule({Key? key, required this.foodList}) : super(key: key);
   final screenController = Get.find<RestaurantsDetailsScreenController>();
@@ -211,14 +214,14 @@ class AllFoodShowModule extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      itemCount: /*foodList.length*/ 15,
+      itemCount: foodList.length,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       separatorBuilder: (BuildContext context, int index) {
         return const Divider(indent: 100, endIndent: 15);
       },
       itemBuilder: (context, i) {
-        FoodDetails foodDetails = foodList[0];
+        FoodData foodDetails = foodList[i];
         String imgUrl = ApiUrl.foodImagePathUrl + foodDetails.image;
         // String imgUrl = "https://thumbs.dreamstime.com/b/wooden-table-food-top-view-cafe-102532611.jpg";
         return GestureDetector(
@@ -320,19 +323,19 @@ class AllFoodShowModule extends StatelessWidget {
                       child: const Icon(CupertinoIcons.heart)),
                   const SizedBox(height: 20),
                   GestureDetector(
-                      onTap: () => openFoodAddonsBottomSheetModule(foodDetails),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: AppColors.greenColor,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: const Text(
-                          'Add',
-                          style: TextStyle(
-                            color: AppColors.whiteColor2,
-                          ),
-                        ).paddingSymmetric(horizontal: 15, vertical: 4),
+                    onTap: () => openFoodAddonsBottomSheetModule(foodDetails),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.greenColor,
+                        borderRadius: BorderRadius.circular(10),
                       ),
+                      child: const Text(
+                        'Add',
+                        style: TextStyle(
+                          color: AppColors.whiteColor2,
+                        ),
+                      ).paddingSymmetric(horizontal: 15, vertical: 4),
+                    ),
                   ),
                 ],
               ),
@@ -343,7 +346,7 @@ class AllFoodShowModule extends StatelessWidget {
     );
   }
 
-  void openFoodDetailsBottomSheetModule(FoodDetails foodDetails) {
+  void openFoodDetailsBottomSheetModule(FoodData foodDetails) {
     showFlexibleBottomSheet(
       bottomSheetColor: Colors.transparent,
       context: Get.context!,
@@ -375,8 +378,8 @@ class AllFoodShowModule extends StatelessWidget {
                 // Image Module
                 ClipRRect(
                   borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(20),
-                      topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                    topLeft: Radius.circular(20),
                   ),
                   child: Image.network(
                     imgUrl,
@@ -405,7 +408,7 @@ class AllFoodShowModule extends StatelessWidget {
                       ),
                       child: const Icon(
                         Icons.close_rounded,
-                      color: AppColors.blackColor,
+                        color: AppColors.blackColor,
                       ).paddingAll(5),
                     ),
                   ),
@@ -456,8 +459,8 @@ class AllFoodShowModule extends StatelessWidget {
                                   ignoreGestures: true,
                                   itemSize: 12,
                                   itemCount: 5,
-                                  itemPadding:
-                                  const EdgeInsets.symmetric(horizontal: 1.0),
+                                  itemPadding: const EdgeInsets.symmetric(
+                                      horizontal: 1.0),
                                   itemBuilder: (context, _) => const Icon(
                                     Icons.star,
                                     color: Colors.orange,
@@ -476,19 +479,18 @@ class AllFoodShowModule extends StatelessWidget {
                           ],
                         ),
                       ),
-
                       CustomButton(
                         text: 'Add',
-                        onPressed: () => openFoodAddonsBottomSheetModule(foodDetails),
+                        onPressed: () =>
+                            openFoodAddonsBottomSheetModule(foodDetails),
                       ),
-
                     ],
                   ),
                   const SizedBox(height: 5),
 
                   // Food Description
-                 Text(
-                   foodDetails.description,
+                  Text(
+                    foodDetails.description,
                     maxLines: 6,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
@@ -505,13 +507,15 @@ class AllFoodShowModule extends StatelessWidget {
     );
   }
 
-  void openFoodAddonsBottomSheetModule(FoodDetails foodDetails) {
+  void openFoodAddonsBottomSheetModule(FoodData foodDetails) {
     showFlexibleBottomSheet(
       context: Get.context!,
       isDismissible: false,
       decoration: const BoxDecoration(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(25),
-          topRight: Radius.circular(25),),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(25),
+          topRight: Radius.circular(25),
+        ),
         color: AppColors.whiteColor2,
       ),
       minHeight: 0,
@@ -520,17 +524,19 @@ class AllFoodShowModule extends StatelessWidget {
       duration: const Duration(milliseconds: 500),
       isExpand: false,
       bottomSheetColor: Colors.transparent,
-      builder: (BuildContext context,
-          ScrollController scrollController,
-          double bottomSheetOffset,
+      builder: (
+        BuildContext context,
+        ScrollController scrollController,
+        double bottomSheetOffset,
       ) {
-
-        RxDouble finalPrice = (double.parse(foodDetails.price) * screenController.itemCount.value).obs;
+        RxDouble finalPrice =
+            (double.parse(foodDetails.price) * screenController.itemCount.value)
+                .obs;
+        // screenController.finalAmount = finalPrice;
 
         return ListView(
           shrinkWrap: true,
           children: [
-
             Row(
               children: [
                 Expanded(
@@ -572,7 +578,6 @@ class AllFoodShowModule extends StatelessWidget {
             Row(
               // mainAxisAlignment: MainAxisAlignment.end,
               children: [
-
                 Expanded(
                   flex: 35,
                   child: Container(
@@ -584,15 +589,17 @@ class AllFoodShowModule extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         GestureDetector(
-                          onTap: () {
-                            if(screenController.itemCount.value > 1) {
-                              screenController.itemCount.value--;
-                              finalPrice.value = double.parse(foodDetails.price) * screenController.itemCount.value;
-                            }
-                          },
+                            onTap: () {
+                              if (screenController.itemCount.value > 1) {
+                                screenController.itemCount.value--;
+                                finalPrice.value =
+                                    double.parse(foodDetails.price) *
+                                        screenController.itemCount.value;
+                              }
+                            },
                             child: const Icon(Icons.remove_rounded)),
                         Obx(
-                          ()=> Text(
+                          () => Text(
                             "${screenController.itemCount.value}",
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
@@ -602,7 +609,9 @@ class AllFoodShowModule extends StatelessWidget {
                         GestureDetector(
                             onTap: () {
                               screenController.itemCount.value++;
-                              finalPrice.value = double.parse(foodDetails.price) * screenController.itemCount.value;
+                              finalPrice.value =
+                                  double.parse(foodDetails.price) *
+                                      screenController.itemCount.value;
                             },
                             child: const Icon(Icons.add_rounded)),
                       ],
@@ -613,18 +622,61 @@ class AllFoodShowModule extends StatelessWidget {
                 Expanded(
                   flex: 65,
                   child: Obx(
-                      ()=> CustomButton(
+                    () => CustomButton(
                       text: "Add Item (\$$finalPrice)",
-                      onPressed: () {
+                      onPressed: () async {
                         ///add to cart api calling
+                        if (screenController.isUserLoggedInKey.value == true) {
+                          log("screenController.isCartInKey.value ${screenController.isCartIsEmptyKey.value}");
+
+                          if (screenController.isCartIsEmptyKey.value ==
+                              false) {
+                            /// cart is not empty
+                            if (foodDetails.restaurantId == screenController.prefCartRestaurantId || screenController.prefCartRestaurantId == "") {
+                              log("else if");
+                              log("foodDetails.restaurantId ${foodDetails.restaurantId}, screenController.cartId ${screenController.prefCartRestaurantId}");
+                              await screenController.addToCartFunction(
+                                foodId: foodDetails.id.toString(),
+                                foodRestaurantId: foodDetails.restaurantId,
+                                quantity: screenController.itemCount.value,
+                                subtotal: double.parse(finalPrice.toString()),
+                              );
+                            } else {
+                              CustomAlertDialog().showAlertDialog(
+                                context: context,
+                                textContent: "textContent",
+                                onYesTap: () async {
+                                  await screenController.addToCartFunction(
+                                    foodId: foodDetails.id.toString(),
+                                    foodRestaurantId: foodDetails.restaurantId,
+                                    quantity: screenController.itemCount.value,
+                                    subtotal:
+                                        double.parse(finalPrice.toString()),
+                                  );
+                                },
+                                onCancelTap: () => Get.back(),
+                              );
+                            }
+                          } else {
+                            /// cart is empty
+
+                            log("screenController.isCartInKey.value 11 ${screenController.isCartIsEmptyKey.value}");
+                            await screenController.addToCartFunction(
+                              foodId: foodDetails.id.toString(),
+                              foodRestaurantId: foodDetails.restaurantId,
+                              quantity: screenController.itemCount.value,
+                              subtotal: double.parse(finalPrice.toString()),
+                            );
+                          }
+                        } else {
+                          Get.to(() => SignInScreen());
+                        }
                       },
                     ),
                   ),
                 ),
-
               ],
             ),
-
           ],
         ).paddingAll(8);
       },

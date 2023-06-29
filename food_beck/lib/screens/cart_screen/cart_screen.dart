@@ -31,7 +31,7 @@ class CartScreen extends StatelessWidget {
                     const SizedBox(height: 10),
                     CouponCodeModule(),
                     const SizedBox(height: 10),
-            SelectAddressModule(),
+                    SelectAddressModule(),
                     const SizedBox(height: 10),
                     PriceTotalModule(),
                   ],
@@ -57,8 +57,8 @@ class CartScreen extends StatelessWidget {
             // const SizedBox(width: 10),
             const Spacer(),
             GestureDetector(
-              onTap: () async{
-                await cartScreenController.cartUpdateFunction();
+              onTap: () async {
+                // await cartScreenController.cartUpdateFunction();
               },
               child: Container(
                 decoration: BoxDecoration(

@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:food_beck/constants/api_url.dart';
 import 'package:food_beck/constants/color.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
@@ -12,8 +15,9 @@ class ListviewBuilderModule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log("cartScreenController.getCartList.length ${cartScreenController.getCartList.length}");
     return ListView.builder(
-        itemCount: 3,
+        itemCount: cartScreenController.getCartList.length,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
@@ -26,24 +30,25 @@ class ListviewBuilderModule extends StatelessWidget {
                 Container(
                   height: 80,
                   width: 80,
-                  decoration: const BoxDecoration(
+                  decoration:  BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage(AppImages.AppLogo),
+                      image: NetworkImage("${ApiUrl.foodImagePathUrl}${cartScreenController.getCartList[index].foods.image}"),
                     ),
                   ),
                 ),
                 const SizedBox(width: 15),
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Hot dog",
+                      cartScreenController.getCartList[index].foods.name,
                       style: TextStyleConfig.textStyle(
                         fontSize: 13.sp,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
-                      "\$ 150.00",
+                      "\$ ${cartScreenController.getCartList[index].foods.price}",
                       style: TextStyleConfig.textStyle(
                         fontSize: 11.sp,
                       ),
@@ -52,8 +57,8 @@ class ListviewBuilderModule extends StatelessWidget {
                 ),
                 const Spacer(),
                 GestureDetector(
-                  onTap: () {
-                    cartScreenController.decrement();
+                  onTap: () async {
+                    await cartScreenController.decrement(cartScreenController.getCartList[index], index);
                   },
                   child: Container(
                     height: 35,
@@ -71,19 +76,20 @@ class ListviewBuilderModule extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 5),
-                Obx(
-                  () => Text(
-                    cartScreenController.qty.toString(),
+                // Obx(
+                //   () =>
+                      Text(
+                      cartScreenController.getCartList[index].quantity,
                     style: TextStyleConfig.textStyle(
                       fontSize: 14.sp,
                       textColor: AppColors.blackColor,
                     ),
                   ),
-                ),
+                // ),
                 const SizedBox(width: 5),
                 GestureDetector(
                   onTap: () {
-                    cartScreenController.increment();
+                    cartScreenController.increment(cartScreenController.getCartList[index], index);
                   },
                   child: Container(
                     height: 35,
@@ -337,9 +343,7 @@ class SelectAddressModule extends StatelessWidget {
           itemCount: cartScreenController.offersList.length,
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, i) {
-
-          },
+          itemBuilder: (context, i) {},
         ),
       ],
     );

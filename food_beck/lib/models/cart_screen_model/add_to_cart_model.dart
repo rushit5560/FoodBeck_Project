@@ -9,13 +9,13 @@ AddToCartModel addToCartModelFromJson(String str) =>
 
 class AddToCartModel {
   bool success;
-  AddCartData data;
+  AddCartData? data;
   String message;
   String error;
 
   AddToCartModel({
     required this.success,
-    required this.data,
+     this.data,
     required this.message,
     required this.error,
   });
@@ -29,12 +29,12 @@ class AddToCartModel {
 }
 
 class AddCartData {
-  Cart cart;
-  CartDetails cartDetails;
+  Cart? cart;
+  CartDetails? cartDetails;
 
   AddCartData({
-    required this.cart,
-    required this.cartDetails,
+     this.cart,
+     this.cartDetails,
   });
 
   factory AddCartData.fromJson(Map<String, dynamic> json) => AddCartData(
@@ -44,20 +44,20 @@ class AddCartData {
 }
 
 class Cart {
-  String userId;
-  String restaurantId;
+  String? userId;
+  String? restaurantId;
 
   // dynamic couponId;
   // DateTime updatedAt;
   // DateTime createdAt;
-  int id;
+  int? id;
 
   Cart({
-    required this.userId,
-    required this.restaurantId,
+     this.userId,
+     this.restaurantId,
     // this.couponId,
     // required this.updatedAt,
-    // required this.createdAt,
+    //  this.createdAt,
     required this.id,
   });
 
@@ -72,23 +72,23 @@ class Cart {
 }
 
 class CartDetails {
-  int cartId;
-  String foodId;
-  String quantity;
-  String subtotal;
+  int? cartId;
+  String? foodId;
+  String? quantity;
+  String? subtotal;
 
   // DateTime updatedAt;
   // DateTime createdAt;
-  int id;
+  int? id;
 
   CartDetails({
-    required this.cartId,
-    required this.foodId,
-    required this.quantity,
-    required this.subtotal,
+     this.cartId,
+     this.foodId,
+     this.quantity,
+     this.subtotal,
     // required this.updatedAt,
     // required this.createdAt,
-    required this.id,
+     this.id,
   });
 
   factory CartDetails.fromJson(Map<String, dynamic> json) => CartDetails(
