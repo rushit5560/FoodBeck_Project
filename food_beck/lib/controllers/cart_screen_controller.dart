@@ -15,7 +15,8 @@ class CartScreenController extends GetxController {
   RxInt qty = 1.obs;
   RxBool isLoading = false.obs;
   RxDouble subTotalAmount = 0.0.obs;
-  int productPrice = 0;
+
+  // int productPrice = 0;
   String userId = "";
   String foodId = "1";
   double? itemTotalPrice;
@@ -29,6 +30,8 @@ class CartScreenController extends GetxController {
   List<CartDetail> getCartList = [];
   String authorizationToken = "";
   String cartId = "";
+  RxInt cartSubTotalAmount = 0.obs;
+  RxInt cartTotalItems = 0.obs;
 
   // CartData? cartData;
   /// get cart
@@ -56,10 +59,25 @@ class CartScreenController extends GetxController {
       CartModel cartModel = CartModel.fromJson(response.data);
       successStatus.value = cartModel.success;
       if (successStatus.value) {
-        log("successStatus.value ${successStatus.value}");
         getCartList.clear();
 
         getCartList.addAll(cartModel.data[0].cartDetails);
+
+        cartSubTotalAmount = 0.obs;
+        cartTotalItems = 0.obs;
+
+        for (int i = 0; i < getCartList.length; i++) {
+          log("11");
+          RegExp regex = RegExp(r'([.]*0)(?!.*\d)');
+          int price = int.parse(getCartList[i].foods.price.replaceAll(regex, '.'));
+          log("price $price");
+          int qty = int.parse(getCartList[i].quantity);
+          log("qty $qty");
+            cartSubTotalAmount = cartSubTotalAmount + (price * qty);
+          log("cartSubTotalAmount $cartSubTotalAmount");
+          cartTotalItems=cartTotalItems+qty;
+          log("cartTotalItems $cartTotalItems");
+        }
       }
       log("getCartList.length ${getCartList.length}");
     } catch (e) {
@@ -207,11 +225,14 @@ class CartScreenController extends GetxController {
     itemQty++;
     food.quantity = itemQty.toString();
     log("food.quantity ${food.quantity}");
-    // subTotalAmount.value=()
-    // qty.value++;
-    // subTotalAmount.value = (productPrice * qty.value).toDouble();
-    // itemTotalPrice = subTotalAmount.value + itemAddonPrice.value;
+
+    double itemTotal = double.parse(food.subtotal);
+    log("itemTotal $itemTotal");
+    subTotalAmount.value = (itemTotal * itemQty);
+    log("subTotalAmount.value ${subTotalAmount.value}");
+    // itemTotalPrice=subTotalAmount.value+itemAddonPrice.value;
     // log("itemTotalPrice $itemTotalPrice");
+
     loadUI();
   }
 
@@ -222,7 +243,14 @@ class CartScreenController extends GetxController {
         // here cart item qty decrement function
         int itemQty = int.parse(food.quantity);
         itemQty--;
+
         food.quantity = itemQty.toString();
+        double itemTotal = double.parse(food.subtotal);
+        log("itemTotal $itemTotal");
+        subTotalAmount.value = (itemTotal * itemQty);
+        log("subTotalAmount.value ${subTotalAmount.value}");
+        // itemTotalPrice=subTotalAmount.value+itemAddonPrice.value;
+        // log("itemTotalPrice $itemTotalPrice");
       } else {
         await deleteWholeCartFunction(index: index);
       }
@@ -234,6 +262,12 @@ class CartScreenController extends GetxController {
         int itemQty = int.parse(food.quantity);
         itemQty--;
         food.quantity = itemQty.toString();
+        double itemTotal = double.parse(food.subtotal);
+        log("itemTotal $itemTotal");
+        subTotalAmount.value = (itemTotal * itemQty);
+        log("subTotalAmount.value ${subTotalAmount.value}");
+        // itemTotalPrice=subTotalAmount.value+itemAddonPrice.value;
+        // log("itemTotalPrice $itemTotalPrice");
       } else if (int.parse(food.quantity) < 2) {
         /// here cart item delete api
         log("here cart item delete api");

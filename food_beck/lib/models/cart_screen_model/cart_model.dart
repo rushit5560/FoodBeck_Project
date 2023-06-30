@@ -19,8 +19,8 @@ class CartModel {
 
   factory CartModel.fromJson(Map<String, dynamic> json) => CartModel(
         success: json["success"],
-        data:
-            List<CartData>.from(json["data"].map((x) => CartData.fromJson(x))),
+        data: List<CartData>.from(
+            (json["data"] ?? []).map((x) => CartData.fromJson(x)) ?? {}),
         message: json["message"],
       );
 }
@@ -60,8 +60,7 @@ class CartData {
         // createdAt: DateTime.parse(json["created_at"]),
         // updatedAt: DateTime.parse(json["updated_at"]),
         cartDetails: List<CartDetail>.from(
-            (json["cart_details"] ?? []).map((x) => CartDetail.fromJson(x)) ??
-                {}),
+            (json["cart_details"] ?? []).map((x) => CartDetail.fromJson(x)) ?? {}),
       );
 }
 
@@ -95,7 +94,7 @@ class CartDetail {
         subtotal: json["subtotal"] ?? "",
         // createdAt: DateTime.parse(json["created_at"]),
         // updatedAt: DateTime.parse(json["updated_at"]),
-        foods: Foods.fromJson((json["foods"]) ?? {}),
+        foods: Foods.fromJson(json["foods"]),
       );
 }
 
@@ -106,14 +105,15 @@ class Foods {
   String image;
   String categoryId;
   String subcategoryId;
-  String variations;
-  String addOns;
+  // String variations;
+  // String addOns;
   String price;
   String discount;
   String discountType;
   String availableTimeStarts;
   String availableTimeEnds;
   String veg;
+
   // dynamic calories;
   String minimumorderquantity;
   String totalallowedquantity;
@@ -136,8 +136,8 @@ class Foods {
     required this.image,
     required this.categoryId,
     required this.subcategoryId,
-    required this.variations,
-    required this.addOns,
+    // required this.variations,
+    // required this.addOns,
     required this.price,
     required this.discount,
     required this.discountType,
@@ -166,8 +166,8 @@ class Foods {
         image: json["image"] ?? "",
         categoryId: json["category_id"] ?? "",
         subcategoryId: json["subcategory_id"] ?? "",
-        variations: json["variations"] ?? "",
-        addOns: json["add_ons"] ?? "",
+        // variations: json["variations"] ?? "",
+        // addOns: json["add_ons"] ?? "",
         price: json["price"] ?? "",
         discount: json["discount"] ?? "",
         discountType: json["discount_type"] ?? "",

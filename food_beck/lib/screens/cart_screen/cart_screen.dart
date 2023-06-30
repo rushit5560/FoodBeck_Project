@@ -49,10 +49,12 @@ class CartScreen extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Text(
-              "\$ 150",
-              style: TextStyleConfig.textStyle(
-                  textColor: AppColors.whiteColor2, fontSize: 12.sp),
+            Obx(()=>
+              Text(
+                "\$ ${cartScreenController.cartSubTotalAmount}",
+                style: TextStyleConfig.textStyle(
+                    textColor: AppColors.whiteColor2, fontSize: 12.sp),
+              ),
             ),
             // const SizedBox(width: 10),
             const Spacer(),
