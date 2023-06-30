@@ -246,7 +246,7 @@ class RestaurantsDetailsScreenController extends GetxController {
       required String subTotal}) async {
     isLoading(true);
 
-    String url = "${ApiUrl.cartUpdate}$cartId/$foodId"; //cartId/foodId
+    String url = "${ApiUrl.cartUpdate}$cartId"; //cartId/foodId
     log("cartUpdateFunction url: $url");
     String authorizationToken = await userPreference.getAuthorizationToken(
         key: UserPreference.userTokenKey);
@@ -325,5 +325,10 @@ class RestaurantsDetailsScreenController extends GetxController {
   void onInit() {
     initMethod();
     super.onInit();
+  }
+
+  loadUI() {
+    isLoading(true);
+    isLoading(false);
   }
 }

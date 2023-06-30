@@ -4,8 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:food_beck/common_modules/custom_loader.dart';
 import 'package:food_beck/constants/color.dart';
 import 'package:food_beck/screens/authentication_screens/sign_in_screen/sign_in_screen.dart';
+import 'package:food_beck/utils/style.dart';
 import 'package:get/get.dart';
 import '../../common_modules/custom_alert_dialog.dart';
 import '../../common_modules/discount_label_module.dart';
@@ -205,23 +207,29 @@ class RestaurantRatingModule extends StatelessWidget {
   }
 }
 
-class AllFoodShowModule extends StatelessWidget {
+class AllFoodShowModule extends StatefulWidget {
   List<FoodData> foodList;
 
   AllFoodShowModule({Key? key, required this.foodList}) : super(key: key);
+
+  @override
+  State<AllFoodShowModule> createState() => _AllFoodShowModuleState();
+}
+
+class _AllFoodShowModuleState extends State<AllFoodShowModule> {
   final screenController = Get.find<RestaurantsDetailsScreenController>();
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      itemCount: foodList.length,
+      itemCount: widget.foodList.length,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       separatorBuilder: (BuildContext context, int index) {
         return const Divider(indent: 100, endIndent: 15);
       },
       itemBuilder: (context, i) {
-        FoodData foodDetails = foodList[i];
+        FoodData foodDetails = widget.foodList[i];
         String imgUrl = ApiUrl.foodImagePathUrl + foodDetails.image;
         // String imgUrl = "https://thumbs.dreamstime.com/b/wooden-table-food-top-view-cafe-102532611.jpg";
         return GestureDetector(
@@ -507,8 +515,239 @@ class AllFoodShowModule extends StatelessWidget {
     );
   }
 
-  void openFoodAddonsBottomSheetModule(FoodData foodDetails) {
-    showFlexibleBottomSheet(
+  openFoodAddonsBottomSheetModule(FoodData foodDetails) {
+
+    return showModalBottomSheet(
+        context: Get.context!,
+      isDismissible: false,
+      builder: (context) {
+        RxDouble finalPrice = (double.parse(foodDetails.price) * screenController.itemCount.value).obs;
+        return StatefulBuilder(
+            builder: (BuildContext context, StateSetter state2) {
+              return Obx(
+                    ()=> screenController.isLoading.value
+                    ? const CustomLoader()
+                    : ListView(
+                  shrinkWrap: true,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            foodDetails.name,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+
+                        // Close button
+                        GestureDetector(
+                          onTap: () {
+                            Get.back();
+                            screenController.itemCount.value = 1;
+                          },
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: AppColors.whiteColor2,
+                            ),
+                            child: const Icon(
+                              Icons.close_rounded,
+                              color: AppColors.blackColor,
+                            ).paddingAll(5),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Divider(indent: 10, endIndent: 10),
+
+                    ListView.builder(
+                      itemCount: foodDetails.variations.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, i) {
+                        Variation variation = foodDetails.variations[i];
+                        String selectedVariation = variation.values[0].optionPrice;
+
+                        return Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                variation.name,
+                                style: TextStyleConfig.textStyle(
+                                  textColor: AppColors.blackColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const Divider(),
+                              ListView.builder(
+                                itemCount: variation.values.length,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, j) {
+                                  VariationValue variationValue = variation.values[j];
+                                  return Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            variationValue.label,
+                                            style: TextStyleConfig.textStyle(
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "\$${variationValue.optionPrice}",
+                                              style: TextStyleConfig.textStyle(
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                            Radio(
+                                              value: variationValue.optionPrice,
+                                              groupValue: selectedVariation,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  state2((){
+                                                    selectedVariation = value!;
+                                                    log('selectedVariation :$selectedVariation');
+                                                    screenController.loadUI();
+                                                  });
+                                                });
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      ]
+                                  ).paddingSymmetric(horizontal: 10);
+                                },
+                              ),
+
+                            ],
+                          ).paddingAll(5),
+                        ).paddingOnly(bottom: 5);
+                      },
+                    ),
+
+                    Row(
+                      // mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Expanded(
+                          flex: 35,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                GestureDetector(
+                                    onTap: () {
+                                      if (screenController.itemCount.value > 1) {
+                                        screenController.itemCount.value--;
+                                        finalPrice.value =
+                                            double.parse(foodDetails.price) *
+                                                screenController.itemCount.value;
+                                      }
+                                    },
+                                    child: const Icon(Icons.remove_rounded)),
+                                Obx(
+                                      () => Text(
+                                    "${screenController.itemCount.value}",
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                    onTap: () {
+                                      screenController.itemCount.value++;
+                                      finalPrice.value =
+                                          double.parse(foodDetails.price) *
+                                              screenController.itemCount.value;
+                                    },
+                                    child: const Icon(Icons.add_rounded)),
+                              ],
+                            ).paddingSymmetric(vertical: 5),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          flex: 65,
+                          child: Obx(
+                                () => CustomButton(
+                              text: "Add Item (\$$finalPrice)",
+                              onPressed: () async {
+                                ///add to cart api calling
+                                if (screenController.isUserLoggedInKey.value == true) {
+                                  log("screenController.isCartInKey.value ${screenController.isCartIsEmptyKey.value}");
+
+                                  if (screenController.isCartIsEmptyKey.value ==
+                                      false) {
+                                    /// cart is not empty
+                                    if (foodDetails.restaurantId == screenController.prefCartRestaurantId || screenController.prefCartRestaurantId == "") {
+                                      log("else if");
+                                      log("foodDetails.restaurantId ${foodDetails.restaurantId}, screenController.cartId ${screenController.prefCartRestaurantId}");
+                                      await screenController.addToCartFunction(
+                                        foodId: foodDetails.id.toString(),
+                                        foodRestaurantId: foodDetails.restaurantId,
+                                        quantity: screenController.itemCount.value,
+                                        subtotal: double.parse(finalPrice.toString()),
+                                      );
+                                    } else {
+                                      CustomAlertDialog().showAlertDialog(
+                                        context: context,
+                                        textContent: "textContent",
+                                        onYesTap: () async {
+                                          await screenController.addToCartFunction(
+                                            foodId: foodDetails.id.toString(),
+                                            foodRestaurantId: foodDetails.restaurantId,
+                                            quantity: screenController.itemCount.value,
+                                            subtotal:
+                                            double.parse(finalPrice.toString()),
+                                          );
+                                        },
+                                        onCancelTap: () => Get.back(),
+                                      );
+                                    }
+                                  } else {
+                                    /// cart is empty
+
+                                    log("screenController.isCartInKey.value 11 ${screenController.isCartIsEmptyKey.value}");
+                                    await screenController.addToCartFunction(
+                                      foodId: foodDetails.id.toString(),
+                                      foodRestaurantId: foodDetails.restaurantId,
+                                      quantity: screenController.itemCount.value,
+                                      subtotal: double.parse(finalPrice.toString()),
+                                    );
+                                  }
+                                } else {
+                                  Get.to(() => SignInScreen());
+                                }
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ).paddingAll(8),
+              );
+            });
+      },
+    );
+
+    return showFlexibleBottomSheet(
       context: Get.context!,
       isDismissible: false,
       decoration: const BoxDecoration(
@@ -529,156 +768,446 @@ class AllFoodShowModule extends StatelessWidget {
         ScrollController scrollController,
         double bottomSheetOffset,
       ) {
-        RxDouble finalPrice =
-            (double.parse(foodDetails.price) * screenController.itemCount.value)
-                .obs;
+        RxDouble finalPrice = (double.parse(foodDetails.price) * screenController.itemCount.value).obs;
         // screenController.finalAmount = finalPrice;
 
-        return ListView(
-          shrinkWrap: true,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    foodDetails.name,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-
-                // Close button
-                GestureDetector(
-                  onTap: () {
-                    Get.back();
-                    screenController.itemCount.value = 1;
-                  },
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: AppColors.whiteColor2,
-                    ),
-                    child: const Icon(
-                      Icons.close_rounded,
-                      color: AppColors.blackColor,
-                    ).paddingAll(5),
-                  ),
-                ),
-              ],
-            ),
-
-            const Divider(indent: 10, endIndent: 10),
-
-            // const Spacer(),
-
-            Row(
-              // mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Expanded(
-                  flex: 35,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        return StatefulBuilder(
+            builder: (BuildContext context, StateSetter state2) {
+              return Obx(
+                    ()=> screenController.isLoading.value
+                    ? const CustomLoader()
+                    : ListView(
+                  shrinkWrap: true,
+                  children: [
+                    Row(
                       children: [
-                        GestureDetector(
-                            onTap: () {
-                              if (screenController.itemCount.value > 1) {
-                                screenController.itemCount.value--;
-                                finalPrice.value =
-                                    double.parse(foodDetails.price) *
-                                        screenController.itemCount.value;
-                              }
-                            },
-                            child: const Icon(Icons.remove_rounded)),
-                        Obx(
-                          () => Text(
-                            "${screenController.itemCount.value}",
+                        Expanded(
+                          child: Text(
+                            foodDetails.name,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                             style: const TextStyle(
+                              fontSize: 15,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
-                        GestureDetector(
-                            onTap: () {
-                              screenController.itemCount.value++;
-                              finalPrice.value =
-                                  double.parse(foodDetails.price) *
-                                      screenController.itemCount.value;
-                            },
-                            child: const Icon(Icons.add_rounded)),
-                      ],
-                    ).paddingSymmetric(vertical: 5),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  flex: 65,
-                  child: Obx(
-                    () => CustomButton(
-                      text: "Add Item (\$$finalPrice)",
-                      onPressed: () async {
-                        ///add to cart api calling
-                        if (screenController.isUserLoggedInKey.value == true) {
-                          log("screenController.isCartInKey.value ${screenController.isCartIsEmptyKey.value}");
 
-                          if (screenController.isCartIsEmptyKey.value ==
-                              false) {
-                            /// cart is not empty
-                            if (foodDetails.restaurantId == screenController.prefCartRestaurantId || screenController.prefCartRestaurantId == "") {
-                              log("else if");
-                              log("foodDetails.restaurantId ${foodDetails.restaurantId}, screenController.cartId ${screenController.prefCartRestaurantId}");
+                        // Close button
+                        GestureDetector(
+                          onTap: () {
+                            Get.back();
+                            screenController.itemCount.value = 1;
+                          },
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: AppColors.whiteColor2,
+                            ),
+                            child: const Icon(
+                              Icons.close_rounded,
+                              color: AppColors.blackColor,
+                            ).paddingAll(5),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Divider(indent: 10, endIndent: 10),
+
+                    ListView.builder(
+                      itemCount: foodDetails.variations.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, i) {
+                        Variation variation = foodDetails.variations[i];
+                        String selectedVariation = variation.values[0].optionPrice;
+
+                        return Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                variation.name,
+                                style: TextStyleConfig.textStyle(
+                                  textColor: AppColors.blackColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const Divider(),
+                              ListView.builder(
+                                itemCount: variation.values.length,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, j) {
+                                  VariationValue variationValue = variation.values[j];
+                                  return Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            variationValue.label,
+                                            style: TextStyleConfig.textStyle(
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              "\$${variationValue.optionPrice}",
+                                              style: TextStyleConfig.textStyle(
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                            Radio(
+                                              value: variationValue.optionPrice,
+                                              groupValue: selectedVariation,
+                                              onChanged: (value) {
+                                                  setState(() {
+                                                    state2((){
+                                                      selectedVariation = value!;
+                                                      log('selectedVariation :$selectedVariation');
+                                                      screenController.loadUI();
+                                                  });
+                                                });
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      ]
+                                  ).paddingSymmetric(horizontal: 10);
+                                },
+                              ),
+
+                            ],
+                          ).paddingAll(5),
+                        ).paddingOnly(bottom: 5);
+                      },
+                    ),
+
+                    Row(
+                      // mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Expanded(
+                          flex: 35,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                GestureDetector(
+                                    onTap: () {
+                                      if (screenController.itemCount.value > 1) {
+                                        screenController.itemCount.value--;
+                                        finalPrice.value =
+                                            double.parse(foodDetails.price) *
+                                                screenController.itemCount.value;
+                                      }
+                                    },
+                                    child: const Icon(Icons.remove_rounded)),
+                                Obx(
+                                      () => Text(
+                                    "${screenController.itemCount.value}",
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                    onTap: () {
+                                      screenController.itemCount.value++;
+                                      finalPrice.value =
+                                          double.parse(foodDetails.price) *
+                                              screenController.itemCount.value;
+                                    },
+                                    child: const Icon(Icons.add_rounded)),
+                              ],
+                            ).paddingSymmetric(vertical: 5),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          flex: 65,
+                          child: Obx(
+                                () => CustomButton(
+                              text: "Add Item (\$$finalPrice)",
+                              onPressed: () async {
+                                ///add to cart api calling
+                                if (screenController.isUserLoggedInKey.value == true) {
+                                  log("screenController.isCartInKey.value ${screenController.isCartIsEmptyKey.value}");
+
+                                  if (screenController.isCartIsEmptyKey.value ==
+                                      false) {
+                                    /// cart is not empty
+                                    if (foodDetails.restaurantId == screenController.prefCartRestaurantId || screenController.prefCartRestaurantId == "") {
+                                      log("else if");
+                                      log("foodDetails.restaurantId ${foodDetails.restaurantId}, screenController.cartId ${screenController.prefCartRestaurantId}");
+                                      await screenController.addToCartFunction(
+                                        foodId: foodDetails.id.toString(),
+                                        foodRestaurantId: foodDetails.restaurantId,
+                                        quantity: screenController.itemCount.value,
+                                        subtotal: double.parse(finalPrice.toString()),
+                                      );
+                                    } else {
+                                      CustomAlertDialog().showAlertDialog(
+                                        context: context,
+                                        textContent: "textContent",
+                                        onYesTap: () async {
+                                          await screenController.addToCartFunction(
+                                            foodId: foodDetails.id.toString(),
+                                            foodRestaurantId: foodDetails.restaurantId,
+                                            quantity: screenController.itemCount.value,
+                                            subtotal:
+                                            double.parse(finalPrice.toString()),
+                                          );
+                                        },
+                                        onCancelTap: () => Get.back(),
+                                      );
+                                    }
+                                  } else {
+                                    /// cart is empty
+
+                                    log("screenController.isCartInKey.value 11 ${screenController.isCartIsEmptyKey.value}");
+                                    await screenController.addToCartFunction(
+                                      foodId: foodDetails.id.toString(),
+                                      foodRestaurantId: foodDetails.restaurantId,
+                                      quantity: screenController.itemCount.value,
+                                      subtotal: double.parse(finalPrice.toString()),
+                                    );
+                                  }
+                                } else {
+                                  Get.to(() => SignInScreen());
+                                }
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ).paddingAll(8),
+              );
+            });
+
+        /*return Obx(
+          ()=> screenController.isLoading.value
+          ? const CustomLoader()
+          : ListView(
+            shrinkWrap: true,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      foodDetails.name,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+
+                  // Close button
+                  GestureDetector(
+                    onTap: () {
+                      Get.back();
+                      screenController.itemCount.value = 1;
+                    },
+                    child: Container(
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors.whiteColor2,
+                      ),
+                      child: const Icon(
+                        Icons.close_rounded,
+                        color: AppColors.blackColor,
+                      ).paddingAll(5),
+                    ),
+                  ),
+                ],
+              ),
+              const Divider(indent: 10, endIndent: 10),
+
+              ListView.builder(
+                itemCount: foodDetails.variations.length,
+                shrinkWrap: true,
+                itemBuilder: (context, i) {
+                  Variation variation = foodDetails.variations[i];
+                  String selectedVariation = variation.values[0].optionPrice;
+                  return Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          variation.name,
+                          style: TextStyleConfig.textStyle(
+                            textColor: AppColors.blackColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const Divider(),
+                        ListView.builder(
+                          itemCount: variation.values.length,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, j) {
+                            VariationValue variationValue = variation.values[j];
+                            return Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    variationValue.label,
+                                    style: TextStyleConfig.textStyle(
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ),
+                                Row(
+                                children: [
+                                  Text(
+                                    "\$${variationValue.optionPrice}",
+                                    style: TextStyleConfig.textStyle(
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  Radio(
+                                    value: variationValue.optionPrice,
+                                    groupValue: selectedVariation,
+                                    onChanged: (value) {
+                                      selectedVariation = value!;
+                                      log('selectedVariation :$selectedVariation');
+                                      screenController.loadUI();
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ]
+                            ).paddingSymmetric(horizontal: 10);
+                          },
+                        ),
+
+                      ],
+                    ).paddingAll(5),
+                  );
+                },
+              ),
+
+              Row(
+                // mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Expanded(
+                    flex: 35,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          GestureDetector(
+                              onTap: () {
+                                if (screenController.itemCount.value > 1) {
+                                  screenController.itemCount.value--;
+                                  finalPrice.value =
+                                      double.parse(foodDetails.price) *
+                                          screenController.itemCount.value;
+                                }
+                              },
+                              child: const Icon(Icons.remove_rounded)),
+                          Obx(
+                            () => Text(
+                              "${screenController.itemCount.value}",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          GestureDetector(
+                              onTap: () {
+                                screenController.itemCount.value++;
+                                finalPrice.value =
+                                    double.parse(foodDetails.price) *
+                                        screenController.itemCount.value;
+                              },
+                              child: const Icon(Icons.add_rounded)),
+                        ],
+                      ).paddingSymmetric(vertical: 5),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    flex: 65,
+                    child: Obx(
+                      () => CustomButton(
+                        text: "Add Item (\$$finalPrice)",
+                        onPressed: () async {
+                          ///add to cart api calling
+                          if (screenController.isUserLoggedInKey.value == true) {
+                            log("screenController.isCartInKey.value ${screenController.isCartIsEmptyKey.value}");
+
+                            if (screenController.isCartIsEmptyKey.value ==
+                                false) {
+                              /// cart is not empty
+                              if (foodDetails.restaurantId == screenController.prefCartRestaurantId || screenController.prefCartRestaurantId == "") {
+                                log("else if");
+                                log("foodDetails.restaurantId ${foodDetails.restaurantId}, screenController.cartId ${screenController.prefCartRestaurantId}");
+                                await screenController.addToCartFunction(
+                                  foodId: foodDetails.id.toString(),
+                                  foodRestaurantId: foodDetails.restaurantId,
+                                  quantity: screenController.itemCount.value,
+                                  subtotal: double.parse(finalPrice.toString()),
+                                );
+                              } else {
+                                CustomAlertDialog().showAlertDialog(
+                                  context: context,
+                                  textContent: "textContent",
+                                  onYesTap: () async {
+                                    await screenController.addToCartFunction(
+                                      foodId: foodDetails.id.toString(),
+                                      foodRestaurantId: foodDetails.restaurantId,
+                                      quantity: screenController.itemCount.value,
+                                      subtotal:
+                                          double.parse(finalPrice.toString()),
+                                    );
+                                  },
+                                  onCancelTap: () => Get.back(),
+                                );
+                              }
+                            } else {
+                              /// cart is empty
+
+                              log("screenController.isCartInKey.value 11 ${screenController.isCartIsEmptyKey.value}");
                               await screenController.addToCartFunction(
                                 foodId: foodDetails.id.toString(),
                                 foodRestaurantId: foodDetails.restaurantId,
                                 quantity: screenController.itemCount.value,
                                 subtotal: double.parse(finalPrice.toString()),
                               );
-                            } else {
-                              CustomAlertDialog().showAlertDialog(
-                                context: context,
-                                textContent: "textContent",
-                                onYesTap: () async {
-                                  await screenController.addToCartFunction(
-                                    foodId: foodDetails.id.toString(),
-                                    foodRestaurantId: foodDetails.restaurantId,
-                                    quantity: screenController.itemCount.value,
-                                    subtotal:
-                                        double.parse(finalPrice.toString()),
-                                  );
-                                },
-                                onCancelTap: () => Get.back(),
-                              );
                             }
                           } else {
-                            /// cart is empty
-
-                            log("screenController.isCartInKey.value 11 ${screenController.isCartIsEmptyKey.value}");
-                            await screenController.addToCartFunction(
-                              foodId: foodDetails.id.toString(),
-                              foodRestaurantId: foodDetails.restaurantId,
-                              quantity: screenController.itemCount.value,
-                              subtotal: double.parse(finalPrice.toString()),
-                            );
+                            Get.to(() => SignInScreen());
                           }
-                        } else {
-                          Get.to(() => SignInScreen());
-                        }
-                      },
+                        },
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ],
-        ).paddingAll(8);
+                ],
+              ),
+            ],
+          ).paddingAll(8),
+        );*/
       },
     );
   }

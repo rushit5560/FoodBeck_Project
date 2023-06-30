@@ -7,7 +7,7 @@ class FoodData {
   String image;
   String categoryId;
   // dynamic subcategoryId;
-  // List<Variation> variations;
+  List<Variation> variations;
   // dynamic addOns;
   String price;
   String discount;
@@ -39,7 +39,7 @@ class FoodData {
     required this.image,
     required this.categoryId,
     // this.subcategoryId,
-    // required this.variations,
+    required this.variations,
     // this.addOns,
     required this.price,
     required this.discount,
@@ -72,7 +72,7 @@ class FoodData {
     image: json["image"] ?? "",
     categoryId: json["category_id"] ?? "",
     // subcategoryId: json["subcategory_id"],
-    // variations: List<Variation>.from((json["variations"] ?? []).map((x) => Variation.fromJson(x ?? {}))),
+    variations: List<Variation>.from((json["variations"] ?? []).map((x) => Variation.fromJson(x ?? {}))),
     // addOns: json["add_ons"],
     price: json["price"] ?? "",
     discount: json["discount"] ?? "",
@@ -118,7 +118,7 @@ class Restaurant {
 
 class Variation {
   String name;
-  List<Value> values;
+  List<VariationValue> values;
 
   Variation({
     required this.name,
@@ -127,7 +127,7 @@ class Variation {
 
   factory Variation.fromJson(Map<String, dynamic> json) => Variation(
     name: json["name"] ?? "",
-    values: List<Value>.from((json["values"] ?? []).map((x) => Value.fromJson(x ?? {}))),
+    values: List<VariationValue>.from((json["values"] ?? []).map((x) => VariationValue.fromJson(x ?? {}))),
   );
 
   /*Map<String, dynamic> toJson() => {
@@ -136,16 +136,16 @@ class Variation {
   };*/
 }
 
-class Value {
+class VariationValue {
   String label;
   String optionPrice;
 
-  Value({
+  VariationValue({
     required this.label,
     required this.optionPrice,
   });
 
-  factory Value.fromJson(Map<String, dynamic> json) => Value(
+  factory VariationValue.fromJson(Map<String, dynamic> json) => VariationValue(
     label: json["label"] ?? "",
     optionPrice: json["optionPrice"] ?? "",
   );
