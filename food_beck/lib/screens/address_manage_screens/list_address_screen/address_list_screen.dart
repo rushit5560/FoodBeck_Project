@@ -88,7 +88,11 @@ class AddressListScreen extends StatelessWidget {
                                               ],
                                             );
                                           },
-                                          child: const Text('Edit'),
+                                          child: Text('Edit',
+                                            style: TextStyleConfig.textStyle(
+                                              textColor: AppColors.greenColor,
+                                            ),
+                                          ),
                                         ),
                                         TextButton(
                                           onPressed: () {

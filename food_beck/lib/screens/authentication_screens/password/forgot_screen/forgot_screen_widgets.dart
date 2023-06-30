@@ -9,7 +9,7 @@ import '../../../../utils/style.dart';
 import '../../../../utils/widget/common_button.dart';
 import '../../../../utils/widget/common_text_form_field.dart';
 import '../../../../utils/validator.dart';
-import '../reset_password_screen/reset_password_screen.dart';
+
 
 class ForgotPasswordAllModule extends StatelessWidget {
    ForgotPasswordAllModule({Key? key}) : super(key: key);
@@ -23,7 +23,7 @@ class ForgotPasswordAllModule extends StatelessWidget {
           Expanded(
             child: ListView(
               children: [
-                Text(
+                /*Text(
                   AppMessage.forgotPassword,
                   textAlign: TextAlign.center,
                   style: TextStyleConfig.textStyle(
@@ -32,7 +32,7 @@ class ForgotPasswordAllModule extends StatelessWidget {
                     textColor: AppColors.blackColor,
                     fontSize: 14.sp,
                   ),
-                ),
+                ),*/
                 SizedBox(height: 2.h),
                 Text(
                   AppMessage.forgotPasswordText,
@@ -46,8 +46,8 @@ class ForgotPasswordAllModule extends StatelessWidget {
                 ),
                 SizedBox(height: 3.h),
                 CommonTextFormFieldModule(
-                  fieldController: forgotPasswordScreenController.passwordController,
-                  validate: (value) => FieldValidation().validateUserMobileNumber(value!),
+                  fieldController: forgotPasswordScreenController.emailFieldController,
+                  validate: (value) => FieldValidation().validateUserEmail(value!),
                   hintText: AppMessage.emailOrPhoneNumber,
                   keyboardType: TextInputType.text,
                   color: AppColors.grey50Color,
@@ -56,9 +56,9 @@ class ForgotPasswordAllModule extends StatelessWidget {
                 CustomButton(
                   height: 50,
                   text: AppMessage.send,
-                  onPressed: () {
+                  onPressed: () async {
                     if (forgotPasswordScreenController.formKey.currentState!.validate()) {
-                      Get.to(ResetPasswordScreen());
+                      await forgotPasswordScreenController.forgotPasswordFunction();
                     }
                   },
                 ),

@@ -135,7 +135,8 @@ class HomeScreenController extends GetxController {
       rethrow;
     }
 
-    await getTrendingFoodFunction();
+    // await getTrendingFoodFunction();
+    isLoading(false);
   }
 
   /// Get Trending Food

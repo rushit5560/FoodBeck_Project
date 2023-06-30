@@ -75,10 +75,10 @@ class ApiUrl {
 
   // Change Password & Forgot Password
   static String changePasswordApi = "$baseUrl/update-password";
-  static String forgotPasswordApi = "$baseUrl/";
+  static String forgotPasswordApi = "$baseUrl/forgot-password";
 
   // User Orders
-  static String getUserOrdersApi = "$baseUrl/";
+  static String getUserOrdersApi = "$baseUrl/my-orders/";
 }
 
 UserPreference userPreference = UserPreference();

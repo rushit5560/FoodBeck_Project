@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:food_beck/constants/api_url.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as dio;
-
+import '../models/your_orders_screen_model/order_list_model.dart';
 import '../utils/user_preferences.dart';
+
 
 class YourOrdersScreenController extends GetxController {
   RxBool isLoading = false.obs;
@@ -20,7 +20,7 @@ class YourOrdersScreenController extends GetxController {
 
   Future<void> getUserOrdersFunction() async {
     isLoading(true);
-    String url = ApiUrl.getUserOrdersApi;
+    String url = "${ApiUrl.getUserOrdersApi}$userId";
     log('getUserOrdersFunction Api Url :$url');
 
     try {
@@ -40,6 +40,15 @@ class YourOrdersScreenController extends GetxController {
       );
 
       log('response :${jsonEncode(response.data)}');
+
+      OrderListModel orderListModel = OrderListModel.fromJson(response.data);
+      isSuccessStatus.value = orderListModel.success;
+
+      if(isSuccessStatus.value) {
+
+      } else {
+        log('getUserOrdersFunction Else');
+      }
 
     } catch(e) {
       log('getUserOrdersFunction Error :$e');

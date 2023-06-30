@@ -7,7 +7,7 @@ class FoodData {
   String image;
   String categoryId;
   // dynamic subcategoryId;
-  List<Variation> variations;
+  // List<Variation> variations;
   // dynamic addOns;
   String price;
   String discount;
@@ -39,7 +39,7 @@ class FoodData {
     required this.image,
     required this.categoryId,
     // this.subcategoryId,
-    required this.variations,
+    // required this.variations,
     // this.addOns,
     required this.price,
     required this.discount,
@@ -72,7 +72,7 @@ class FoodData {
     image: json["image"] ?? "",
     categoryId: json["category_id"] ?? "",
     // subcategoryId: json["subcategory_id"],
-    variations: List<Variation>.from((json["variations"] ?? []).map((x) => Variation.fromJson(x ?? {}))),
+    // variations: List<Variation>.from((json["variations"] ?? []).map((x) => Variation.fromJson(x ?? {}))),
     // addOns: json["add_ons"],
     price: json["price"] ?? "",
     discount: json["discount"] ?? "",

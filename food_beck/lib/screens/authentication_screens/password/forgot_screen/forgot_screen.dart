@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:food_beck/common_modules/common_appbar.dart';
+import 'package:food_beck/constants/message.dart';
 import 'package:get/get.dart';
 
 import '../../../../constants/color.dart';
@@ -13,7 +15,9 @@ final forgotPasswordScreenController = Get.put(ForgotPasswordScreenController())
   Widget build(BuildContext context) {
     return  Scaffold(
       backgroundColor: AppColors.whiteColor2,
-      appBar: commonAppBarModule(iconColor: AppColors.blackColor),
+      // appBar: commonAppBarModule(iconColor: AppColors.blackColor),
+
+      appBar: customAppBar(titleText: AppMessage.forgotPassword, leadingShow: false, actionShow: false),
       body: ForgotPasswordAllModule().paddingSymmetric(horizontal: 20),
     );
   }
