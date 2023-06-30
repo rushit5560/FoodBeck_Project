@@ -44,7 +44,7 @@ class RestaurantsDetailsScreenController extends GetxController {
   final dioRequest = dio.Dio();
 
   List<FoodData> allFoodList = [];
-  // FoodDetails? foodDetails;
+  FoodData? foodData;
 
   // List<FoodDetails> vegFoodList = [];
   // List<FoodDetails> nonVegFoodList = [];
@@ -130,70 +130,6 @@ class RestaurantsDetailsScreenController extends GetxController {
     isLoading(false);
   }
 
-  /// Product add in cart function
-  Future<void> productAddInCartFunction() async {
-    isLoading(true);
-    String url = ApiUrl.addToCartApi;
-    log('Add to cart api url :$url');
-
-    try {} catch (e) {
-      log('productAddInCartFunction Error :$e');
-    }
-    isLoading(false);
-  }
-
-  Future<void> cartUpdateFunction(
-      {required String cartId,
-      required String foodId,
-      required String qty,
-      required String subTotal}) async {
-    isLoading(true);
-
-    String url = "${ApiUrl.cartUpdate}$cartId/$foodId";
-    log("cartUpdateFunction url: $url");
-    String authorizationToken = await userPreference.getAuthorizationToken(
-        key: UserPreference.userTokenKey);
-
-    String finalToken = "Bearer $authorizationToken";
-
-    var request = http.MultipartRequest('POST', Uri.parse(url));
-    try {
-      request.headers['Accept'] = "application/json";
-      request.headers['Authorization'] = finalToken;
-      request.fields['quantity'] = qty;
-      request.fields['subtotal'] = subTotal;
-      log("request.fields ${request.fields}");
-      var response = await request.send();
-      response.stream
-          .transform(const Utf8Decoder())
-          .transform(const LineSplitter())
-          .listen(
-        (value) async {
-          CartUpdateModel cartUpdateModel =
-              CartUpdateModel.fromJson(json.decode(value));
-          successStatus.value = cartUpdateModel.success;
-          if (successStatus.value) {
-            log("successStatus.value ${successStatus.value}");
-            Fluttertoast.showToast(
-              msg: cartUpdateModel.message,
-              toastLength: Toast.LENGTH_SHORT,
-            );
-            Get.back();
-          } else {
-            Fluttertoast.showToast(
-              msg: cartUpdateModel.error,
-              toastLength: Toast.LENGTH_SHORT,
-            );
-            Get.back();
-          }
-        },
-      );
-    } catch (e) {
-      log("addToCartFunction catch $e");
-    }
-    isLoading(false);
-  }
-
   /// add to cart
   Future<void> addToCartFunction({
     required String foodId,
@@ -271,6 +207,8 @@ class RestaurantsDetailsScreenController extends GetxController {
                     "Please clear cart before adding another restaurant product"
                         .toLowerCase()) {
               await cartUpdateFunction(
+                foodRestaurantId: allFoodList[0].restaurantId,
+                //foodData!.restaurantId,
                 qty: quantity.toString(),
                 subTotal: subtotal.toString(),
                 foodId: foodId,
@@ -298,10 +236,61 @@ class RestaurantsDetailsScreenController extends GetxController {
     isLoading(false);
   }
 
-  @override
-  void onInit() {
-    initMethod();
-    super.onInit();
+  /// cart update
+
+  Future<void> cartUpdateFunction(
+      {required String cartId,
+      required String foodId,
+      required String qty,
+      required String foodRestaurantId,
+      required String subTotal}) async {
+    isLoading(true);
+
+    String url = "${ApiUrl.cartUpdate}$cartId/$foodId"; //cartId/foodId
+    log("cartUpdateFunction url: $url");
+    String authorizationToken = await userPreference.getAuthorizationToken(
+        key: UserPreference.userTokenKey);
+
+    String finalToken = "Bearer $authorizationToken";
+
+    var request = http.MultipartRequest('POST', Uri.parse(url));
+    try {
+      request.headers['Accept'] = "application/json";
+      request.headers['Authorization'] = finalToken;
+      request.fields['restaurant_id'] = foodRestaurantId;
+      request.fields['food_id'] = foodId;
+      request.fields['quantity'] = qty;
+      request.fields['subtotal'] = subTotal;
+      log("request.fields ${request.fields}");
+      var response = await request.send();
+      response.stream
+          .transform(const Utf8Decoder())
+          .transform(const LineSplitter())
+          .listen(
+        (value) async {
+          CartUpdateModel cartUpdateModel =
+              CartUpdateModel.fromJson(json.decode(value));
+          successStatus.value = cartUpdateModel.success;
+          if (successStatus.value) {
+            log("successStatus.value ${successStatus.value}");
+            Fluttertoast.showToast(
+              msg: cartUpdateModel.message,
+              toastLength: Toast.LENGTH_SHORT,
+            );
+            Get.back();
+          } else {
+            Fluttertoast.showToast(
+              msg: cartUpdateModel.error,
+              toastLength: Toast.LENGTH_SHORT,
+            );
+            Get.back();
+          }
+        },
+      );
+    } catch (e) {
+      log("addToCartFunction catch $e");
+    }
+    isLoading(false);
   }
 
   Future<void> initMethod() async {
@@ -330,5 +319,11 @@ class RestaurantsDetailsScreenController extends GetxController {
     isCartStatus.value = await userPreference.getBoolFromPrefs(
         key: UserPreference.cartIsEmptyKey);
     await getRestaurantsDetailsFunction();
+  }
+
+  @override
+  void onInit() {
+    initMethod();
+    super.onInit();
   }
 }

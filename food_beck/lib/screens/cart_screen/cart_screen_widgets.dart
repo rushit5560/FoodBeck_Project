@@ -53,6 +53,13 @@ class ListviewBuilderModule extends StatelessWidget {
                         fontSize: 11.sp,
                       ),
                     ),
+                   const SizedBox(height: 5),
+                    Text(
+                      "\$ ${cartScreenController.getCartList[index].foods.price}",
+                      style: TextStyleConfig.textStyle(
+                        fontSize: 11.sp,
+                      ),
+                    ),
                   ],
                 ),
                 const Spacer(),

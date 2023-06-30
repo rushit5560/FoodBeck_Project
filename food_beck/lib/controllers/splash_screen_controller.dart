@@ -15,13 +15,12 @@ class SplashScreenController extends GetxController {
   RxBool isUserLoggedInStatus = false.obs;
   UserPreference userPreference = UserPreference();
   RxBool isUserLocationStatus = false.obs;
-
   RxBool isOnBoardingValue = false.obs;
 
   startTimer() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    bool onBoardingValue = prefs.getBool('onBoarding') ?? false;
+    // bool onBoardingValue = prefs.getBool('onBoarding') ?? false;
     // log("prefs.getBool 111 ${prefs.getBool("onBoarding")}");
 
     Timer(
@@ -78,10 +77,9 @@ class SplashScreenController extends GetxController {
     // isUserLoggedInStatus.value = await userPreference.getBoolFromPrefs(
     //     key: UserPreference.isUserLoggedInKey);
     // log('isUserLoggedInStatus.value : ${isUserLoggedInStatus.value}');
-
     isOnBoardingValue.value = await userPreference.getBoolFromPrefs(
         key: UserPreference.isUserOnBoardingKey);
-    log('isUserOnBoardingKey.value : ${isOnBoardingValue.value}');
+    // log('isUserOnBoardingKey.value : ${isOnBoardingValue.value}');
     // isUserLocationStatus.value = await userPreference.getBoolFromPrefs(
     //     key: UserPreference.isUserLocationKey);
     // log('isUserLocationStatus.value 11111 : ${isUserLocationStatus.value}');

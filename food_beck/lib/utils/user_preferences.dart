@@ -30,7 +30,7 @@ class UserPreference {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     prefs.setBool(isUserLoggedInKey, false);
-    prefs.setBool(isUserOnBoardingKey, false);
+    // prefs.setBool(isUserOnBoardingKey, false);
     prefs.setBool(isUserLocationKey, false);
     prefs.setBool(cartIsEmptyKey, true);
 

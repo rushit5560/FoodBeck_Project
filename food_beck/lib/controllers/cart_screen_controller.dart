@@ -15,7 +15,7 @@ class CartScreenController extends GetxController {
   RxInt qty = 1.obs;
   RxBool isLoading = false.obs;
   RxDouble subTotalAmount = 0.0.obs;
-  int productPrice = 150;
+  int productPrice = 0;
   String userId = "";
   String foodId = "1";
   double? itemTotalPrice;
@@ -28,6 +28,7 @@ class CartScreenController extends GetxController {
   RxBool successStatus = false.obs;
   List<CartDetail> getCartList = [];
   String authorizationToken = "";
+  String cartId = "";
 
   // CartData? cartData;
   /// get cart
@@ -162,7 +163,7 @@ class CartScreenController extends GetxController {
   /// Delete cart
   Future<void> deleteWholeCartFunction({required int index}) async {
     isLoading(true);
-    String url = "${ApiUrl.deleteWholeCartApi}$userId";
+    String url = "${ApiUrl.deleteWholeCartApi}$cartId";
     log('deleteWholeCartFunction Api Url : $url');
     String authorizationToken = await userPreference.getAuthorizationToken(
         key: UserPreference.userTokenKey);
@@ -192,7 +193,6 @@ class CartScreenController extends GetxController {
       } else {
         log('deleteWholeCartFunction Else');
         Fluttertoast.showToast(msg: cartDeleteModel.error);
-
       }
     } catch (e) {
       log('deleteWholeCartFunction Error :$e');
@@ -206,6 +206,8 @@ class CartScreenController extends GetxController {
     int itemQty = int.parse(food.quantity);
     itemQty++;
     food.quantity = itemQty.toString();
+    log("food.quantity ${food.quantity}");
+    // subTotalAmount.value=()
     // qty.value++;
     // subTotalAmount.value = (productPrice * qty.value).toDouble();
     // itemTotalPrice = subTotalAmount.value + itemAddonPrice.value;
@@ -214,10 +216,9 @@ class CartScreenController extends GetxController {
   }
 
   Future<void> decrement(CartDetail food, int index) async {
-
     // If Cart item list length 1 & item qty also 1 that time delete whole cart
-    if(getCartList.length == 1) {
-      if(int.parse(food.quantity) > 1) {
+    if (getCartList.length == 1) {
+      if (int.parse(food.quantity) > 1) {
         // here cart item qty decrement function
         int itemQty = int.parse(food.quantity);
         itemQty--;
@@ -225,7 +226,6 @@ class CartScreenController extends GetxController {
       } else {
         await deleteWholeCartFunction(index: index);
       }
-
     }
     // if Cart item list length more then 1
     else {
@@ -234,9 +234,7 @@ class CartScreenController extends GetxController {
         int itemQty = int.parse(food.quantity);
         itemQty--;
         food.quantity = itemQty.toString();
-      }
-
-      else if (int.parse(food.quantity) < 2) {
+      } else if (int.parse(food.quantity) < 2) {
         /// here cart item delete api
         log("here cart item delete api");
         await deleteCartItemFunction(
@@ -246,7 +244,6 @@ class CartScreenController extends GetxController {
         );
       }
     }
-
 
     // else if (getCartList.length == 1 && int.parse(food.quantity) == 1) {
     //   /// whole cart delete api
@@ -267,12 +264,17 @@ class CartScreenController extends GetxController {
   }
 
   Future<void> initMethod() async {
+    authorizationToken = await userPreference.getAuthorizationToken(
+        key: UserPreference.userTokenKey);
     userId = await userPreference.getStringValueFromPrefs(
             key: UserPreference.userIdKey) ??
         "";
     log("userId $userId");
-    authorizationToken = await userPreference.getAuthorizationToken(
-        key: UserPreference.userTokenKey);
+    cartId = await userPreference.getStringValueFromPrefs(
+            key: UserPreference.cartIdKey) ??
+        "";
+    log("cartId =  $cartId");
+
     await getCartListFunction();
   }
 

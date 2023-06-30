@@ -10,9 +10,10 @@ import '../screens/home_screen/home_screen.dart';
 import '../screens/profile_screen/profile_screen.dart';
 import '../screens/search_screen/search_screen.dart';
 import '../utils/user_preferences.dart';
-
+import 'cart_screen_controller.dart';
 
 class IndexScreenController extends GetxController {
+  final cartScreenController = Get.put(CartScreenController());
   RxBool isLoading = false.obs;
   var selectedIndex = 0.obs;
   UserPreference userPreference = UserPreference();
@@ -30,10 +31,13 @@ class IndexScreenController extends GetxController {
     // FavouriteScreen(),
   ];
 
-  changeIndex(int index) {
+  changeIndex(int index) async {
     selectedIndex.value = index;
+    if (selectedIndex.value == 2) {
+      log("cart screen");
+      await cartScreenController.getCartListFunction();
+    }
   }
-
 
   Future<bool> handleLocationPermission() async {
     log("handleLocationPermission");
@@ -107,11 +111,11 @@ class IndexScreenController extends GetxController {
   Future<void> getAddressFromlatLog(Position position) async {
     isLoading(true);
     List<Placemark> placemarks =
-    await placemarkFromCoordinates(position.latitude, position.longitude);
+        await placemarkFromCoordinates(position.latitude, position.longitude);
     log("Placemark $placemarks");
     Placemark place = placemarks[0];
     address.value =
-    '${place.street},${place.name},${place.subLocality},${place.locality},${place.administrativeArea},${place.postalCode}';
+        '${place.street},${place.name},${place.subLocality},${place.locality},${place.administrativeArea},${place.postalCode}';
     log("address.value ${address.value}");
     userPreference.setStringValueInPrefs(
         key: UserPreference.userAddressKey, value: address.toString());
@@ -148,13 +152,13 @@ class IndexScreenController extends GetxController {
     isUserLocationStatus.value = await userPreference.getBoolFromPrefs(
         key: UserPreference.isUserLocationKey);
     log('isUserLocationStatus.value 33333 : ${isUserLocationStatus.value}');
-    if(isUserLocationStatus.value == false){
+    if (isUserLocationStatus.value == false) {
       handleLocationPermission();
-    }
-    else{
+    } else {
       getCurrentLocation();
     }
   }
+
   @override
   void onInit() {
     initMethod();
